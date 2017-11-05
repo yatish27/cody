@@ -1,0 +1,12 @@
+schemaVersion: 1
+rules:
+  - name: "Migrations Review"
+    match:
+      path: "db/migrate/.*"
+    reviewer:
+      team: "@my-org/migrations-reviewers"
+  - name: "Javascript Review"
+    match:
+      path: "*.js"
+    reviewer:
+      team: "@my-org/javascript-reviewers"

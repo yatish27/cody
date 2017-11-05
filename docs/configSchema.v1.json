@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "description": "Cody config file JSON schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "description": "Schema version to parse"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/rule"
+      }
+    }
+  },
+  "definitions": {
+    "rule": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "code": { "type": "string" },
+        "match": {
+          "oneOf": [
+            { "$ref": "#/definitions/pathMatch" },
+            { "$ref": "#/definitions/diffMatch" }
+          ]
+        },
+        "reviewer": {
+          "oneOf": [
+            { "$ref": "#/definitions/reviewerUser" },
+            { "$ref": "#/definitions/reviewerTeam" }
+          ]
+        },
+        "reviewerUser": {
+          "type": "object",
+          "properties": {
+            "username": { "type": "string" }
+          }
+        },
+        "reviewerTeam": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

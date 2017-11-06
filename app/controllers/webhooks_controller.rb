@@ -57,5 +57,18 @@ class WebhooksController < ApplicationController
       head :ok
       return
     end
+
+    event = request.headers["X-GitHub-Event"]
+    case event
+    when "pull_request"
+      ReceivePullRequestEvent.perform_async(body)
+    when "issue_comment"
+      ReceiveIssueCommentEvent.perform_async(body)
+    when "installation"
+      ReceiveInstallationEvent.perform_async(body)
+    when "installation_repositories"
+      ReceiveInstallationRepositoriesEvent.perform_async(body)
+    end
+    head :accepted
   end
 end

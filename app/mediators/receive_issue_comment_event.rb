@@ -21,6 +21,8 @@ class ReceiveIssueCommentEvent
         self.rebuild_reviews
       elsif directives = comment_replace?(comment)
         replace_reviewer(directives)
+      elsif comment_replace_me?(comment)
+        replace_me
       end
     end
   end
@@ -120,6 +122,10 @@ class ReceiveIssueCommentEvent
     directives
   end
 
+  def comment_replace_me?(comment)
+    comment.match?(/^cody\s+r(eplace)?\s+(me).*$/)
+  end
+
   def replace_reviewer(directives)
     pr = PullRequest.pending_review.find_by(
       number: @payload["issue"]["number"],
@@ -137,6 +143,32 @@ class ReceiveIssueCommentEvent
       next unless reviewer.review_rule.possible_reviewer?(login)
 
       reviewer.update!(login: login)
+    end
+
+    pr.reload
+    pr.update_body
+    pr.assign_reviewers
+  end
+
+  def replace_me
+    pr = PullRequest.pending_review.find_by(
+      number: @payload["issue"]["number"],
+      repository: @payload["repository"]["full_name"]
+    )
+    return false unless pr.present?
+
+    commenter = @payload["sender"]["login"]
+
+    old_reviewers = pr.reviewers.where(
+      login: commenter,
+      status: Reviewer::STATUS_PENDING_APPROVAL
+    )
+    return unless old_reviewers.present?
+
+    old_reviewers.each do |reviewer|
+      pos_logins = reviewer.review_rule.possible_reviewers
+      new_usr = pos_logins.reject { |usr| usr.casecmp(commenter).zero? }.sample
+      reviewer.update!(login: new_usr) if new_usr
     end
 
     pr.reload

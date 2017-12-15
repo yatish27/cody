@@ -104,4 +104,42 @@ RSpec.describe ReceiveIssueCommentEvent do
       end
     end
   end
+  
+  describe "#comment_replace_me" do
+    let(:comment) { "cody replace me!" }
+
+    let(:rule) { FactoryGirl.create :review_rule, short_code: "foo", reviewer: acceptable_reviewer }
+
+    before do
+      stub_request(:get, %r(https?://api.github.com/repos/\w+/\w+/pulls/\d+)).to_return(
+        body: JSON.dump(json_fixture("pr")),
+        status: 200,
+        headers: { "Content-Type" => "application/json" }
+      )
+      stub_request(:patch, %r{https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/\d+})
+      stub_request(:patch, %r{https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/issues/\d+})
+
+      FactoryGirl.create :reviewer, review_rule: rule, pull_request: pr, login: "aergonaut"
+    end
+
+    context "when mrpasquini is a possible reviewer for the rule" do
+      let(:acceptable_reviewer) { "mrpasquini" }
+
+      it "replaces aergonaut with mrpasquini" do
+        foo_reviewer = pr.reviewers.find_by(review_rule_id: rule.id)
+        expect { job.perform(payload) }.to change { foo_reviewer.reload.login }.from("aergonaut").to("mrpasquini")
+      end
+    end
+
+    context "when there is no other possible reviewer for the rule" do
+      let(:acceptable_reviewer) { "aergonaut" }
+
+      it "does not replace aergonaut" do
+        foo_reviewer = pr.reviewers.find_by(review_rule_id: rule.id)
+        expect { job.perform(payload) }.to_not change { foo_reviewer.reload.login }
+      end
+    end
+
+  end
+
 end

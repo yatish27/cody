@@ -20,3 +20,6 @@ site/
 
 # Ignore private keys
 *.pem
+
+# Ignore Docusaurus build directory
+/website/build

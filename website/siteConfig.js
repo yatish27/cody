@@ -14,6 +14,7 @@ const siteConfig = {
   url: 'https://github.com/aergonaut/cody' /* your website url */,
   baseUrl: '/cody/' /* base url for your project */,
   projectName: 'cody',
+  organizationName: "aergonaut",
   headerLinks: [
     {doc: 'commands', label: 'Docs'},
     {blog: true, label: 'Blog'},

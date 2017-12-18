@@ -129,14 +129,14 @@ RSpec.describe ReviewRule, type: :model do
   end
 
   describe "#previously_applied?" do
-    let(:rule) { FactoryGirl.create :review_rule }
-    let(:pr) { FactoryGirl.create :pull_request }
+    let(:rule) { FactoryBot.create :review_rule }
+    let(:pr) { FactoryBot.create :pull_request }
 
     subject { rule.previously_applied?(pr) }
 
     context "when the PR already has a reviewer that says it came from this rule" do
       before do
-        FactoryGirl.create :reviewer, review_rule: rule, pull_request: pr
+        FactoryBot.create :reviewer, review_rule: rule, pull_request: pr
       end
 
       it { is_expected.to be_truthy }

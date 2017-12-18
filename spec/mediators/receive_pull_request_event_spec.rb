@@ -133,7 +133,7 @@ RSpec.describe ReceivePullRequestEvent do
       let(:action) { "synchronize" }
 
       context "and we have recorded the PR" do
-        let!(:pr) { FactoryGirl.create :pull_request, number: payload["number"], repository: payload['repository']['full_name'], status: status }
+        let!(:pr) { FactoryBot.create :pull_request, number: payload["number"], repository: payload['repository']['full_name'], status: status }
 
         before do
           job.perform(payload)

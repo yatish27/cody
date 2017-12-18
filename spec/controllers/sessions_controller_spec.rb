@@ -39,7 +39,7 @@ RSpec.describe SessionsController, type: :controller do
 
     context "when the user has logged in before" do
       before do
-        FactoryGirl.create :user, uid: uid, login: login, email: email, name: name
+        FactoryBot.create :user, uid: uid, login: login, email: email, name: name
       end
 
       it "does not make a new User" do

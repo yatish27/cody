@@ -17,7 +17,7 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
         "Reviewed in #1234"
       end
 
-      let!(:parent_pr) { FactoryGirl.create :pull_request, status: "pending_review", number: 1234 }
+      let!(:parent_pr) { FactoryBot.create :pull_request, status: "pending_review", number: 1234 }
 
       before do
         pr_9876 = json_fixture("pr")
@@ -58,9 +58,9 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
     end
 
     context "synchronizing the peer review list" do
-      let!(:pull_request) { FactoryGirl.create :pull_request, number: 9876 }
-      let!(:gen_reviewers) { FactoryGirl.create_list :reviewer, 2, pull_request: pull_request}
-      let!(:reviewers) { FactoryGirl.create_list :reviewer, 3, review_rule: nil, pull_request: pull_request }
+      let!(:pull_request) { FactoryBot.create :pull_request, number: 9876 }
+      let!(:gen_reviewers) { FactoryBot.create_list :reviewer, 2, pull_request: pull_request}
+      let!(:reviewers) { FactoryBot.create_list :reviewer, 3, review_rule: nil, pull_request: pull_request }
 
       let!(:body) do
         <<~BODY

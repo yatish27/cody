@@ -7,8 +7,8 @@ RSpec.describe PullRequest, type: :model do
   it { is_expected.to validate_presence_of :status }
 
   describe ".pending_review" do
-    let(:pending_review_pr) { FactoryGirl.create :pull_request, status: "pending_review" }
-    let(:approved_pr) { FactoryGirl.create :pull_request, status: "approved" }
+    let(:pending_review_pr) { FactoryBot.create :pull_request, status: "pending_review" }
+    let(:approved_pr) { FactoryBot.create :pull_request, status: "approved" }
 
     subject { PullRequest.pending_review }
 
@@ -69,7 +69,7 @@ RSpec.describe PullRequest, type: :model do
   end
 
   describe "#commit_authors" do
-    let(:pr) { FactoryGirl.create :pull_request, status: "pending_review" }
+    let(:pr) { FactoryBot.create :pull_request, status: "pending_review" }
 
     before do
       stub_request(:get, %r{https?://api.github.com/repos/aergonaut/testrepo/pulls/#{pr.number}/commits}).to_return(
@@ -95,11 +95,11 @@ RSpec.describe PullRequest, type: :model do
   end
 
   describe "#link_by_number" do
-    let(:pr) { FactoryGirl.build :pull_request }
+    let(:pr) { FactoryBot.build :pull_request }
     let(:parent_number) { 1234 }
 
     context "when the parent PR is known to Cody" do
-      let!(:parent) { FactoryGirl.create :pull_request, status: "pending_review", number: parent_number }
+      let!(:parent) { FactoryBot.create :pull_request, status: "pending_review", number: parent_number }
 
       it "returns truthy, sets the parent, copies the status, and persists the object" do
         expect(pr.link_by_number(parent_number)).to be_truthy
@@ -118,8 +118,8 @@ RSpec.describe PullRequest, type: :model do
   end
 
   describe "updating child PRs" do
-    let!(:pr) { FactoryGirl.create :pull_request, status: "pending_review", number: 1234 }
-    let!(:child) { FactoryGirl.build :pull_request }
+    let!(:pr) { FactoryBot.create :pull_request, status: "pending_review", number: 1234 }
+    let!(:child) { FactoryBot.build :pull_request }
 
     before do
       child_pr = json_fixture("pr")

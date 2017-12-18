@@ -9,9 +9,9 @@ RSpec.describe ApplyReviewRules do
 
   let(:job) { ApplyReviewRules.new(pr, pull_request_hash) }
 
-  let(:pr) { FactoryGirl.create :pull_request, number: "42" }
+  let(:pr) { FactoryBot.create :pull_request, number: "42" }
 
-  let(:rules) { FactoryGirl.create_list :review_rule, 2 }
+  let(:rules) { FactoryBot.create_list :review_rule, 2 }
 
   before do
     rules.each do |rule|
@@ -35,7 +35,7 @@ RSpec.describe ApplyReviewRules do
   end
 
   context "when reviewers were generated" do
-    let(:reviewer) { FactoryGirl.build :reviewer, login: "octocat", review_rule: rules[0], pull_request: pr }
+    let(:reviewer) { FactoryBot.build :reviewer, login: "octocat", review_rule: rules[0], pull_request: pr }
     let(:reviewers) { [reviewer] }
 
     let(:expected_addendum) do

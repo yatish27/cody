@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :review_rule do
     sequence(:name) { |x| "Review Rule #{x}" }
     reviewer "octocat"

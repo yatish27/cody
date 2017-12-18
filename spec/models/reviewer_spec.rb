@@ -4,7 +4,7 @@ require 'securerandom'
 RSpec.describe Reviewer, type: :model do
   describe "#addendum" do
     let(:context) { SecureRandom.hex }
-    let(:reviewer) { FactoryGirl.build :reviewer, context: context }
+    let(:reviewer) { FactoryBot.build :reviewer, context: context }
 
     subject { reviewer.addendum }
 
@@ -16,7 +16,7 @@ RSpec.describe Reviewer, type: :model do
   end
 
   describe "#status_to_check" do
-    let(:reviewer) { FactoryGirl.build :reviewer, status: status }
+    let(:reviewer) { FactoryBot.build :reviewer, status: status }
 
     subject { reviewer.status_to_check }
 

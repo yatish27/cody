@@ -1,24 +1,24 @@
-# Rules
+---
+id: rules
+title: Review Rules
+---
 
-**Review Rules** are the primary way you configure Cody to enforce your team's
-specific code review process.
+**Review Rules** control how Cody adds code reviewers to Pull Requests. Each
+Rule has a selector and a reviewer.
 
-In general, a Review Rule encapsulates a reviewer and a condition. Rules are
-checked against incoming Pull Requests, and when the condition matches, the
-Rule's reviewer is added automatically.
+### File Match
 
-Different types of Review Rules have different possible conditions.
+File Match rules test the paths of files changed in a PR against a regular
+expression. If any paths match the regular expression, the corresponding
+reviewer is added.
 
-## Always
+### Diff Match
 
-Always Rules unconditionally apply to every Pull Request.
+Diff Match rules work like File Match rules but instead of testing the paths of
+files, this rule tests the combined diff of each file.
 
-## Diff Match
+### Always
 
-Diff Match Rules are used to match Pull Requests based on the contents of the
-PR's combined diff.
+Always rules are applied to every PR. Use these rules to specify a reviewer that
+should always be added to incoming Pull Requests.
 
-## File Match
-
-File Match Rules are used to match Pull Requests based on the paths of changed
-files in the PR.

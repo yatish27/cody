@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Cody Blog</title>
+        <link>https://github.com/aergonaut/cody/blog</link>
+        <description>The best place to stay up-to-date with the latest Cody news and events.</description>
+        <lastBuildDate>Sun, 17 Dec 2017 06:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>Cody Blog</title>
+            <url>https://github.com/aergonaut/codyimg/code.png</url>
+            <link>https://github.com/aergonaut/cody/blog</link>
+        </image>
+        <copyright>Copyright © 2017 Chris Fung</copyright>
+        <item>
+            <title><![CDATA[Launching the New Cody Documentation Site]]></title>
+            <link>https://github.com/aergonaut/cody/blog/2017/12/17/new-documentation-site.html</link>
+            <guid>https://github.com/aergonaut/cody/blog/2017/12/17/new-documentation-site.html</guid>
+            <pubDate>Sun, 17 Dec 2017 06:00:00 GMT</pubDate>
+            <description><![CDATA[Today I'm happy to introduce the new documentation site for Cody!
+
+The site is built using Facebook's newly released [Docusaurus](https://docusaurus.io/)
+tool for building documentation websites.
+
+The intention is to have a place for both end-user do]]></description>
+        </item>
+    </channel>
+</rss>

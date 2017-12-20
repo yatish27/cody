@@ -36,6 +36,9 @@ class HomeSplash extends React.Component {
       <div className="homeContainer">
         <div className="homeSplashFade">
           <div className="wrapper homeWrapper">
+            {/* <div className="projectLogo">
+              <img src={`${siteConfig.baseUrl}img/little_bot.png`} />
+            </div> */}
             <div className="inner">
               <h2 className="projectTitle">
                 {siteConfig.title}
@@ -113,7 +116,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Cody integrates smoothly into your workflow.\n\n1. Contributors open Pull Requests like normal.\n2. Cody analyzes incoming Pull Requests and applies your Review Rules.\n3. Code reviewers simply comment on the PR to give their approval.\n\nAs reviewers approve and as the PR is updated, Cody tracks the review status and reports it as a [commit status](https://help.github.com/articles/about-statuses/) on the Pull Request.`,
-                  // image: siteConfig.baseUrl + 'img/docusaurus.svg',
+                  image: siteConfig.baseUrl + 'img/little_bot.png',
                   imageAlign: 'right',
                   title: 'How It Works',
                 },
@@ -126,7 +129,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `You deploy Cody to your own servers and manage it yourself. Cody works particularly well with [Heroku](https://www.heroku.com/) but it should work on any host that supports the minimum requirements.\n\nRead the [deployment docs](${siteConfig.baseUrl}docs/deploying.md) for more information.`,
-                  // image: siteConfig.baseUrl + 'img/docusaurus.svg',
+                  image: siteConfig.baseUrl + 'img/little_bot2.png',
                   imageAlign: 'left',
                   title: 'Try it Out',
                 },

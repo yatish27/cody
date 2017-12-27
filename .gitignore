@@ -23,3 +23,6 @@ site/
 
 # Ignore Docusaurus build directory
 /website/build
+/public/packs
+/public/packs-test
+/node_modules

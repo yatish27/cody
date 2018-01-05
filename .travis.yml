@@ -1,11 +1,19 @@
 language: ruby
 sudo: false
-cache: bundler
+cache:
+  - bundler
+  - yarn
 rvm:
 - 2.4.1
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
 before_script:
-- bin/rake db:create db:test:prepare
-script: bin/rspec
+  - bin/rake db:create db:test:prepare
+  - bin/yarn
+script:
+  - bin/rspec
+  - bin/webpack
 env:
   global:
   - CODY_GITHUB_ACCESS_TOKEN=abc123

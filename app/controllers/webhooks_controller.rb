@@ -57,5 +57,19 @@ class WebhooksController < ApplicationController
       head :ok
       return
     end
+
+    request.body.rewind
+
+    event = request.headers["X-GitHub-Event"]
+    case event
+    when "pull_request"
+      pull_request
+      return
+    when "issue_comment"
+      issue_comment
+      return
+    end
+
+    head :accepted
   end
 end

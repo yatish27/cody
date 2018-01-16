@@ -15,17 +15,6 @@ class ApplyReviewRules
 
     pr.reload
     pr.update_body
-
-    github = Octokit::Client.new(
-      access_token: Rails.application.secrets.github_access_token
-    )
-
-    # Update labels
-    labels = reviewers.map { |reviewer| reviewer.review_rule.name }.uniq
-    github.add_labels_to_an_issue(
-      pull_request_hash["base"]["repo"]["full_name"],
-      pull_request_hash["number"],
-      labels
-    )
+    pr.update_labels
   end
 end

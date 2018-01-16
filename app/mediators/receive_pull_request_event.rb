@@ -12,6 +12,10 @@ class ReceivePullRequestEvent
       repo: @payload["repository"]["full_name"]
     )
 
+    if (installation_id = @payload.dig("installation", "id"))
+      Current.installation_id = installation_id
+    end
+
     PaperTrail.whodunnit(@payload["sender"]["login"]) do
       case @payload["action"]
       when "opened"

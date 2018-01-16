@@ -1,4 +1,6 @@
 class CreateOrUpdatePullRequest
+  include GithubApi
+
   # Public: Creates or updates a Pull Request record in reponse to a webhook
   #
   # pull_request - A Hash-like object containing the PR data from the GitHub API
@@ -11,9 +13,7 @@ class CreateOrUpdatePullRequest
       repository: pull_request["base"]["repo"]["full_name"]
     )
 
-    github = Octokit::Client.new(
-      access_token: Rails.application.secrets.github_access_token
-    )
+    github = github_client
 
     body = pull_request["body"] || ""
 

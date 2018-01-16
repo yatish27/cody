@@ -1,5 +1,6 @@
 class ReceiveIssueCommentEvent
   include Sidekiq::Worker
+  include GithubApi
 
   def perform(payload)
     @payload = payload
@@ -11,6 +12,10 @@ class ReceiveIssueCommentEvent
       event: "pull_request",
       repo: @payload["repository"]["full_name"]
     )
+
+    if (installation_id = @payload.dig("installation", "id"))
+      Current.installation_id = installation_id
+    end
 
     comment = @payload["comment"]["body"]
 
@@ -59,10 +64,7 @@ class ReceiveIssueCommentEvent
   end
 
   def rebuild_reviews
-    github = Octokit::Client.new(
-      access_token: Rails.application.secrets.github_access_token
-    )
-    pull_request = github.pull_request(
+    pull_request = github_client.pull_request(
       @payload["repository"]["full_name"],
       @payload["issue"]["number"]
     )

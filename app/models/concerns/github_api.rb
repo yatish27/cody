@@ -6,6 +6,14 @@ module GithubApi
   private
 
   def github_client
+    if Current.installation_id.present?
+      integration_client(installation_id: Current.installation_id)
+    else
+      Octokit::Client.new(
+        access_token: Rails.application.secrets.github_access_token
+      )
+    end
+
     @github_client ||= Octokit::Client.new(
       access_token: Rails.application.secrets.github_access_token
     )

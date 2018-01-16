@@ -136,6 +136,19 @@ class PullRequest < ApplicationRecord
     )
   end
 
+  def update_labels
+    labels = generated_reviewers.map do |reviewer|
+      reviewer.review_rule.name
+    end
+    labels = labels.uniq
+
+    github_client.add_labels_to_an_issue(
+      self.repository,
+      self.number,
+      labels
+    )
+  end
+
   private
 
   def update_child_pull_requests

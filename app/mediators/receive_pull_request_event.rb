@@ -2,6 +2,8 @@ class ReceivePullRequestEvent
   include Sidekiq::Worker
 
   def perform(payload)
+    Current.reset
+
     @payload = payload
 
     Raven.user_context(
@@ -24,6 +26,8 @@ class ReceivePullRequestEvent
         self.on_synchronize
       end
     end
+
+    Current.reset
   end
 
   def on_opened

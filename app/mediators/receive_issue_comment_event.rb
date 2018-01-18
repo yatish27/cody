@@ -3,6 +3,8 @@ class ReceiveIssueCommentEvent
   include GithubApi
 
   def perform(payload)
+    Current.reset
+
     @payload = payload
 
     Raven.user_context(
@@ -30,6 +32,8 @@ class ReceiveIssueCommentEvent
         replace_me
       end
     end
+
+    Current.reset
   end
 
   def approval_comment

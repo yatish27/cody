@@ -1,4 +1,5 @@
 require "aws-sdk"
+require "openssl"
 
 module GithubApi
   extend ActiveSupport::Concern
@@ -29,7 +30,8 @@ module GithubApi
   end
 
   def make_jwt_token
-    private_key = integration_private_key
+    private_pem = integration_private_key
+    private_key = OpenSSL::PKey::RSA.new(private_pem)
 
     payload = {
       iat: Time.now.to_i,

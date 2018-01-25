@@ -14,10 +14,6 @@ module GithubApi
         access_token: Rails.application.secrets.github_access_token
       )
     end
-
-    @github_client ||= Octokit::Client.new(
-      access_token: Rails.application.secrets.github_access_token
-    )
   end
 
   def integration_client(installation_id:)

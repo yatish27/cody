@@ -1,5 +1,5 @@
 {
   "docs": {
-    "Usage": ["commands", "rules"]
+    "Usage": ["commands", "rules", "errors"]
   }
 }

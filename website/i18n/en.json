@@ -5,6 +5,7 @@
     "previous": "Previous",
     "tagline": "Your friendly neighborhood code review bot",
     "commands": "Commands",
+    "errors": "Errors",
     "rules": "Review Rules",
     "Docs": "Docs",
     "Blog": "Blog",

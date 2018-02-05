@@ -108,3 +108,5 @@ end
 gem 'graphiql-rails', group: :development
 
 gem 'tzinfo-data'
+
+gem 'bootsnap', require: false

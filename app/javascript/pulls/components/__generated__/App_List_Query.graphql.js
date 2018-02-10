@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 0b9095c2b7fe43ffdb1d48483b8f3935
+ * @relayHash af1a1322f481e26066909152669f8ce3
  */
 
 /* eslint-disable */
@@ -40,17 +40,15 @@ fragment PullRequestList_repository on Repository {
   pullRequests(first: 10, after: $cursor) {
     edges {
       node {
+        __typename
         id
         ...PullRequest_pullRequest
-        __typename
       }
       cursor
     }
     pageInfo {
       endCursor
       hasNextPage
-      hasPreviousPage
-      startCursor
     }
   }
   id
@@ -246,6 +244,13 @@ const batch /*: ConcreteBatch*/ = {
                             "kind": "ScalarField",
                             "alias": null,
                             "args": null,
+                            "name": "__typename",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
                             "name": "id",
                             "storageKey": null
                           },
@@ -268,13 +273,6 @@ const batch /*: ConcreteBatch*/ = {
                             "alias": null,
                             "args": null,
                             "name": "status",
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "args": null,
-                            "name": "__typename",
                             "storageKey": null
                           }
                         ],
@@ -310,20 +308,6 @@ const batch /*: ConcreteBatch*/ = {
                         "alias": null,
                         "args": null,
                         "name": "hasNextPage",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "hasPreviousPage",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "startCursor",
                         "storageKey": null
                       }
                     ],
@@ -390,7 +374,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query App_List_Query(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...PullRequestList_repository\n      id\n    }\n    login\n    name\n    id\n  }\n}\n\nfragment PullRequestList_repository on Repository {\n  pullRequests(first: 10, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PullRequest_pullRequest\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n\nfragment PullRequest_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n}\n"
+  "text": "query App_List_Query(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...PullRequestList_repository\n      id\n    }\n    login\n    name\n    id\n  }\n}\n\nfragment PullRequestList_repository on Repository {\n  pullRequests(first: 10, after: $cursor) {\n    edges {\n      node {\n        __typename\n        id\n        ...PullRequest_pullRequest\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n\nfragment PullRequest_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n}\n"
 };
 
 module.exports = batch;

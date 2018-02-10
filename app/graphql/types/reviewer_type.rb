@@ -36,4 +36,12 @@ Types::ReviewerType = GraphQL::ObjectType.define do
       reviewer.versions.map(&:changeset)
     }
   end
+
+  field :pullRequest do
+    type Types::PullRequestType
+    description "The Pull Request that owns this Reviewer"
+    resolve -> (reviewer, args, ctx) {
+      reviewer.pull_request
+    }
+  end
 end

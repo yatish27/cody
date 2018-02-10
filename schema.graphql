@@ -128,6 +128,9 @@ type Reviewer implements Node {
   id: ID!
   login: String!
 
+  # The Pull Request that owns this Reviewer
+  pullRequest: PullRequest
+
   # The Review Rule that added this Reviewer
   reviewRule: ReviewRule
   status: String!
@@ -176,5 +179,21 @@ type User implements Node {
   ): RepositoryConnection
 
   # Find a given repository by the owner and name
-  repository(owner: String!, name: String!): Repository
+  repository(name: String!, owner: String!): Repository
+
+  # Reviews owned by the user
+  reviews(
+    # Returns the elements in the list that come after the specified global ID.
+    after: String
+
+    # Returns the elements in the list that come before the specified global ID.
+    before: String
+
+    # Returns the first _n_ elements from the list.
+    first: Int
+
+    # Returns the last _n_ elements from the list.
+    last: Int
+    status: String
+  ): ReviewerConnection
 }

@@ -27,4 +27,19 @@ Types::UserType = GraphQL::ObjectType.define do
         end
     }
   end
+
+  connection :reviews, Types::ReviewerType.connection_type do
+    description "Reviews owned by the user"
+    argument :status, types.String
+    resolve -> (user, args, ctx) {
+      case args[:status]
+      when Reviewer::STATUS_PENDING_APPROVAL
+        Reviewer.pending_review.where(login: user.login)
+      when Reviewer::STATUS_APPROVED
+        Reviewer.completed_review.where(login: user.login)
+      else
+        Reviewer.where(login: user.login)
+      end
+    }
+  end
 end

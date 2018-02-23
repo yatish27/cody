@@ -92,6 +92,8 @@ group :development do
   gem 'netrc'
 
   gem 'rubocop'
+
+  gem 'letter_opener'
 end
 
 group :test do

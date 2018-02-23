@@ -1,0 +1,11 @@
+<p style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;">
+  Here is your daily code review summary:
+</p>
+
+<ul>
+  <%- @pending_reviews.each do |pull_request| %>
+    <li style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;">
+      <strong><%= pull_request.repository %>#<%= pull_request.number %></strong>
+    </li>
+  <% end %>
+</ul>

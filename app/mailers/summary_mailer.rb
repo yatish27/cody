@@ -13,12 +13,9 @@ class SummaryMailer < ApplicationMailer
   def new_reviews(user)
     return unless user.email
 
-    since = 1.day.ago.beginning_of_day
-
     @pending_reviews =
       Reviewer.includes(:pull_request).includes(:review_rule)
         .where(login: user.login, status: Reviewer::STATUS_PENDING_APPROVAL)
-        .where("reviewers.created_at >= ?", since)
         .order("reviewers.created_at DESC").all
 
     return if @pending_reviews.empty?

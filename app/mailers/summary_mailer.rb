@@ -20,7 +20,7 @@ class SummaryMailer < ApplicationMailer
 
     return if @pending_reviews.empty?
 
-    @pending_reviews = @pending_reviews.group_by { |r| r.review_rule.name }
+    @pending_reviews = @pending_reviews.group_by { |r| r.review_rule&.name }
 
     mail(
       to: user.email,

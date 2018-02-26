@@ -24,6 +24,8 @@ class ReceivePullRequestEvent
         self.on_opened
       when "synchronize"
         self.on_synchronize
+      when "closed"
+        self.on_closed
       end
     end
 
@@ -32,6 +34,18 @@ class ReceivePullRequestEvent
 
   def on_opened
     CreateOrUpdatePullRequest.new.perform(@payload["pull_request"])
+  end
+
+  def on_closed
+    number = @payload["number"]
+    repository = @payload["repository"]["full_name"]
+    if (pr = PullRequest.find_by(number: number, repository: repository))
+      if pr.status == "pending_review"
+        pr.status = PullRequest::STATUS_CLOSED
+        pr.save!
+        pr.update_status("Pull Request closed")
+      end
+    end
   end
 
   # The "synchronize" event occurs whenever a new commit is pushed to the branch

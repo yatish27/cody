@@ -26,6 +26,10 @@ class PullRequest < ApplicationRecord
   STATUS_PLUM = "PLUM: %{reviewers} %{verb_phrase} on this repository".freeze
   STATUS_DELEGATED = "Review is delegated to #%{parent_number}".freeze
 
+  STATUS_PENDING_REVIEW = "pending_review".freeze
+  STATUS_APPROVED = "approved".freeze
+  STATUS_CLOSED = "closed".freeze
+
   COMMIT_STATUS_DESCRIPTIONS = {
     "pending" => "Not all reviewers have approved",
     "success" => "Code review complete",

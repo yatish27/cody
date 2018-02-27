@@ -17,7 +17,7 @@ class SummaryMailer < ApplicationMailer
       Reviewer.joins(:pull_request)
         .includes(:pull_request).includes(:review_rule)
         .where(login: user.login, status: Reviewer::STATUS_PENDING_APPROVAL)
-        .where(pull_request: { status: "pending_review" })
+        .where(pull_requests: { status: "pending_review" })
         .order("reviewers.created_at DESC").all
 
     return if @pending_reviews.empty?

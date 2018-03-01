@@ -17,7 +17,7 @@ RSpec.describe WebhooksController, type: :controller do
     end
 
     context "when the action is not \"opened\"" do
-      let(:action) { "closed" }
+      let(:action) { "labeled" }
 
       it "does not create a new ReceivePullRequestEvent job" do
         expect { post :pull_request, body: JSON.dump(payload) }.to_not change(ReceivePullRequestEvent.jobs, :size)

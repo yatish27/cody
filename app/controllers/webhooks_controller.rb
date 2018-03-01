@@ -29,7 +29,7 @@ class WebhooksController < ApplicationController
       end
     end
 
-    if body["action"] == "opened" || body["action"] == "synchronize"
+    if body["action"] == "opened" || body["action"] == "synchronize" || body["action"] == "closed"
       ReceivePullRequestEvent.perform_async(body)
     end
 

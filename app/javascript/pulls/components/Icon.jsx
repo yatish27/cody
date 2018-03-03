@@ -19,9 +19,10 @@ const Icon = ({
 }: {
   icon: string,
   size: ?("small" | "medium" | "large")
-}) =>
+}) => (
   <span className={`icon ${sizeModifier(size)}`}>
-    <i className={`fa fa-${icon}`} />
-  </span>;
+    <i className={`fas fa-${icon}`} />
+  </span>
+);
 
 export default Icon;

@@ -6,7 +6,13 @@ Types::UserType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :login, !types.String
+  field :email, types.String
   field :name, !types.String
+  field :sendNewReviewsSummary, !types.Boolean do
+    resolve -> (obj, args, ctx) {
+      !!obj.send_new_reviews_summary?
+    }
+  end
 
   connection :repositories, Types::RepositoryType.connection_type do
     resolve -> (user, args, ctx) {

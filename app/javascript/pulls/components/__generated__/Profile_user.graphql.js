@@ -9,33 +9,24 @@
 /*::
 import type { ConcreteFragment } from 'relay-runtime';
 import type { FragmentReference } from 'relay-runtime';
-declare export opaque type Reviewer_reviewer$ref: FragmentReference;
-export type Reviewer_reviewer = {|
-  +id: string,
+declare export opaque type Profile_user$ref: FragmentReference;
+export type Profile_user = {|
   +login: string,
-  +status: string,
-  +reviewRule: ?{|
-    +name: string,
-  |},
-  +$refType: Reviewer_reviewer$ref,
+  +email: ?string,
+  +name: string,
+  +sendNewReviewsSummary: boolean,
+  +$refType: Profile_user$ref,
 |};
 */
 
 
 const node/*: ConcreteFragment*/ = {
   "kind": "Fragment",
-  "name": "Reviewer_reviewer",
-  "type": "Reviewer",
+  "name": "Profile_user",
+  "type": "User",
   "metadata": null,
   "argumentDefinitions": [],
   "selections": [
-    {
-      "kind": "ScalarField",
-      "alias": null,
-      "name": "id",
-      "args": null,
-      "storageKey": null
-    },
     {
       "kind": "ScalarField",
       "alias": null,
@@ -46,29 +37,25 @@ const node/*: ConcreteFragment*/ = {
     {
       "kind": "ScalarField",
       "alias": null,
-      "name": "status",
+      "name": "email",
       "args": null,
       "storageKey": null
     },
     {
-      "kind": "LinkedField",
+      "kind": "ScalarField",
       "alias": null,
-      "name": "reviewRule",
-      "storageKey": null,
+      "name": "name",
       "args": null,
-      "concreteType": "ReviewRule",
-      "plural": false,
-      "selections": [
-        {
-          "kind": "ScalarField",
-          "alias": null,
-          "name": "name",
-          "args": null,
-          "storageKey": null
-        }
-      ]
+      "storageKey": null
+    },
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "sendNewReviewsSummary",
+      "args": null,
+      "storageKey": null
     }
   ]
 };
-(node/*: any*/).hash = '060f4ec9b61f4dabdbb5aaa7bdcdd942';
+(node/*: any*/).hash = 'da51132dcb27f55cc80ce6e284a71457';
 module.exports = node;

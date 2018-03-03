@@ -9,15 +9,13 @@ const PullRequest = ({
   pullRequest: { number, repository, status }
 }: {
   pullRequest: PullRequest_pullRequest
-}) =>
+}) => (
   <div className="level box">
     <div className="level-left code">
       <div className="level-item">
         <strong>{`${repository}#${number}`}</strong>
       </div>
-      <div className="level-item">
-        {status}
-      </div>
+      <div className="level-item">{status}</div>
     </div>
     <div className="level-right">
       <div className="level-item">
@@ -26,7 +24,8 @@ const PullRequest = ({
         </Link>
       </div>
     </div>
-  </div>;
+  </div>
+);
 
 export default createFragmentContainer(
   PullRequest,

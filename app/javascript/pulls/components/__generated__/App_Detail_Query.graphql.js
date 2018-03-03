@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash ce29dd6362a1e161d48ec10f91a51fc9
+ * @relayHash 0514b0a837dd3908187a9a650e98298f
  */
 
 /* eslint-disable */
@@ -8,13 +8,21 @@
 'use strict';
 
 /*::
-import type {ConcreteBatch} from 'relay-runtime';
+import type { ConcreteRequest } from 'relay-runtime';
+type PullRequestDetail_pullRequest$ref = any;
+export type App_Detail_QueryVariables = {|
+  owner: string,
+  name: string,
+  number: string,
+|};
 export type App_Detail_QueryResponse = {|
   +viewer: ?{|
     +repository: ?{|
-      +pullRequest: ?{| |};
-    |};
-  |};
+      +pullRequest: ?{|
+        +$fragmentRefs: PullRequestDetail_pullRequest$ref,
+      |},
+    |},
+  |},
 |};
 */
 
@@ -63,74 +71,102 @@ fragment Reviewer_reviewer on Reviewer {
 }
 */
 
-const batch /*: ConcreteBatch*/ = {
+const node/*: ConcreteRequest*/ = (function(){
+var v0 = [
+  {
+    "kind": "LocalArgument",
+    "name": "owner",
+    "type": "String!",
+    "defaultValue": null
+  },
+  {
+    "kind": "LocalArgument",
+    "name": "name",
+    "type": "String!",
+    "defaultValue": null
+  },
+  {
+    "kind": "LocalArgument",
+    "name": "number",
+    "type": "String!",
+    "defaultValue": null
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "name",
+    "variableName": "name",
+    "type": "String!"
+  },
+  {
+    "kind": "Variable",
+    "name": "owner",
+    "variableName": "owner",
+    "type": "String!"
+  }
+],
+v2 = [
+  {
+    "kind": "Variable",
+    "name": "number",
+    "variableName": "number",
+    "type": "String!"
+  }
+],
+v3 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "id",
+  "args": null,
+  "storageKey": null
+},
+v4 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "status",
+  "args": null,
+  "storageKey": null
+};
+return {
+  "kind": "Request",
+  "operationKind": "query",
+  "name": "App_Detail_Query",
+  "id": null,
+  "text": "query App_Detail_Query(\n  $owner: String!\n  $name: String!\n  $number: String!\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      pullRequest(number: $number) {\n        ...PullRequestDetail_pullRequest\n        id\n      }\n      id\n    }\n    id\n  }\n}\n\nfragment PullRequestDetail_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n  reviewers {\n    edges {\n      node {\n        id\n        ...Reviewer_reviewer\n      }\n    }\n  }\n}\n\nfragment Reviewer_reviewer on Reviewer {\n  id\n  login\n  status\n  reviewRule {\n    name\n    id\n  }\n}\n",
+  "metadata": {},
   "fragment": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "owner",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "name",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "number",
-        "type": "String!",
-        "defaultValue": null
-      }
-    ],
     "kind": "Fragment",
-    "metadata": null,
     "name": "App_Detail_Query",
+    "type": "Query",
+    "metadata": null,
+    "argumentDefinitions": v0,
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
+        "name": "viewer",
+        "storageKey": null,
         "args": null,
         "concreteType": "User",
-        "name": "viewer",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
-            "args": [
-              {
-                "kind": "Variable",
-                "name": "name",
-                "variableName": "name",
-                "type": "String!"
-              },
-              {
-                "kind": "Variable",
-                "name": "owner",
-                "variableName": "owner",
-                "type": "String!"
-              }
-            ],
-            "concreteType": "Repository",
             "name": "repository",
+            "storageKey": null,
+            "args": v1,
+            "concreteType": "Repository",
             "plural": false,
             "selections": [
               {
                 "kind": "LinkedField",
                 "alias": null,
-                "args": [
-                  {
-                    "kind": "Variable",
-                    "name": "number",
-                    "variableName": "number",
-                    "type": "String!"
-                  }
-                ],
-                "concreteType": "PullRequest",
                 "name": "pullRequest",
+                "storageKey": null,
+                "args": v2,
+                "concreteType": "PullRequest",
                 "plural": false,
                 "selections": [
                   {
@@ -138,224 +174,134 @@ const batch /*: ConcreteBatch*/ = {
                     "name": "PullRequestDetail_pullRequest",
                     "args": null
                   }
-                ],
-                "storageKey": null
+                ]
               }
-            ],
-            "storageKey": null
+            ]
           }
-        ],
-        "storageKey": null
+        ]
       }
-    ],
-    "type": "Query"
+    ]
   },
-  "id": null,
-  "kind": "Batch",
-  "metadata": {},
-  "name": "App_Detail_Query",
-  "query": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "owner",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "name",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "number",
-        "type": "String!",
-        "defaultValue": null
-      }
-    ],
-    "kind": "Root",
+  "operation": {
+    "kind": "Operation",
     "name": "App_Detail_Query",
-    "operation": "query",
+    "argumentDefinitions": v0,
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
+        "name": "viewer",
+        "storageKey": null,
         "args": null,
         "concreteType": "User",
-        "name": "viewer",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
-            "args": [
-              {
-                "kind": "Variable",
-                "name": "name",
-                "variableName": "name",
-                "type": "String!"
-              },
-              {
-                "kind": "Variable",
-                "name": "owner",
-                "variableName": "owner",
-                "type": "String!"
-              }
-            ],
-            "concreteType": "Repository",
             "name": "repository",
+            "storageKey": null,
+            "args": v1,
+            "concreteType": "Repository",
             "plural": false,
             "selections": [
               {
                 "kind": "LinkedField",
                 "alias": null,
-                "args": [
-                  {
-                    "kind": "Variable",
-                    "name": "number",
-                    "variableName": "number",
-                    "type": "String!"
-                  }
-                ],
-                "concreteType": "PullRequest",
                 "name": "pullRequest",
+                "storageKey": null,
+                "args": v2,
+                "concreteType": "PullRequest",
                 "plural": false,
                 "selections": [
+                  v3,
                   {
                     "kind": "ScalarField",
                     "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
                     "name": "repository",
+                    "args": null,
                     "storageKey": null
                   },
                   {
                     "kind": "ScalarField",
                     "alias": null,
-                    "args": null,
                     "name": "number",
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
                     "args": null,
-                    "name": "status",
                     "storageKey": null
                   },
+                  v4,
                   {
                     "kind": "LinkedField",
                     "alias": null,
+                    "name": "reviewers",
+                    "storageKey": null,
                     "args": null,
                     "concreteType": "ReviewerConnection",
-                    "name": "reviewers",
                     "plural": false,
                     "selections": [
                       {
                         "kind": "LinkedField",
                         "alias": null,
+                        "name": "edges",
+                        "storageKey": null,
                         "args": null,
                         "concreteType": "ReviewerEdge",
-                        "name": "edges",
                         "plural": true,
                         "selections": [
                           {
                             "kind": "LinkedField",
                             "alias": null,
+                            "name": "node",
+                            "storageKey": null,
                             "args": null,
                             "concreteType": "Reviewer",
-                            "name": "node",
                             "plural": false,
                             "selections": [
+                              v3,
                               {
                                 "kind": "ScalarField",
                                 "alias": null,
-                                "args": null,
-                                "name": "id",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
-                                "args": null,
                                 "name": "login",
-                                "storageKey": null
-                              },
-                              {
-                                "kind": "ScalarField",
-                                "alias": null,
                                 "args": null,
-                                "name": "status",
                                 "storageKey": null
                               },
+                              v4,
                               {
                                 "kind": "LinkedField",
                                 "alias": null,
+                                "name": "reviewRule",
+                                "storageKey": null,
                                 "args": null,
                                 "concreteType": "ReviewRule",
-                                "name": "reviewRule",
                                 "plural": false,
                                 "selections": [
                                   {
                                     "kind": "ScalarField",
                                     "alias": null,
-                                    "args": null,
                                     "name": "name",
+                                    "args": null,
                                     "storageKey": null
                                   },
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "id",
-                                    "storageKey": null
-                                  }
-                                ],
-                                "storageKey": null
+                                  v3
+                                ]
                               }
-                            ],
-                            "storageKey": null
+                            ]
                           }
-                        ],
-                        "storageKey": null
+                        ]
                       }
-                    ],
-                    "storageKey": null
+                    ]
                   }
-                ],
-                "storageKey": null
+                ]
               },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
+              v3
+            ]
           },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "id",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
+          v3
+        ]
       }
     ]
-  },
-  "text": "query App_Detail_Query(\n  $owner: String!\n  $name: String!\n  $number: String!\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      pullRequest(number: $number) {\n        ...PullRequestDetail_pullRequest\n        id\n      }\n      id\n    }\n    id\n  }\n}\n\nfragment PullRequestDetail_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n  reviewers {\n    edges {\n      node {\n        id\n        ...Reviewer_reviewer\n      }\n    }\n  }\n}\n\nfragment Reviewer_reviewer on Reviewer {\n  id\n  login\n  status\n  reviewRule {\n    name\n    id\n  }\n}\n"
+  }
 };
-
-module.exports = batch;
+})();
+(node/*: any*/).hash = 'baa36d33092db0cfee47908739981e0b';
+module.exports = node;

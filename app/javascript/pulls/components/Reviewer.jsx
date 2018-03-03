@@ -9,13 +9,13 @@ function statusToOcticon(status: string) {
     case "pending_approval":
       return (
         <span className="icon color-warning" title="Pending approval">
-          <i className="fa fa-circle-o" />
+          <i className="far fa-circle" />
         </span>
       );
     case "approved":
       return (
         <span className="icon color-success" title="Approved">
-          <i className="fa fa-circle" />
+          <i className="fas fa-circle" />
         </span>
       );
     default:
@@ -23,22 +23,19 @@ function statusToOcticon(status: string) {
   }
 }
 
-const Reviewer = ({ reviewer }: { reviewer: Reviewer_reviewer }) =>
+const Reviewer = ({ reviewer }: { reviewer: Reviewer_reviewer }) => (
   <div className="level">
     <div className="level-left">
+      <div className="level-item">{statusToOcticon(reviewer.status)}</div>
       <div className="level-item">
-        {statusToOcticon(reviewer.status)}
-      </div>
-      <div className="level-item">
-        <strong>
-          {reviewer.login}
-        </strong>
+        <strong>{reviewer.login}</strong>
       </div>
       <div className="level-item">
         {reviewer.reviewRule != null ? reviewer.reviewRule.name : false}
       </div>
     </div>
-  </div>;
+  </div>
+);
 
 export default createFragmentContainer(
   Reviewer,

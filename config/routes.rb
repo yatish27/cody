@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get '/repos/:owner/:repo/pulls' => 'pulls#index'
   get '/repos/:owner/:repo/pull/:number' => 'pulls#index', as: :pull
 
+  get '/profile' => 'pulls#index'
+
   resource :session, only: %i(new create destroy)
 
   get '/auth/:provider/callback' => 'sessions#create'

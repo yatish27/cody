@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 0b9095c2b7fe43ffdb1d48483b8f3935
+ * @relayHash 65e6c2b2406899e89838bc0db2515e4d
  */
 
 /* eslint-disable */
@@ -8,13 +8,21 @@
 'use strict';
 
 /*::
-import type {ConcreteBatch} from 'relay-runtime';
+import type { ConcreteRequest } from 'relay-runtime';
+type PullRequestList_repository$ref = any;
+export type App_List_QueryVariables = {|
+  owner: string,
+  name: string,
+  cursor?: ?string,
+|};
 export type App_List_QueryResponse = {|
   +viewer: ?{|
-    +repository: ?{| |};
-    +login: string;
-    +name: string;
-  |};
+    +repository: ?{|
+      +$fragmentRefs: PullRequestList_repository$ref,
+    |},
+    +login: string,
+    +name: string,
+  |},
 |};
 */
 
@@ -49,8 +57,6 @@ fragment PullRequestList_repository on Repository {
     pageInfo {
       endCursor
       hasNextPage
-      hasPreviousPage
-      startCursor
     }
   }
   id
@@ -64,59 +70,92 @@ fragment PullRequest_pullRequest on PullRequest {
 }
 */
 
-const batch /*: ConcreteBatch*/ = {
+const node/*: ConcreteRequest*/ = (function(){
+var v0 = [
+  {
+    "kind": "LocalArgument",
+    "name": "owner",
+    "type": "String!",
+    "defaultValue": null
+  },
+  {
+    "kind": "LocalArgument",
+    "name": "name",
+    "type": "String!",
+    "defaultValue": null
+  },
+  {
+    "kind": "LocalArgument",
+    "name": "cursor",
+    "type": "String",
+    "defaultValue": null
+  }
+],
+v1 = [
+  {
+    "kind": "Variable",
+    "name": "name",
+    "variableName": "name",
+    "type": "String!"
+  },
+  {
+    "kind": "Variable",
+    "name": "owner",
+    "variableName": "owner",
+    "type": "String!"
+  }
+],
+v2 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "login",
+  "args": null,
+  "storageKey": null
+},
+v3 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "name",
+  "args": null,
+  "storageKey": null
+},
+v4 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "id",
+  "args": null,
+  "storageKey": null
+};
+return {
+  "kind": "Request",
+  "operationKind": "query",
+  "name": "App_List_Query",
+  "id": null,
+  "text": "query App_List_Query(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...PullRequestList_repository\n      id\n    }\n    login\n    name\n    id\n  }\n}\n\nfragment PullRequestList_repository on Repository {\n  pullRequests(first: 10, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PullRequest_pullRequest\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n\nfragment PullRequest_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n}\n",
+  "metadata": {},
   "fragment": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "owner",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "name",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "cursor",
-        "type": "String",
-        "defaultValue": null
-      }
-    ],
     "kind": "Fragment",
-    "metadata": null,
     "name": "App_List_Query",
+    "type": "Query",
+    "metadata": null,
+    "argumentDefinitions": v0,
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
+        "name": "viewer",
+        "storageKey": null,
         "args": null,
         "concreteType": "User",
-        "name": "viewer",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
-            "args": [
-              {
-                "kind": "Variable",
-                "name": "name",
-                "variableName": "name",
-                "type": "String!"
-              },
-              {
-                "kind": "Variable",
-                "name": "owner",
-                "variableName": "owner",
-                "type": "String!"
-              }
-            ],
-            "concreteType": "Repository",
             "name": "repository",
+            "storageKey": null,
+            "args": v1,
+            "concreteType": "Repository",
             "plural": false,
             "selections": [
               {
@@ -124,90 +163,42 @@ const batch /*: ConcreteBatch*/ = {
                 "name": "PullRequestList_repository",
                 "args": null
               }
-            ],
-            "storageKey": null
+            ]
           },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "login",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "name",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
+          v2,
+          v3
+        ]
       }
-    ],
-    "type": "Query"
+    ]
   },
-  "id": null,
-  "kind": "Batch",
-  "metadata": {},
-  "name": "App_List_Query",
-  "query": {
-    "argumentDefinitions": [
-      {
-        "kind": "LocalArgument",
-        "name": "owner",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "name",
-        "type": "String!",
-        "defaultValue": null
-      },
-      {
-        "kind": "LocalArgument",
-        "name": "cursor",
-        "type": "String",
-        "defaultValue": null
-      }
-    ],
-    "kind": "Root",
+  "operation": {
+    "kind": "Operation",
     "name": "App_List_Query",
-    "operation": "query",
+    "argumentDefinitions": v0,
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
+        "name": "viewer",
+        "storageKey": null,
         "args": null,
         "concreteType": "User",
-        "name": "viewer",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
-            "args": [
-              {
-                "kind": "Variable",
-                "name": "name",
-                "variableName": "name",
-                "type": "String!"
-              },
-              {
-                "kind": "Variable",
-                "name": "owner",
-                "variableName": "owner",
-                "type": "String!"
-              }
-            ],
-            "concreteType": "Repository",
             "name": "repository",
+            "storageKey": null,
+            "args": v1,
+            "concreteType": "Repository",
             "plural": false,
             "selections": [
               {
                 "kind": "LinkedField",
                 "alias": null,
+                "name": "pullRequests",
+                "storageKey": null,
                 "args": [
                   {
                     "kind": "Variable",
@@ -223,118 +214,97 @@ const batch /*: ConcreteBatch*/ = {
                   }
                 ],
                 "concreteType": "PullRequestConnection",
-                "name": "pullRequests",
                 "plural": false,
                 "selections": [
                   {
                     "kind": "LinkedField",
                     "alias": null,
+                    "name": "edges",
+                    "storageKey": null,
                     "args": null,
                     "concreteType": "PullRequestEdge",
-                    "name": "edges",
                     "plural": true,
                     "selections": [
                       {
                         "kind": "LinkedField",
                         "alias": null,
+                        "name": "node",
+                        "storageKey": null,
                         "args": null,
                         "concreteType": "PullRequest",
-                        "name": "node",
                         "plural": false,
                         "selections": [
+                          v4,
                           {
                             "kind": "ScalarField",
                             "alias": null,
-                            "args": null,
-                            "name": "id",
-                            "storageKey": null
-                          },
-                          {
-                            "kind": "ScalarField",
-                            "alias": null,
-                            "args": null,
                             "name": "repository",
+                            "args": null,
                             "storageKey": null
                           },
                           {
                             "kind": "ScalarField",
                             "alias": null,
-                            "args": null,
                             "name": "number",
+                            "args": null,
                             "storageKey": null
                           },
                           {
                             "kind": "ScalarField",
                             "alias": null,
-                            "args": null,
                             "name": "status",
+                            "args": null,
                             "storageKey": null
                           },
                           {
                             "kind": "ScalarField",
                             "alias": null,
-                            "args": null,
                             "name": "__typename",
+                            "args": null,
                             "storageKey": null
                           }
-                        ],
-                        "storageKey": null
+                        ]
                       },
                       {
                         "kind": "ScalarField",
                         "alias": null,
-                        "args": null,
                         "name": "cursor",
+                        "args": null,
                         "storageKey": null
                       }
-                    ],
-                    "storageKey": null
+                    ]
                   },
                   {
                     "kind": "LinkedField",
                     "alias": null,
+                    "name": "pageInfo",
+                    "storageKey": null,
                     "args": null,
                     "concreteType": "PageInfo",
-                    "name": "pageInfo",
                     "plural": false,
                     "selections": [
                       {
                         "kind": "ScalarField",
                         "alias": null,
-                        "args": null,
                         "name": "endCursor",
+                        "args": null,
                         "storageKey": null
                       },
                       {
                         "kind": "ScalarField",
                         "alias": null,
-                        "args": null,
                         "name": "hasNextPage",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
                         "args": null,
-                        "name": "hasPreviousPage",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "startCursor",
                         "storageKey": null
                       }
-                    ],
-                    "storageKey": null
+                    ]
                   }
-                ],
-                "storageKey": null
+                ]
               },
               {
                 "kind": "LinkedHandle",
                 "alias": null,
+                "name": "pullRequests",
                 "args": [
                   {
                     "kind": "Variable",
@@ -350,47 +320,20 @@ const batch /*: ConcreteBatch*/ = {
                   }
                 ],
                 "handle": "connection",
-                "name": "pullRequests",
                 "key": "PullRequestList_pullRequests",
                 "filters": null
               },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
+              v4
+            ]
           },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "login",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "name",
-            "storageKey": null
-          },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "id",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
+          v2,
+          v3,
+          v4
+        ]
       }
     ]
-  },
-  "text": "query App_List_Query(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...PullRequestList_repository\n      id\n    }\n    login\n    name\n    id\n  }\n}\n\nfragment PullRequestList_repository on Repository {\n  pullRequests(first: 10, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PullRequest_pullRequest\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n\nfragment PullRequest_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n}\n"
+  }
 };
-
-module.exports = batch;
+})();
+(node/*: any*/).hash = '1daf4287f47476718262ddbc47d59ba2';
+module.exports = node;

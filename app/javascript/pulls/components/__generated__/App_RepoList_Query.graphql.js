@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash b46cec601f6685a1627c008361c9d451
+ * @relayHash b4b7a8d276e04b01c07d0d8ffe596b25
  */
 
 /* eslint-disable */
@@ -8,9 +8,13 @@
 'use strict';
 
 /*::
-import type {ConcreteBatch} from 'relay-runtime';
+import type { ConcreteRequest } from 'relay-runtime';
+type RepositoryList_viewer$ref = any;
+export type App_RepoList_QueryVariables = {| |};
 export type App_RepoList_QueryResponse = {|
-  +viewer: ?{| |};
+  +viewer: ?{|
+    +$fragmentRefs: RepositoryList_viewer$ref,
+  |},
 |};
 */
 
@@ -41,19 +45,35 @@ fragment Repository_repository on Repository {
 }
 */
 
-const batch /*: ConcreteBatch*/ = {
+const node/*: ConcreteRequest*/ = (function(){
+var v0 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "id",
+  "args": null,
+  "storageKey": null
+};
+return {
+  "kind": "Request",
+  "operationKind": "query",
+  "name": "App_RepoList_Query",
+  "id": null,
+  "text": "query App_RepoList_Query {\n  viewer {\n    ...RepositoryList_viewer\n    id\n  }\n}\n\nfragment RepositoryList_viewer on User {\n  repositories(first: 10) {\n    edges {\n      node {\n        id\n        ...Repository_repository\n      }\n    }\n  }\n}\n\nfragment Repository_repository on Repository {\n  id\n  owner\n  name\n}\n",
+  "metadata": {},
   "fragment": {
-    "argumentDefinitions": [],
     "kind": "Fragment",
-    "metadata": null,
     "name": "App_RepoList_Query",
+    "type": "Query",
+    "metadata": null,
+    "argumentDefinitions": [],
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
+        "name": "viewer",
+        "storageKey": null,
         "args": null,
         "concreteType": "User",
-        "name": "viewer",
         "plural": false,
         "selections": [
           {
@@ -61,33 +81,29 @@ const batch /*: ConcreteBatch*/ = {
             "name": "RepositoryList_viewer",
             "args": null
           }
-        ],
-        "storageKey": null
+        ]
       }
-    ],
-    "type": "Query"
+    ]
   },
-  "id": null,
-  "kind": "Batch",
-  "metadata": {},
-  "name": "App_RepoList_Query",
-  "query": {
-    "argumentDefinitions": [],
-    "kind": "Root",
+  "operation": {
+    "kind": "Operation",
     "name": "App_RepoList_Query",
-    "operation": "query",
+    "argumentDefinitions": [],
     "selections": [
       {
         "kind": "LinkedField",
         "alias": null,
+        "name": "viewer",
+        "storageKey": null,
         "args": null,
         "concreteType": "User",
-        "name": "viewer",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
+            "name": "repositories",
+            "storageKey": "repositories(first:10)",
             "args": [
               {
                 "kind": "Literal",
@@ -97,68 +113,53 @@ const batch /*: ConcreteBatch*/ = {
               }
             ],
             "concreteType": "RepositoryConnection",
-            "name": "repositories",
             "plural": false,
             "selections": [
               {
                 "kind": "LinkedField",
                 "alias": null,
+                "name": "edges",
+                "storageKey": null,
                 "args": null,
                 "concreteType": "RepositoryEdge",
-                "name": "edges",
                 "plural": true,
                 "selections": [
                   {
                     "kind": "LinkedField",
                     "alias": null,
+                    "name": "node",
+                    "storageKey": null,
                     "args": null,
                     "concreteType": "Repository",
-                    "name": "node",
                     "plural": false,
                     "selections": [
+                      v0,
                       {
                         "kind": "ScalarField",
                         "alias": null,
-                        "args": null,
-                        "name": "id",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
                         "name": "owner",
+                        "args": null,
                         "storageKey": null
                       },
                       {
                         "kind": "ScalarField",
                         "alias": null,
-                        "args": null,
                         "name": "name",
+                        "args": null,
                         "storageKey": null
                       }
-                    ],
-                    "storageKey": null
+                    ]
                   }
-                ],
-                "storageKey": null
+                ]
               }
-            ],
-            "storageKey": "repositories{\"first\":10}"
+            ]
           },
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "id",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
+          v0
+        ]
       }
     ]
-  },
-  "text": "query App_RepoList_Query {\n  viewer {\n    ...RepositoryList_viewer\n    id\n  }\n}\n\nfragment RepositoryList_viewer on User {\n  repositories(first: 10) {\n    edges {\n      node {\n        id\n        ...Repository_repository\n      }\n    }\n  }\n}\n\nfragment Repository_repository on Repository {\n  id\n  owner\n  name\n}\n"
+  }
 };
-
-module.exports = batch;
+})();
+(node/*: any*/).hash = 'a8ea12f91e6e8d12e6d8b8ccffb79a9e';
+module.exports = node;

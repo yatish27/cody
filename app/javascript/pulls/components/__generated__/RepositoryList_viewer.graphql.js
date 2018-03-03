@@ -7,28 +7,36 @@
 'use strict';
 
 /*::
-import type {ConcreteFragment} from 'relay-runtime';
+import type { ConcreteFragment } from 'relay-runtime';
+type Repository_repository$ref = any;
+import type { FragmentReference } from 'relay-runtime';
+declare export opaque type RepositoryList_viewer$ref: FragmentReference;
 export type RepositoryList_viewer = {|
   +repositories: ?{|
     +edges: ?$ReadOnlyArray<?{|
       +node: ?{|
-        +id: string;
-      |};
-    |}>;
-  |};
+        +id: string,
+        +$fragmentRefs: Repository_repository$ref,
+      |},
+    |}>,
+  |},
+  +$refType: RepositoryList_viewer$ref,
 |};
 */
 
 
-const fragment /*: ConcreteFragment*/ = {
-  "argumentDefinitions": [],
+const node/*: ConcreteFragment*/ = {
   "kind": "Fragment",
-  "metadata": null,
   "name": "RepositoryList_viewer",
+  "type": "User",
+  "metadata": null,
+  "argumentDefinitions": [],
   "selections": [
     {
       "kind": "LinkedField",
       "alias": null,
+      "name": "repositories",
+      "storageKey": "repositories(first:10)",
       "args": [
         {
           "kind": "Literal",
@@ -38,30 +46,31 @@ const fragment /*: ConcreteFragment*/ = {
         }
       ],
       "concreteType": "RepositoryConnection",
-      "name": "repositories",
       "plural": false,
       "selections": [
         {
           "kind": "LinkedField",
           "alias": null,
+          "name": "edges",
+          "storageKey": null,
           "args": null,
           "concreteType": "RepositoryEdge",
-          "name": "edges",
           "plural": true,
           "selections": [
             {
               "kind": "LinkedField",
               "alias": null,
+              "name": "node",
+              "storageKey": null,
               "args": null,
               "concreteType": "Repository",
-              "name": "node",
               "plural": false,
               "selections": [
                 {
                   "kind": "ScalarField",
                   "alias": null,
-                  "args": null,
                   "name": "id",
+                  "args": null,
                   "storageKey": null
                 },
                 {
@@ -69,17 +78,13 @@ const fragment /*: ConcreteFragment*/ = {
                   "name": "Repository_repository",
                   "args": null
                 }
-              ],
-              "storageKey": null
+              ]
             }
-          ],
-          "storageKey": null
+          ]
         }
-      ],
-      "storageKey": "repositories{\"first\":10}"
+      ]
     }
-  ],
-  "type": "User"
+  ]
 };
-
-module.exports = fragment;
+(node/*: any*/).hash = '42c0f26b8c5144a0ebe8d120f7ed54b7';
+module.exports = node;

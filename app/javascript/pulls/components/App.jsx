@@ -5,18 +5,14 @@ import Nav from "./Nav";
 import PullRequestList from "./PullRequestList";
 import PullRequestDetail from "./PullRequestDetail";
 import RepositoryList from "./RepositoryList";
+import Profile from "./Profile";
 import makeEnvironment from "../makeEnvironment";
 import { QueryRenderer, graphql } from "react-relay";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-// https://github.com/facebook/relay/issues/1918
-// import type { App_RepoList_Query } from "./__generated__/App_RepoList_Query.graphql"
-// import type { App_List_Query } from "./__generated__/App_List_Query.graphql"
-// import type { App_Detail_Query } from "./__generated__/App_Detail_Query.graphql"
-
-// Disabling prop-types rule here until the issue to make relay-compiler's
-// generated types work correctly closes
-// https://github.com/facebook/relay/issues/1918
-/* eslint-disable react/prop-types */
+import { type App_RepoList_QueryResponse } from "./__generated__/App_RepoList_Query.graphql";
+import { type App_List_QueryResponse } from "./__generated__/App_List_Query.graphql";
+import { type App_Detail_QueryResponse } from "./__generated__/App_Detail_Query.graphql";
+import { type App_Profile_QueryResponse } from "./__generated__/App_Profile_Query.graphql";
 
 const csrfToken = document
   .getElementsByName("csrf-token")[0]
@@ -24,7 +20,7 @@ const csrfToken = document
 
 const environment = makeEnvironment(csrfToken);
 
-const App = () =>
+const App = () => (
   <BrowserRouter>
     <div>
       <Nav />
@@ -44,15 +40,17 @@ const App = () =>
                   }
                 `}
                 variables={{}}
-                render={({ error, props }) => {
+                render={({
+                  error,
+                  props: queryResponse
+                }: {
+                  error: any,
+                  props: App_RepoList_QueryResponse
+                }) => {
                   if (error) {
-                    return (
-                      <div>
-                        {error.message}
-                      </div>
-                    );
-                  } else if (props) {
-                    return <RepositoryList viewer={props.viewer} />;
+                    return <div>{error.message}</div>;
+                  } else if (queryResponse) {
+                    return <RepositoryList viewer={queryResponse.viewer} />;
                   }
                   return <div className="loader">Loading</div>;
                 }}
@@ -86,16 +84,20 @@ const App = () =>
                   owner: match.params.owner,
                   name: match.params.name
                 }}
-                render={({ error, props }) => {
+                render={({
+                  error,
+                  props: queryResponse
+                }: {
+                  error: any,
+                  props: App_List_QueryResponse
+                }) => {
                   if (error) {
+                    return <div>{error.message}</div>;
+                  } else if (queryResponse && queryResponse.viewer) {
                     return (
-                      <div>
-                        {error.message}
-                      </div>
-                    );
-                  } else if (props) {
-                    return (
-                      <PullRequestList repository={props.viewer.repository} />
+                      <PullRequestList
+                        repository={queryResponse.viewer.repository}
+                      />
                     );
                   }
                   return <div className="loader">Loading</div>;
@@ -131,17 +133,25 @@ const App = () =>
                   name: match.params.name,
                   number: match.params.number
                 }}
-                render={({ error, props }) => {
+                render={({
+                  error,
+                  props: queryResponse
+                }: {
+                  error: any,
+                  props: App_Detail_QueryResponse
+                }) => {
                   if (error) {
-                    return (
-                      <div>
-                        {error.message}
-                      </div>
-                    );
-                  } else if (props) {
+                    return <div>{error.message}</div>;
+                  } else if (
+                    queryResponse &&
+                    queryResponse.viewer &&
+                    queryResponse.viewer.repository
+                  ) {
                     return (
                       <PullRequestDetail
-                        pullRequest={props.viewer.repository.pullRequest}
+                        pullRequest={
+                          queryResponse.viewer.repository.pullRequest
+                        }
                       />
                     );
                   }
@@ -162,9 +172,43 @@ const App = () =>
             );
           }}
         />
+        <Route
+          exact
+          path="/profile"
+          render={() => {
+            return (
+              <QueryRenderer
+                environment={environment}
+                query={graphql`
+                  query App_Profile_Query {
+                    viewer {
+                      ...Profile_user
+                    }
+                  }
+                `}
+                variables={{}}
+                render={({
+                  error,
+                  props: queryResponse
+                }: {
+                  error: any,
+                  props: App_Profile_QueryResponse
+                }) => {
+                  if (error) {
+                    return <div>{error.message}</div>;
+                  } else if (queryResponse) {
+                    return <Profile user={queryResponse.viewer} />;
+                  }
+                  return <div className="loader">Loading</div>;
+                }}
+              />
+            );
+          }}
+        />
         <Redirect from="/" to="/repos" />
       </Switch>
     </div>
-  </BrowserRouter>;
+  </BrowserRouter>
+);
 
 export default App;

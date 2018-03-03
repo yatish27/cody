@@ -7,7 +7,7 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: current_user
     }
     result = CodySchema.execute(
       query,

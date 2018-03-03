@@ -7,29 +7,37 @@
 'use strict';
 
 /*::
-import type {ConcreteFragment} from 'relay-runtime';
+import type { ConcreteFragment } from 'relay-runtime';
+type PullRequest_pullRequest$ref = any;
+import type { FragmentReference } from 'relay-runtime';
+declare export opaque type PullRequestList_repository$ref: FragmentReference;
 export type PullRequestList_repository = {|
   +pullRequests: ?{|
     +edges: ?$ReadOnlyArray<?{|
       +node: ?{|
-        +id: string;
-      |};
-    |}>;
-  |};
-  +id: string;
+        +id: string,
+        +$fragmentRefs: PullRequest_pullRequest$ref,
+      |},
+    |}>,
+  |},
+  +id: string,
+  +$refType: PullRequestList_repository$ref,
 |};
 */
 
 
-const fragment /*: ConcreteFragment*/ = {
-  "argumentDefinitions": [
-    {
-      "kind": "RootArgument",
-      "name": "cursor",
-      "type": "String"
-    }
-  ],
+const node/*: ConcreteFragment*/ = (function(){
+var v0 = {
+  "kind": "ScalarField",
+  "alias": null,
+  "name": "id",
+  "args": null,
+  "storageKey": null
+};
+return {
   "kind": "Fragment",
+  "name": "PullRequestList_repository",
+  "type": "Repository",
   "metadata": {
     "connection": [
       {
@@ -42,62 +50,95 @@ const fragment /*: ConcreteFragment*/ = {
       }
     ]
   },
-  "name": "PullRequestList_repository",
+  "argumentDefinitions": [
+    {
+      "kind": "RootArgument",
+      "name": "cursor",
+      "type": "String"
+    }
+  ],
   "selections": [
     {
       "kind": "LinkedField",
       "alias": "pullRequests",
+      "name": "__PullRequestList_pullRequests_connection",
+      "storageKey": null,
       "args": null,
       "concreteType": "PullRequestConnection",
-      "name": "__PullRequestList_pullRequests_connection",
       "plural": false,
       "selections": [
         {
           "kind": "LinkedField",
           "alias": null,
+          "name": "edges",
+          "storageKey": null,
           "args": null,
           "concreteType": "PullRequestEdge",
-          "name": "edges",
           "plural": true,
           "selections": [
             {
               "kind": "LinkedField",
               "alias": null,
+              "name": "node",
+              "storageKey": null,
               "args": null,
               "concreteType": "PullRequest",
-              "name": "node",
               "plural": false,
               "selections": [
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "id",
-                  "storageKey": null
-                },
+                v0,
                 {
                   "kind": "FragmentSpread",
                   "name": "PullRequest_pullRequest",
                   "args": null
+                },
+                {
+                  "kind": "ScalarField",
+                  "alias": null,
+                  "name": "__typename",
+                  "args": null,
+                  "storageKey": null
                 }
-              ],
+              ]
+            },
+            {
+              "kind": "ScalarField",
+              "alias": null,
+              "name": "cursor",
+              "args": null,
               "storageKey": null
             }
-          ],
-          "storageKey": null
+          ]
+        },
+        {
+          "kind": "LinkedField",
+          "alias": null,
+          "name": "pageInfo",
+          "storageKey": null,
+          "args": null,
+          "concreteType": "PageInfo",
+          "plural": false,
+          "selections": [
+            {
+              "kind": "ScalarField",
+              "alias": null,
+              "name": "endCursor",
+              "args": null,
+              "storageKey": null
+            },
+            {
+              "kind": "ScalarField",
+              "alias": null,
+              "name": "hasNextPage",
+              "args": null,
+              "storageKey": null
+            }
+          ]
         }
-      ],
-      "storageKey": null
+      ]
     },
-    {
-      "kind": "ScalarField",
-      "alias": null,
-      "args": null,
-      "name": "id",
-      "storageKey": null
-    }
-  ],
-  "type": "Repository"
+    v0
+  ]
 };
-
-module.exports = fragment;
+})();
+(node/*: any*/).hash = '0d6319e9de0f8e4643369cc034d92148';
+module.exports = node;

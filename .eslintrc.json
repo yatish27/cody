@@ -12,9 +12,10 @@
     "browser": true,
     "node": true
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
+  "globals": {
+    "SyntheticEvent": true
+  },
   "rules": {
     "semi": "error"
   }

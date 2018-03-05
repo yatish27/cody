@@ -9,14 +9,21 @@ const PullRequestList = ({
   repository
 }: {
   repository: PullRequestList_repository
-}) =>
+}) => (
   <section className="section">
     <div className="container">
-      {repository.pullRequests.edges.map(edge => {
-        return <PullRequest key={edge.node.id} pullRequest={edge.node} />;
-      })}
+      {repository.pullRequests != null && repository.pullRequests.edges != null
+        ? repository.pullRequests.edges.map(edge => {
+            if (edge != null && edge.node != null) {
+              return <PullRequest key={edge.node.id} pullRequest={edge.node} />;
+            } else {
+              return null;
+            }
+          })
+        : null}
     </div>
-  </section>;
+  </section>
+);
 
 export default createFragmentContainer(
   PullRequestList,

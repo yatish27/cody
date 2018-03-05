@@ -5,13 +5,11 @@ import { Link } from "react-router-dom";
 import { createFragmentContainer, graphql } from "react-relay";
 import type { Repository_repository } from "./__generated__/Repository_repository.graphql";
 
-const Repository = ({ repository }: { repository: Repository_repository }) =>
+const Repository = ({ repository }: { repository: Repository_repository }) => (
   <div className="level box">
     <div className="level-left code">
       <div className="level-item">
-        <strong>
-          {`${repository.owner}/${repository.name}`}
-        </strong>
+        <strong>{`${repository.owner}/${repository.name}`}</strong>
       </div>
     </div>
     <div className="level-right">
@@ -24,7 +22,8 @@ const Repository = ({ repository }: { repository: Repository_repository }) =>
         </Link>
       </div>
     </div>
-  </div>;
+  </div>
+);
 
 export default createFragmentContainer(
   Repository,

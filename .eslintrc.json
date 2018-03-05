@@ -1,5 +1,9 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 8,
     "sourceType": "module",
@@ -12,7 +16,7 @@
     "browser": true,
     "node": true
   },
-  "plugins": ["react"],
+  "plugins": ["react", "jsx-a11y"],
   "globals": {
     "SyntheticEvent": true
   },

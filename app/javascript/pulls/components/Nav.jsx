@@ -37,11 +37,7 @@ class Nav extends React.Component<{}, State> {
     });
 
     return (
-      <nav
-        className="navbar has-shadow"
-        role="navigation"
-        aria-label="main-navigation"
-      >
+      <nav className="navbar has-shadow" aria-label="main-navigation">
         <div className="container">
           <div className="navbar-brand">
             <NavLink to="/" className="navbar-item" title="Cody">
@@ -50,9 +46,12 @@ class Nav extends React.Component<{}, State> {
               <Icon icon="code" size="medium" />
             </NavLink>
             <div
+              role="button"
+              tabIndex={0}
               className={burgerClass}
               data-target="navMenu"
               onClick={this.onClickBurger}
+              onKeyUp={this.onClickBurger}
             >
               <span />
               <span />

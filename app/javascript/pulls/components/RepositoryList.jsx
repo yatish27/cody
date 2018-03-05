@@ -5,7 +5,7 @@ import Repository from "./Repository";
 import { createFragmentContainer, graphql } from "react-relay";
 import type { RepositoryList_viewer } from "./__generated__/RepositoryList_viewer.graphql";
 
-const RepositoryList = ({ viewer }: { viewer: RepositoryList_viewer }) =>
+const RepositoryList = ({ viewer }: { viewer: RepositoryList_viewer }) => (
   <section className="section">
     <div className="container">
       {viewer.repositories != null && viewer.repositories.edges != null
@@ -17,7 +17,8 @@ const RepositoryList = ({ viewer }: { viewer: RepositoryList_viewer }) =>
           })
         : null}
     </div>
-  </section>;
+  </section>
+);
 
 export default createFragmentContainer(
   RepositoryList,

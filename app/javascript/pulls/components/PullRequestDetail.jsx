@@ -17,9 +17,7 @@ const PullRequestDetail = ({
           <h1 className="title code">
             {`${pullRequest.repository}#${pullRequest.number}`}
           </h1>
-          <h2 className="subtitle code">
-            {pullRequest.status}
-          </h2>
+          <h2 className="subtitle code">{pullRequest.status}</h2>
         </div>
         <hr />
         <div>

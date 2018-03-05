@@ -3,8 +3,10 @@ namespace :scheduler do
   task send_new_reviews_summary: [:environment] do
     # don't send summaries on weekends
     unless Time.zone.now.saturday? || Time.zone.now.sunday?
-      logins = Setting.lookup("new_reviews_summary_recipients")
-      User.where(login: logins).find_each do |user|
+      User.joins(:user_preference)
+        .where(user_preferences: { send_new_reviews_summary: true })
+        .find_each do |user|
+
         SummaryMailer.new_reviews(user).deliver_now
       end
     end

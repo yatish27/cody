@@ -18,7 +18,7 @@ const Icon = ({
   size
 }: {
   icon: string,
-  size: ?("small" | "medium" | "large")
+  size?: ?("small" | "medium" | "large")
 }) => (
   <span className={`icon ${sizeModifier(size)}`}>
     <i className={`fas fa-${icon}`} />

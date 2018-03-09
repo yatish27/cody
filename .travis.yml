@@ -14,6 +14,7 @@ before_script:
 script:
   - bin/rspec
   - bin/webpack
+  - bin/yarn test
 env:
   global:
   - CODY_GITHUB_ACCESS_TOKEN=abc123

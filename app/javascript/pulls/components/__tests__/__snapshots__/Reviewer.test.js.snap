@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reviewer snapshot test 1`] = `
+<div
+  className="level"
+>
+  <div
+    className="level-left"
+  >
+    <div
+      className="level-item"
+    />
+    <div
+      className="level-item"
+    >
+      <strong>
+        aergonaut
+      </strong>
+    </div>
+    <div
+      className="level-item"
+    >
+      Foo Review
+    </div>
+  </div>
+</div>
+`;

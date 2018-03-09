@@ -6,7 +6,9 @@
   "author": "Chris Fung <aergonaut@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "relay": "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql"
+    "relay":
+      "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql",
+    "test": "jest"
   },
   "dependencies": {
     "@rails/webpacker": "3.2.0",
@@ -52,16 +54,30 @@
   },
   "devDependencies": {
     "babel-eslint": "8.2.1",
+    "babel-jest": "^22.4.1",
     "babel-plugin-relay": "1.4.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "4.15.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "7.5.1",
     "flow-bin": "0.66.0",
+    "jest": "^22.4.2",
     "prettier-eslint": "8.6.2",
     "react-hot-loader": "^4.0.0",
+    "react-test-renderer": "^16.2.0",
     "relay-compiler": "1.5.0",
     "remark-preset-lint-recommended": "3.0.1",
     "webpack-dev-server": "2.9.7"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/config/webpack/test.js",
+      "<rootDir>/vendor"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/config/setupJest.js"
   }
 }

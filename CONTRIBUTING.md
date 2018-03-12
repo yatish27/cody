@@ -47,9 +47,9 @@ For local development, Cody requires:
 
 * Ruby
 * Bundler
-* Postgres
-* Node
-* Yarn
+* Postgres 9.4+
+* Node v8.4.0+
+* Yarn 1.5.1+
 * Redis
 
 Run `bundle install` to install the gem dependencies, and `bin/yarn install` to
@@ -63,7 +63,7 @@ There are a lot of environment variables that Cody uses for different purposes.
 The following table tries to summarize them all.
 
 | Var                                      | Description                                            |
-|------------------------------------------|--------------------------------------------------------|
+| ---------------------------------------- | ------------------------------------------------------ |
 | `CODY_GITHUB_ACCESS_TOKEN`               | Regular personal access token                          |
 | `CODY_GITHUB_INTEGRATION_IDENTIFIER`     | GitHub App ID                                          |
 | `CODY_GITHUB_INTEGRATION_CLIENT_ID`      | GitHub App OAuth client ID                             |
@@ -85,26 +85,27 @@ from the GitHub Help guide.
 Cody uses a [GitHub App](https://developer.github.com/apps/) to perform OAuth
 authorization of users.
 
-1. [Set up a new GitHub App](https://github.com/settings/apps/new)
-2. For **User authorization callback URL** use
-   `http://localhost:3000/auth/github/callback`, or whatever port you want to
-   use to start the server.
-3. For **Webhook URL** use `http://localhost:3000/webhooks/integration`
-4. For **Webhook secret** generate a secret with `bin/rails secret`. Also place
-   this secret in the `CODY_GITHUB_INTEGRATION_WEBHOOK_SECRET` environment
-   variable.
-5. Generate a private key for your App in the **Private Key** section and
-   download the .pem file. Set one of:
+1.  [Set up a new GitHub App](https://github.com/settings/apps/new)
+2.  For **User authorization callback URL** use
+    `http://localhost:3000/auth/github/callback`, or whatever port you want to
+    use to start the server.
+3.  For **Webhook URL** use `http://localhost:3000/webhooks/integration`
+4.  For **Webhook secret** generate a secret with `bin/rails secret`. Also place
+    this secret in the `CODY_GITHUB_INTEGRATION_WEBHOOK_SECRET` environment
+    variable.
+5.  Generate a private key for your App in the **Private Key** section and
+    download the .pem file. Set one of:
 
-   * `CODY_GITHUB_PRIVATE_KEY` to the contents of the .pem file
-   * or, `CODY_GITHUB_PRIVATE_KEY_PATH` to the path to the .pem file
+    * `CODY_GITHUB_PRIVATE_KEY` to the contents of the .pem file
+    * or, `CODY_GITHUB_PRIVATE_KEY_PATH` to the path to the .pem file
 
-   These two variables are mutually exclusive, and `CODY_GITHUB_PRIVATE_KEY`
-   takes precedence.
-6. Copy the **ID** in the right-hand sidebar into the
-   `CODY_GITHUB_INTEGRATION_IDENTIFIER` environment variable.
-7. Copy the credentials from the **OAuth credentials** section into the
-   corresponding environment variables.
+    These two variables are mutually exclusive, and `CODY_GITHUB_PRIVATE_KEY`
+    takes precedence.
+
+6.  Copy the **ID** in the right-hand sidebar into the
+    `CODY_GITHUB_INTEGRATION_IDENTIFIER` environment variable.
+7.  Copy the credentials from the **OAuth credentials** section into the
+    corresponding environment variables.
 
 ### Running the App
 
@@ -117,19 +118,21 @@ Run `bin/sidekiq` to start the Sidekiq background worker.
 
 ### Submitting Pull Requests
 
-1. Fork the repository
-2. Checkout a new branch
-3. Make your changes
-4. Write tests
-5. Push your branch to your fork
-6. Open a Pull Request
+1.  Fork the repository
+2.  Checkout a new branch
+3.  Make your changes
+4.  Write tests
+5.  Push your branch to your fork
+6.  Open a Pull Request
 
-Pull Requests are checked for style by RuboCop (for Ruby code) and by ESLint
-(for Javascript code). You can find the configuration files for these tools in
-the repository, and you are encouraged to run them locally before submitting to
-fix potential problems beforehand. We generally won't accept code that raises
-any lint warnings.
+For Ruby code, we use [RuboCop](https://rubocop.readthedocs.io/en/latest/integration_with_other_tools/)
+to check style and other details. Please run RuboCop on your code before
+submitting Pull Requests. RuboCop also runs on every PR to report any warnings
+found.
 
-For Javscript code, in addition to ESLint, you are encouraged to use Prettier
-to auto-format your code. This helps keep the style consistent in Javascript
-with minimal friction.
+For Javscript code, in addition to [ESLint](https://eslint.org/docs/user-guide/integrations),
+we also use [Prettier](https://prettier.io/docs/en/editors.html) to format code.
+ESLint runs on Pull Requests to report problems.
+
+We generally will not accept PRs from contributors with any lint problems, so
+please run the linters yourself!

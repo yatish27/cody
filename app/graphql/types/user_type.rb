@@ -13,6 +13,7 @@ Types::UserType = GraphQL::ObjectType.define do
       !!obj.send_new_reviews_summary?
     }
   end
+  field :timezone, types.String
 
   connection :repositories, Types::RepositoryType.connection_type do
     resolve -> (user, args, ctx) {

@@ -2,9 +2,21 @@
 
 import React from "react";
 import { commitMutation, createFragmentContainer, graphql } from "react-relay";
+import moment from "moment-timezone";
 import TextField from "./inputs/TextField";
 import Checkbox from "./inputs/Checkbox";
+import Select from "./inputs/Select";
 import type { Profile_user } from "./__generated__/Profile_user.graphql";
+
+function timezoneOptions() {
+  const zones = moment.tz.names();
+  const now = moment.utc();
+  return zones.map(ident => {
+    const zone = moment.tz.zone(ident);
+    const abbr = zone.abbr(now);
+    return `${zone.name} (${abbr})`;
+  });
+}
 
 const UPDATE_USER_MUTATION = graphql`
   mutation ProfileUpdateUserMutation($input: UpdateUserInput!) {
@@ -24,6 +36,7 @@ type Props = {
 type State = {
   email: string,
   sendNewReviewsSummary: boolean,
+  timezone: string,
   lastResponseSuccess: boolean
 };
 
@@ -34,6 +47,8 @@ class Profile extends React.Component<Props, State> {
     this.state = {
       email: this.props.user.email != null ? this.props.user.email : "",
       sendNewReviewsSummary: this.props.user.sendNewReviewsSummary,
+      timezone:
+        this.props.user.timezone != null ? this.props.user.timezone : "",
       lastResponseSuccess: false
     };
   }
@@ -52,7 +67,8 @@ class Profile extends React.Component<Props, State> {
       variables: {
         input: {
           email: this.state.email,
-          sendNewReviewsSummary: this.state.sendNewReviewsSummary
+          sendNewReviewsSummary: this.state.sendNewReviewsSummary,
+          timezone: this.state.timezone
         }
       },
       onCompleted: () => {
@@ -80,6 +96,14 @@ class Profile extends React.Component<Props, State> {
                   value={this.state.email}
                   handleChange={this.handleChange}
                 />
+                <Select
+                  label="Time Zone"
+                  name="timezone"
+                  options={timezoneOptions()}
+                  selected={this.state.timezone}
+                  hint="Setting your time zone affects when certain digest emails are delivered to you."
+                  handleChange={this.handleChange}
+                />
 
                 <h2 className="title is-4 is-spaced form-section-header">
                   Subscription Preferences
@@ -89,6 +113,7 @@ class Profile extends React.Component<Props, State> {
                   name="sendNewReviewsSummary"
                   checked={this.state.sendNewReviewsSummary}
                   handleChange={this.handleChange}
+                  hint="Delivered at 8 am in your selected time zone."
                 />
 
                 <div className="field">
@@ -118,6 +143,7 @@ export default createFragmentContainer(
       email
       name
       sendNewReviewsSummary
+      timezone
     }
   `
 );

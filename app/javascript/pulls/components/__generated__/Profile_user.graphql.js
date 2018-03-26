@@ -15,6 +15,7 @@ export type Profile_user = {|
   +email: ?string,
   +name: string,
   +sendNewReviewsSummary: boolean,
+  +timezone: ?string,
   +$refType: Profile_user$ref,
 |};
 */
@@ -54,8 +55,15 @@ const node/*: ConcreteFragment*/ = {
       "name": "sendNewReviewsSummary",
       "args": null,
       "storageKey": null
+    },
+    {
+      "kind": "ScalarField",
+      "alias": null,
+      "name": "timezone",
+      "args": null,
+      "storageKey": null
     }
   ]
 };
-(node/*: any*/).hash = 'da51132dcb27f55cc80ce6e284a71457';
+(node/*: any*/).hash = 'c23e22c2393662b9e0f34ab2d3807e42';
 module.exports = node;

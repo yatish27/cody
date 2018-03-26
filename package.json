@@ -6,8 +6,7 @@
   "author": "Chris Fung <aergonaut@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "relay":
-      "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql",
+    "relay": "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql",
     "test": "jest"
   },
   "dependencies": {
@@ -31,6 +30,7 @@
     "file-loader": "1.1.11",
     "glob": "7.1.2",
     "js-yaml": "3.11.0",
+    "moment-timezone": "^0.5.14",
     "node-sass": "4.7.2",
     "path-complete-extname": "0.1.0",
     "postcss-loader": "2.1.1",

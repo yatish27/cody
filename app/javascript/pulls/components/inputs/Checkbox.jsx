@@ -6,12 +6,14 @@ const Checkbox = ({
   label,
   name,
   checked,
-  handleChange
+  handleChange,
+  hint
 }: {
   label: string,
   name: string,
   checked: boolean,
-  handleChange: (event: SyntheticEvent<HTMLInputElement>) => void
+  handleChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+  hint?: ?string
 }) => (
   <div className="field">
     <div className="control">
@@ -26,6 +28,7 @@ const Checkbox = ({
         {label}
       </label>
     </div>
+    {hint != null ? <p className="help">{hint}</p> : null}
   </div>
 );
 

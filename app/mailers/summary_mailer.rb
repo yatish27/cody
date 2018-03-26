@@ -1,4 +1,6 @@
 class SummaryMailer < ApplicationMailer
+  DELIVERY_HOUR = 8
+
   def pending_reviews_summary(user)
     @pending_reviews =
       PullRequest.joins(:reviewers)

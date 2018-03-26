@@ -99,7 +99,7 @@ class Profile extends React.Component<Props, State> {
                 <Select
                   label="Time Zone"
                   name="timezone"
-                  options={timezoneOptions()}
+                  options={moment.tz.names()}
                   selected={this.state.timezone}
                   hint="Setting your time zone affects when certain digest emails are delivered to you."
                   handleChange={this.handleChange}

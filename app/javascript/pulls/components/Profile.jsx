@@ -8,16 +8,6 @@ import Checkbox from "./inputs/Checkbox";
 import Select from "./inputs/Select";
 import type { Profile_user } from "./__generated__/Profile_user.graphql";
 
-function timezoneOptions() {
-  const zones = moment.tz.names();
-  const now = moment.utc();
-  return zones.map(ident => {
-    const zone = moment.tz.zone(ident);
-    const abbr = zone.abbr(now);
-    return `${zone.name} (${abbr})`;
-  });
-}
-
 const UPDATE_USER_MUTATION = graphql`
   mutation ProfileUpdateUserMutation($input: UpdateUserInput!) {
     updateUser(input: $input) {

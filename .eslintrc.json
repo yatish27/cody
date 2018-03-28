@@ -22,6 +22,12 @@
     "SyntheticEvent": true
   },
   "rules": {
-    "semi": "error"
+    "semi": "error",
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": { "every": ["id"] }
+      }
+    ]
   }
 }

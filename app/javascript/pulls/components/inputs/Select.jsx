@@ -19,7 +19,9 @@ const Select = ({
   handleChange: (event: SyntheticEvent<HTMLInputElement>) => void
 }) => (
   <div className="field">
-    <label className="label">{label}</label>
+    <label className="label" htmlFor={name}>
+      {label}
+    </label>
     <div className="control">
       <div className="select">
         <select name={name} value={selected} onChange={handleChange}>

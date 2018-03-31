@@ -101,6 +101,8 @@ group :test do
   gem 'shoulda-matchers'
   gem 'webmock'
   gem 'vcr'
+
+  gem 'codecov', require: false
 end
 
 group :production do

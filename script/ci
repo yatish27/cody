@@ -1,0 +1,16 @@
+#!/bin/bash
+
+case "$SUITE" in
+  rspec)
+    bin/rake db:create db:test:prepare
+    bin/rspec
+    ;;
+  yarn)
+    bin/yarn
+    bin/webpack
+    bin/yarn test
+    ;;
+  *)
+    echo "Please set the SUITE env var"
+    ;;
+esac

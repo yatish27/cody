@@ -11,13 +11,12 @@ before_install:
   - gem install bundler
 before_script:
   - gem update --system
-  - bin/rake db:create db:test:prepare
-  - bin/yarn
 script:
-  - bin/rspec
-  - bin/webpack
-  - bin/yarn test
+  - script/ci
 env:
+  matrix:
+  - SUITE=rspec
+  - SUITE=yarn
   global:
   - CODY_GITHUB_ACCESS_TOKEN=abc123
   - CODY_GITHUB_REPO=aergonaut/testrepo

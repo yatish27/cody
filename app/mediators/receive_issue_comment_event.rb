@@ -1,7 +1,9 @@
 class ReceiveIssueCommentEvent
   include Sidekiq::Worker
   include GithubApi
+  include Skylight::Helpers
 
+  instrument_method
   def perform(payload)
     Current.reset
 
@@ -36,6 +38,7 @@ class ReceiveIssueCommentEvent
     Current.reset
   end
 
+  instrument_method
   def approval_comment
     return unless PullRequest.pending_review.exists?(
       number: @payload["issue"]["number"],
@@ -67,6 +70,7 @@ class ReceiveIssueCommentEvent
     pr.assign_reviewers
   end
 
+  instrument_method
   def rebuild_reviews
     pull_request = github_client.pull_request(
       @payload["repository"]["full_name"],
@@ -132,6 +136,7 @@ class ReceiveIssueCommentEvent
     comment.match?(/^cody\s+r(eplace)?\s+(me).*$/)
   end
 
+  instrument_method
   def replace_reviewer(directives)
     pr = PullRequest.pending_review.find_by(
       number: @payload["issue"]["number"],
@@ -156,6 +161,7 @@ class ReceiveIssueCommentEvent
     pr.assign_reviewers
   end
 
+  instrument_method
   def replace_me
     pr = PullRequest.pending_review.find_by(
       number: @payload["issue"]["number"],

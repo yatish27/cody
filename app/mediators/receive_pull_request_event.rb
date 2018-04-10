@@ -1,6 +1,8 @@
 class ReceivePullRequestEvent
   include Sidekiq::Worker
+  include Skylight::Helpers
 
+  instrument_method
   def perform(payload)
     Current.reset
 
@@ -32,10 +34,12 @@ class ReceivePullRequestEvent
     Current.reset
   end
 
+  instrument_method
   def on_opened
     CreateOrUpdatePullRequest.new.perform(@payload["pull_request"])
   end
 
+  instrument_method
   def on_closed
     number = @payload["number"]
     repository = @payload["repository"]["full_name"]
@@ -53,6 +57,7 @@ class ReceivePullRequestEvent
   #
   # In this case, we preserve the current review status and update the new
   # commit with the correct status indicator.
+  instrument_method
   def on_synchronize
     number = @payload["number"]
     repository = @payload["repository"]["full_name"]

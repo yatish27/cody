@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PullRequest snapshot test 1`] = `
+<div
+  className="level box"
+>
+  <div
+    className="level-left code"
+  >
+    <div
+      className="level-item"
+    >
+      <strong>
+        aergonaut/testrepo#1234
+      </strong>
+    </div>
+    <div
+      className="level-item"
+    >
+      pending_review
+    </div>
+  </div>
+  <div
+    className="level-right"
+  >
+    <div
+      className="level-item"
+    >
+      <a
+        className="button"
+        href="/repos/aergonaut/testrepo/pull/1234"
+        onClick={[Function]}
+      >
+        • • •
+      </a>
+    </div>
+  </div>
+</div>
+`;

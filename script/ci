@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 case "$SUITE" in
   rspec)
@@ -9,6 +10,7 @@ case "$SUITE" in
     bin/yarn
     bin/webpack
     bin/yarn test
+    bin/yarn codecov
     ;;
   *)
     echo "Please set the SUITE env var"

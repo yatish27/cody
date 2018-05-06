@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PullRequestDetail snapshot test 1`] = `
+<section
+  className="section"
+>
+  <div
+    className="container box code"
+  >
+    <div
+      className="pa4 br2 ba b--light-gray mt4 bg-white"
+    >
+      <h1
+        className="title code"
+      >
+        aergonaut/testrepo#1234
+      </h1>
+      <h2
+        className="subtitle code"
+      >
+        pending_review
+      </h2>
+    </div>
+    <hr />
+    <div />
+  </div>
+</section>
+`;

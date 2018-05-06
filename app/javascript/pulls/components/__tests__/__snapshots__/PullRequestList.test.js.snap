@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PullRequestList snapshot test 1`] = `
+<section
+  className="section"
+>
+  <div
+    className="container"
+  />
+</section>
+`;

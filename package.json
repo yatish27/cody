@@ -6,8 +6,7 @@
   "author": "Chris Fung <aergonaut@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "relay":
-      "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql",
+    "relay": "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql",
     "test": "jest"
   },
   "dependencies": {
@@ -58,6 +57,7 @@
     "babel-plugin-relay": "1.4.1",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.0",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "codecov": "^3.0.1",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "4.15.0",
@@ -78,6 +78,8 @@
       "<rootDir>/config/webpack/test.js",
       "<rootDir>/vendor"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/config/setupJest.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/config/setupJest.js",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }

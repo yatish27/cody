@@ -6,4 +6,9 @@ namespace :graphql do
       GraphQL::Schema::Printer.print_schema(CodySchema)
     )
   end
+
+  desc "Run Relay compiler"
+  task relay: :schema do
+    sh "bin/yarn relay"
+  end
 end

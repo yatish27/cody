@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+PullRequest.create! repository: "aergonaut/testrepo", number: 12345, status: "pending_review"
+
+ReviewRuleAlways.create! name: "Second Level Review", short_code: "second_level", reviewer: "123", repository: "aergonaut/testrepo"

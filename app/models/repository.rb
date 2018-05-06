@@ -9,4 +9,8 @@ class Repository
   def pull_requests
     PullRequest.where(repository: "#{owner}/#{name}")
   end
+
+  def review_rules
+    ReviewRule.where(repository: "#{owner}/#{name}")
+  end
 end

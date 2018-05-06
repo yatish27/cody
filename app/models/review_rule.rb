@@ -13,6 +13,15 @@ class ReviewRule < ApplicationRecord
 
   attr_accessor :match_context
 
+  def reviewer_human_name
+    if self.reviewer.match?(/^\d+$/)
+      team = github_client.team(self.reviewer)
+      "#{team.organization.login}/#{team.slug}"
+    else
+      self.reviewer
+    end
+  end
+
   # Apply this rule to the given Pull Request.
   #
   # If the rule was not previously applied and the rule matches the PR, a new

@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get '/repos/:owner/:repo' => 'pulls#index'
   get '/repos/:owner/:repo/pulls' => 'pulls#index'
   get '/repos/:owner/:repo/pull/:number' => 'pulls#index', as: :pull
+  get '/repos/:owner/:repo/rules' => 'pulls#index'
+  get '/repos/:owner/:repo/rules/:code' => 'pulls#index'
 
   get '/profile' => 'pulls#index'
 

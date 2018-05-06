@@ -34,6 +34,8 @@ CodySchema = GraphQL::Schema.define do
       Types::UserType
     when Repository
       Types::RepositoryType
+    when ReviewRule
+      Types::ReviewRuleType
     else
       raise "Unexpected object: #{obj}"
     end

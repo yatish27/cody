@@ -1,17 +1,20 @@
 // @flow
 
 import React from "react";
+import classnames from "classnames";
 
 const TextField = ({
   label,
   name,
   value,
+  readonly,
   handleChange
 }: {
   label: string,
   name: string,
   value: string,
-  handleChange: (event: SyntheticEvent<HTMLInputElement>) => void
+  readonly?: boolean,
+  handleChange?: (event: SyntheticEvent<HTMLInputElement>) => void
 }) => (
   <div className="field">
     <label className="label" htmlFor={name}>
@@ -19,10 +22,14 @@ const TextField = ({
     </label>
     <div className="control">
       <input
-        className="input"
+        className={classnames({
+          input: true,
+          "is-static": readonly
+        })}
         type="text"
         name={name}
         value={value}
+        readOnly={readonly}
         onChange={handleChange}
       />
     </div>

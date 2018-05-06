@@ -5,6 +5,8 @@ import Nav from "./Nav";
 import PullRequestList from "./PullRequestList";
 import PullRequestDetail from "./PullRequestDetail";
 import RepositoryList from "./RepositoryList";
+import ReviewRuleList from "./ReviewRuleList";
+import ReviewRuleDetail from "./ReviewRuleDetail";
 import Profile from "./Profile";
 import makeEnvironment from "../makeEnvironment";
 import { QueryRenderer, graphql } from "react-relay";
@@ -12,6 +14,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { type App_RepoList_QueryResponse } from "./__generated__/App_RepoList_Query.graphql";
 import { type App_List_QueryResponse } from "./__generated__/App_List_Query.graphql";
 import { type App_Detail_QueryResponse } from "./__generated__/App_Detail_Query.graphql";
+import { type App_RepoSettings_QueryResponse } from "./__generated__/App_RepoSettings_Query.graphql";
 import { type App_Profile_QueryResponse } from "./__generated__/App_Profile_Query.graphql";
 
 const csrfToken = document
@@ -168,6 +171,102 @@ const App = () => (
             return (
               <Redirect
                 to={`/repos/${match.params.owner}/${match.params.name}/pulls`}
+              />
+            );
+          }}
+        />
+        <Route
+          exact
+          path="/repos/:owner/:name/rules"
+          render={({ match }) => {
+            return (
+              <QueryRenderer
+                environment={environment}
+                query={graphql`
+                  query App_RepoRules_Query(
+                    $owner: String!
+                    $name: String!
+                    $cursor: String
+                  ) {
+                    viewer {
+                      repository(owner: $owner, name: $name) {
+                        ...ReviewRuleList_repository
+                      }
+                    }
+                  }
+                `}
+                variables={{
+                  ...match.params
+                }}
+                render={({ error, props: queryResponse }) => {
+                  if (error) {
+                    return <div>{error.message}</div>;
+                  } else if (
+                    queryResponse &&
+                    queryResponse.viewer &&
+                    queryResponse.viewer.repository
+                  ) {
+                    return (
+                      <ReviewRuleList
+                        repository={queryResponse.viewer.repository}
+                      />
+                    );
+                  }
+                  return <div className="loader">Loading</div>;
+                }}
+              />
+            );
+          }}
+        />
+        <Route
+          exact
+          path="/repos/:owner/:name/rules/:shortCode"
+          render={({ match }) => {
+            return (
+              <QueryRenderer
+                environment={environment}
+                query={graphql`
+                  query App_RepoSettings_Query(
+                    $owner: String!
+                    $name: String!
+                    $shortCode: String!
+                  ) {
+                    viewer {
+                      repository(owner: $owner, name: $name) {
+                        reviewRule(shortCode: $shortCode) {
+                          ...ReviewRuleDetail_reviewRule
+                        }
+                      }
+                    }
+                  }
+                `}
+                variables={{
+                  owner: match.params.owner,
+                  name: match.params.name,
+                  shortCode: match.params.shortCode
+                }}
+                render={({
+                  error,
+                  props: queryResponse
+                }: {
+                  error: any,
+                  props: App_RepoSettings_QueryResponse
+                }) => {
+                  if (error) {
+                    return <div>{error.message}</div>;
+                  } else if (
+                    queryResponse &&
+                    queryResponse.viewer &&
+                    queryResponse.viewer.repository
+                  ) {
+                    return (
+                      <ReviewRuleDetail
+                        reviewRule={queryResponse.viewer.repository.reviewRule}
+                      />
+                    );
+                  }
+                  return <div className="loader">Loading</div>;
+                }}
               />
             );
           }}

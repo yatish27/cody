@@ -2,7 +2,7 @@
 
 import React from "react";
 import Icon from "./Icon";
-import { NavLink } from "react-router-dom";
+import { NavLink, Route } from "react-router-dom";
 import classNames from "classnames";
 
 type State = {
@@ -61,6 +61,7 @@ class Nav extends React.Component<{}, State> {
           <div id="navMenu" className={menuClass}>
             <div className="navbar-start">
               <NavLink
+                exact
                 to="/repos"
                 className="navbar-item"
                 activeClassName="has-text-info is-active"
@@ -68,6 +69,41 @@ class Nav extends React.Component<{}, State> {
               >
                 Repos
               </NavLink>
+              <Route path="/repos/:owner/:name">
+                {({ match }) => {
+                  if (match) {
+                    return (
+                      <React.Fragment>
+                        <div className="navbar-item">
+                          {`${match.params.owner}/${match.params.name}`}
+                        </div>
+                        <NavLink
+                          to={`/repos/${match.params.owner}/${
+                            match.params.name
+                          }/pulls`}
+                          className="navbar-item"
+                          activeClassName="has-text-info is-active"
+                          title="Pulls"
+                        >
+                          Pulls
+                        </NavLink>
+                        <NavLink
+                          to={`/repos/${match.params.owner}/${
+                            match.params.name
+                          }/rules`}
+                          className="navbar-item"
+                          activeClassName="has-text-info is-active"
+                          title="Rules"
+                        >
+                          Rules
+                        </NavLink>
+                      </React.Fragment>
+                    );
+                  } else {
+                    return null;
+                  }
+                }}
+              </Route>
             </div>
             <div className="navbar-end">
               <NavLink

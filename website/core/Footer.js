@@ -1,4 +1,4 @@
-const React = require('react');
+const React = require("react");
 
 class Footer extends React.Component {
   render() {
@@ -16,18 +16,10 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Docs</h5>
-            <a
-              href={
-                this.props.config.baseUrl +
-                'docs/commands.html'
-              }>
+            <a href={this.props.config.baseUrl + "docs/commands.html"}>
               Commands
             </a>
-            <a
-              href={
-                this.props.config.baseUrl +
-                'docs/rules.html'
-              }>
+            <a href={this.props.config.baseUrl + "docs/rules.html"}>
               Review Rules
             </a>
           </div>
@@ -35,18 +27,18 @@ class Footer extends React.Component {
             <h5>Community</h5>
             <a
               href={
-                this.props.config.baseUrl + this.props.language + '/users.html'
-              }>
+                this.props.config.baseUrl + this.props.language + "/users.html"
+              }
+            >
               User Showcase
             </a>
-            <a href="https://gitter.im/aergonaut/cody">Chat on Gitter</a>
             <a href="https://twitter.com/aergonaut" target="_blank">
               Twitter
             </a>
           </div>
           <div>
             <h5>More</h5>
-            <a href={this.props.config.baseUrl + 'blog'}>Blog</a>
+            <a href={this.props.config.baseUrl + "blog"}>Blog</a>
             <a href="https://github.com/">GitHub</a>
             <a
               className="github-button"
@@ -55,15 +47,14 @@ class Footer extends React.Component {
               data-count-href="/aergonaut/cody/stargazers"
               data-show-count={true}
               data-count-aria-label="# stargazers on GitHub"
-              aria-label="Star this project on GitHub">
+              aria-label="Star this project on GitHub"
+            >
               Star
             </a>
           </div>
         </section>
 
-        <section className="copyright">
-          {this.props.config.copyright}
-        </section>
+        <section className="copyright">{this.props.config.copyright}</section>
       </footer>
     );
   }

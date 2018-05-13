@@ -26,3 +26,29 @@ ol li {
 .container .gridBlock .blockContent p {
   margin-bottom: 1rem;
 }
+
+.userShowcase {
+  margin: 2rem 0;
+  background: #eee;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+
+.userShowcase .userLogo {
+  background: #fff;
+  padding: 1rem;
+}
+
+hr {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.small {
+  font-size: 0.8rem;
+}

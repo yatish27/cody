@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://github.com/aergonaut/cody/cody/blog</id>
+    <id>https://github.com/aergonaut/cody/blog</id>
     <title>Cody Blog</title>
     <updated>2017-12-17T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
-    <link rel="alternate" href="https://github.com/aergonaut/cody/cody/blog"/>
+    <link rel="alternate" href="https://github.com/aergonaut/cody/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Cody news and events.</subtitle>
-    <logo>https://github.com/aergonaut/cody/cody/img/code.png</logo>
+    <logo>https://github.com/aergonaut/cody/img/code.png</logo>
     <rights>Copyright © 2018 Chris Fung</rights>
     <entry>
         <title type="html"><![CDATA[Launching the New Cody Documentation Site]]></title>
-        <id>https://github.com/aergonaut/cody/cody/blog/2017/12/17/new-documentation-site.html</id>
-        <link href="https://github.com/aergonaut/cody/cody/blog/2017/12/17/new-documentation-site.html">
+        <id>https://github.com/aergonaut/cody/blog/2017/12/17/new-documentation-site.html</id>
+        <link href="https://github.com/aergonaut/cody/blog/2017/12/17/new-documentation-site.html">
         </link>
         <updated>2017-12-17T06:00:00Z</updated>
         <summary type="html"><![CDATA[<p>Today I'm happy to introduce the new documentation site for Cody!</p>

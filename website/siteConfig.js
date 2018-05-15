@@ -2,7 +2,7 @@
 const users = [
   {
     caption: "Coupa",
-    image: "/cody/img/users/coupa.png",
+    image: "/img/users/coupa.png",
     infoLink: "https://www.coupa.com",
     pinned: true
   }
@@ -12,7 +12,8 @@ const siteConfig = {
   title: "Cody" /* title for your website */,
   tagline: "Your friendly neighborhood code review bot",
   url: "https://github.com/aergonaut/cody" /* your website url */,
-  baseUrl: "/cody/" /* base url for your project */,
+  baseUrl: "/" /* base url for your project */,
+  cname: "docs.codybot.xyz",
   projectName: "cody",
   organizationName: "aergonaut",
   headerLinks: [

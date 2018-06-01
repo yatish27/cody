@@ -10,16 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180504200643) do
+ActiveRecord::Schema.define(version: 20180529054252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "installations", force: :cascade do |t|
-    t.string "installation_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "pull_requests", id: :serial, force: :cascade do |t|
     t.string "status"
@@ -30,7 +24,15 @@ ActiveRecord::Schema.define(version: 20180504200643) do
     t.string "completed_reviews"
     t.string "repository"
     t.integer "parent_pull_request_id"
+    t.bigint "repository_id"
     t.index ["parent_pull_request_id"], name: "index_pull_requests_on_parent_pull_request_id"
+    t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
+  end
+
+  create_table "repositories", force: :cascade do |t|
+    t.string "name"
+    t.string "owner"
+    t.index ["name", "owner"], name: "index_repositories_on_name_and_owner", unique: true
   end
 
   create_table "review_rules", id: :serial, force: :cascade do |t|
@@ -42,6 +44,8 @@ ActiveRecord::Schema.define(version: 20180504200643) do
     t.datetime "updated_at", null: false
     t.string "repository"
     t.string "short_code"
+    t.bigint "repository_id"
+    t.index ["repository_id"], name: "index_review_rules_on_repository_id"
   end
 
   create_table "reviewers", force: :cascade do |t|
@@ -59,7 +63,9 @@ ActiveRecord::Schema.define(version: 20180504200643) do
   create_table "settings", id: :serial, force: :cascade do |t|
     t.string "key"
     t.string "value"
+    t.bigint "repository_id"
     t.index ["key", "value"], name: "index_settings_on_key_and_value", unique: true
+    t.index ["repository_id"], name: "index_settings_on_repository_id"
   end
 
   create_table "user_preferences", force: :cascade do |t|
@@ -89,5 +95,8 @@ ActiveRecord::Schema.define(version: 20180504200643) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "pull_requests", "repositories"
+  add_foreign_key "review_rules", "repositories"
+  add_foreign_key "settings", "repositories"
   add_foreign_key "user_preferences", "users"
 end

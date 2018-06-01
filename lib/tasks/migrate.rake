@@ -1,5 +1,21 @@
 # rubocop:disable Metrics/BlockLength
 namespace :data do
+  desc "Migrate repositories from string columns to table"
+  task migrate_repositories: :environment do
+    repos_cache = {}
+
+    PullRequest.distinct.pluck(:repository).each do |nwo|
+      owner, name = nwo.split("/", 2)
+      repo = Repository.find_or_create_by!(owner: owner, name: name)
+      repos_cache[nwo] = repo
+    end
+
+    repos_cache.each do |nwo, repo|
+      PullRequest.where(repository: nwo).update(repository_id: repo.id)
+      ReviewRule.where(repository: nwo).update(repository_id: repo.id)
+    end
+  end
+
   desc "Migrate serialized reviewers to Reviewer model"
   task migrate_to_reviewer_model: :environment do
     if ENV["TESTING"]

@@ -7,6 +7,8 @@ class Reviewer < ApplicationRecord
 
   before_validation :default_status
 
+  after_commit :send_review_requested_notification, if: -> { saved_change_to_login? }
+
   scope :from_rule, -> { where.not(review_rule_id: nil) }
   scope :pending_review, -> { where(status: STATUS_PENDING_APPROVAL) }
   scope :completed_review, -> { where(status: STATUS_APPROVED) }
@@ -42,6 +44,10 @@ class Reviewer < ApplicationRecord
   def approve!
     self.status = STATUS_APPROVED
     save!
+  end
+
+  def send_review_requested_notification
+    Notifier.perform_async("review_requested_mailer", reviewer_id: self.id)
   end
 
   private

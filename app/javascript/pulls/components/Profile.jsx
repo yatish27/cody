@@ -24,6 +24,7 @@ type Props = {
 type State = {
   email: string,
   sendNewReviewsSummary: boolean,
+  sendReviewRequestedNotifications: boolean,
   lastResponseSuccess: boolean
 };
 
@@ -34,6 +35,8 @@ class Profile extends React.Component<Props, State> {
     this.state = {
       email: this.props.user.email != null ? this.props.user.email : "",
       sendNewReviewsSummary: this.props.user.sendNewReviewsSummary,
+      sendReviewRequestedNotifications: this.props.user
+        .sendReviewRequestedNotifications,
       lastResponseSuccess: false
     };
   }
@@ -52,7 +55,9 @@ class Profile extends React.Component<Props, State> {
       variables: {
         input: {
           email: this.state.email,
-          sendNewReviewsSummary: this.state.sendNewReviewsSummary
+          sendNewReviewsSummary: this.state.sendNewReviewsSummary,
+          sendReviewRequestedNotifications: this.state
+            .sendReviewRequestedNotifications
         }
       },
       onCompleted: () => {
@@ -90,6 +95,12 @@ class Profile extends React.Component<Props, State> {
                   checked={this.state.sendNewReviewsSummary}
                   handleChange={this.handleChange}
                 />
+                <Checkbox
+                  label="Send review requested notifications"
+                  name="sendReviewRequestedNotifications"
+                  checked={this.state.sendReviewRequestedNotifications}
+                  handleChange={this.handleChange}
+                />
 
                 <div className="field">
                   <div className="control">
@@ -118,6 +129,7 @@ export default createFragmentContainer(
       email
       name
       sendNewReviewsSummary
+      sendReviewRequestedNotifications
     }
   `
 );

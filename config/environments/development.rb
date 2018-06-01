@@ -61,3 +61,7 @@ Rails.application.configure do
 end
 
 Dotenv.load
+
+# Activate inline adapter for Sidekiq so we don't need to have Redis running
+require "sidekiq/testing"
+Sidekiq::Testing.inline!

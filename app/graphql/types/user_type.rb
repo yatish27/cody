@@ -13,6 +13,11 @@ Types::UserType = GraphQL::ObjectType.define do
       !!obj.send_new_reviews_summary?
     }
   end
+  field :sendReviewRequestedNotifications, !types.Boolean do
+    resolve -> (obj, args, ctx) {
+      !!obj.send_review_requested_notification?
+    }
+  end
 
   connection :repositories, Types::RepositoryType.connection_type do
     resolve -> (user, args, ctx) {

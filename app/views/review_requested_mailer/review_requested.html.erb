@@ -1,0 +1,13 @@
+<p style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;">
+  You were assigned a code review:
+</p>
+
+<p style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;">
+  <strong>
+    <%= link_to pull_request_url(@reviewer.pull_request) do %>
+      <%= @reviewer.pull_request.repository %>#<%= @reviewer.pull_request.number %>
+    <% end %>
+  </strong>
+</p>
+
+<%= render partial: "shared_mailers/footer" %>

@@ -7,6 +7,8 @@ class User < ApplicationRecord
   USER_PREFERENCES = %i[
     send_new_reviews_summary
     send_new_reviews_summary?
+    send_review_requested_notification
+    send_review_requested_notification?
   ].freeze
 
   # rubocop:disable Lint/AmbiguousOperator

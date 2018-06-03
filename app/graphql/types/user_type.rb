@@ -16,7 +16,7 @@ Types::UserType = GraphQL::ObjectType.define do
 
   connection :repositories, Types::RepositoryType.connection_type do
     resolve -> (user, args, ctx) {
-      Pundit.policy_scope(user, Repository)
+      Pundit.policy_scope(user, SimpleRepository)
     }
   end
 
@@ -26,7 +26,7 @@ Types::UserType = GraphQL::ObjectType.define do
     argument :owner, !types.String
     argument :name, !types.String
     resolve -> (user, args, ctx) {
-      Pundit.policy_scope(user, Repository)
+      Pundit.policy_scope(user, SimpleRepository)
         .find do |repo|
           repo.owner == args[:owner] &&
             repo.name == args[:name]

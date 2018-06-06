@@ -14,6 +14,14 @@ RSpec.describe ReceivePullRequestEvent do
     "- [ ] @aergonaut\n- [ ] @BrentW\n"
   end
 
+  let(:min_reviewers) { 0 }
+
+  before do
+    repo_mock = instance_double(Repository)
+    allow(repo_mock).to receive(:read_setting).with("minimum_reviewers_required").and_return(min_reviewers)
+    allow(Repository).to receive(:find_by_full_name).and_return(repo_mock)
+  end
+
   describe "#perform" do
     before do
       stub_request(:post, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/statuses/[0-9abcdef]{40}))
@@ -33,8 +41,8 @@ RSpec.describe ReceivePullRequestEvent do
         let(:min_reviewers) { 2 }
 
         before do
-          allow(Setting).to receive(:lookup).and_call_original
-          expect(Setting).to receive(:lookup).with("minimum_reviewers_required").and_return(min_reviewers).at_least(:once)
+          # allow(Setting).to receive(:lookup).and_call_original
+          # expect(Setting).to receive(:lookup).with("minimum_reviewers_required").and_return(min_reviewers).at_least(:once)
         end
 
         context "and the PR does not have enough" do
@@ -60,30 +68,6 @@ RSpec.describe ReceivePullRequestEvent do
             job.perform(payload)
             expect(WebMock).to have_requested(:post, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/statuses/[0-9abcdef]{40})).
               with { |req| JSON.load(req.body)["state"] == "failure" }
-          end
-        end
-      end
-
-      context "when super reviewers are required" do
-        before do
-          allow(Setting).to receive(:lookup).and_call_original
-          expect(Setting).to receive(:lookup).with("minimum_super_reviewers").and_return(1).at_least(:once)
-          expect(Setting).to receive(:lookup).with("super_reviewers").and_return(%w(aergonaut BrentW)).at_least(:once)
-        end
-
-        context "and there aren't enough super reviewers" do
-          let(:body) do
-            "- [ ] @mrpasquini\n- [ ] @metakube"
-          end
-
-          it "puts the failure status on the commit" do
-            job.perform(payload)
-            expect(WebMock).to have_requested(:post, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/statuses/[0-9abcdef]{40})).
-              with { |req| JSON.load(req.body)["state"] == "failure" }
-          end
-
-          it "does not make a new PullRequest record" do
-            expect { job.perform(payload) }.to_not change { PullRequest.count }
           end
         end
       end

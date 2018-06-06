@@ -1,3 +1,3 @@
 class Current < ActiveSupport::CurrentAttributes
-  attribute :user, :installation_id
+  attribute :user, :installation_id, :repository
 end

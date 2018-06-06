@@ -12,6 +12,11 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
     let(:repo_full_name) { payload["base"]["repo"]["full_name"] }
     let(:head_sha) { payload["head"]["sha"] }
 
+    before do
+      owner, name = repo_full_name.split("/", 2)
+      FactoryBot.create :repository, owner: owner, name: name
+    end
+
     context "linking to a parent PR" do
       let(:body) do
         "Reviewed in #1234"

@@ -2,6 +2,10 @@ class Setting < ApplicationRecord
   validates :key, presence: true, uniqueness: true
   validates :value, presence: true
 
+  def read
+    Transit::Reader.new(:json, StringIO.new(self.value)).read
+  end
+
   class << self
     def lookup(key)
       return nil unless exists?(key: key)

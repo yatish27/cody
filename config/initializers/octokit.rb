@@ -1,5 +1,7 @@
 stack = Faraday::RackBuilder.new do |builder|
-  builder.response :logger, Rails.logger
+  builder.response :logger, Rails.logger do |logger|
+    logger.filter(/(Authorization:\s*).*$/, '\1[REDACTED]')
+  end
   builder.use Octokit::Middleware::FollowRedirects
   builder.use Octokit::Response::RaiseError
   builder.use Octokit::Response::FeedParser

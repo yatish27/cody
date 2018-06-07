@@ -1,17 +1,15 @@
 class WebhooksController < ApplicationController
   protect_from_forgery with: :null_session
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   def pull_request
     body = JSON.parse(request.body.read)
 
-    if body["action"] == "opened" || body["action"] == "synchronize" || body["action"] == "closed"
+    if %w(opened synchronize closed).include?(body["action"])
       ReceivePullRequestEvent.perform_async(body)
     end
 
     head :accepted
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def issue_comment
     body = JSON.parse(request.body.read)
@@ -44,6 +42,10 @@ class WebhooksController < ApplicationController
     when "issue_comment"
       issue_comment
       return
+    when "installation"
+      ReceiveInstallationRepositoriesEvent.perform_async(body["repositories"])
+    when "installation_repositories"
+      ReceiveInstallationRepositoriesEvent.perform_async(body["repositories_added"])
     end
 
     head :accepted

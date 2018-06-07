@@ -1,0 +1,94 @@
+{
+  "installation": {
+    "id": 1,
+    "account": {
+      "login": "test-org",
+      "id": 1,
+      "node_id": "M",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/test-org",
+      "html_url": "https://github.com/test-org",
+      "followers_url": "https://api.github.com/users/test-org/followers",
+      "following_url":
+        "https://api.github.com/users/test-org/following{/other_user}",
+      "gists_url": "https://api.github.com/users/test-org/gists{/gist_id}",
+      "starred_url":
+        "https://api.github.com/users/test-org/starred{/owner}{/repo}",
+      "subscriptions_url":
+        "https://api.github.com/users/test-org/subscriptions",
+      "organizations_url": "https://api.github.com/users/test-org/orgs",
+      "repos_url": "https://api.github.com/users/test-org/repos",
+      "events_url": "https://api.github.com/users/test-org/events{/privacy}",
+      "received_events_url":
+        "https://api.github.com/users/test-org/received_events",
+      "type": "Organization",
+      "site_admin": false
+    },
+    "repository_selection": "selected",
+    "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
+    "repositories_url": "https://api.github.com/installation/repositories",
+    "html_url":
+      "https://github.com/organizations/test-org/settings/installations/1",
+    "app_id": 2,
+    "target_id": 3,
+    "target_type": "Organization",
+    "permissions": {
+      "issues": "write",
+      "statuses": "write",
+      "pull_requests": "write",
+      "contents": "read",
+      "metadata": "read",
+      "members": "read"
+    },
+    "events": ["issue_comment", "pull_request", "pull_request_review"],
+    "created_at": 1517858972,
+    "updated_at": 1525666529,
+    "single_file_name": null
+  },
+  "repository_selection": "selected",
+  "repositories_added": [
+    {
+      "id": 1,
+      "name": "test-base",
+      "full_name": "test-org/test-base",
+      "private": true
+    },
+    {
+      "id": 1,
+      "name": "test-app",
+      "full_name": "test-org/test-app",
+      "private": true
+    },
+    {
+      "id": 2,
+      "name": "test-db",
+      "full_name": "test-org/test-db",
+      "private": true
+    }
+  ],
+  "repositories_removed": [],
+  "sender": {
+    "login": "testcooke",
+    "id": 8,
+    "node_id": "M",
+    "avatar_url": "https://avatars0.githubusercontent.com/u/8?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/testcooke",
+    "html_url": "https://github.com/testcooke",
+    "followers_url": "https://api.github.com/users/testcooke/followers",
+    "following_url":
+      "https://api.github.com/users/testcooke/following{/other_user}",
+    "gists_url": "https://api.github.com/users/testcooke/gists{/gist_id}",
+    "starred_url":
+      "https://api.github.com/users/testcooke/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/testcooke/subscriptions",
+    "organizations_url": "https://api.github.com/users/testcooke/orgs",
+    "repos_url": "https://api.github.com/users/testcooke/repos",
+    "events_url": "https://api.github.com/users/testcooke/events{/privacy}",
+    "received_events_url":
+      "https://api.github.com/users/testcooke/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+}

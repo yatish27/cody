@@ -15,6 +15,7 @@ class CreateOrUpdatePullRequest
       number: pull_request["number"],
       repository: pull_request["base"]["repo"]["full_name"]
     )
+    pr.repository_id = repository.id
 
     github = github_client
 

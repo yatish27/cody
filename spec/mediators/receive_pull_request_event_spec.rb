@@ -16,10 +16,11 @@ RSpec.describe ReceivePullRequestEvent do
 
   let(:min_reviewers) { 0 }
 
+  let(:repo) { FactoryBot.create :repository }
+
   before do
-    repo_mock = instance_double(Repository)
-    allow(repo_mock).to receive(:read_setting).with("minimum_reviewers_required").and_return(min_reviewers)
-    allow(Repository).to receive(:find_by_full_name).and_return(repo_mock)
+    allow(repo).to receive(:read_setting).with("minimum_reviewers_required").and_return(min_reviewers)
+    allow(Repository).to receive(:find_by_full_name).and_return(repo)
   end
 
   describe "#perform" do

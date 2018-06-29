@@ -5,7 +5,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :viewer do
     type Types::UserType
     description "The currently authenticated user"
-    resolve -> (obj, args, ctx) {
+    resolve ->(obj, args, ctx) {
       Current.user
     }
   end

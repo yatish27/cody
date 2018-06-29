@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe ReceiveIssueCommentEvent do
@@ -6,11 +8,7 @@ RSpec.describe ReceiveIssueCommentEvent do
   let(:reviewer) { "aergonaut" }
 
   let(:payload) do
-    from_fixture = json_fixture("issue_comment")
-    from_fixture["issue"]["number"] = pr.number
-    from_fixture["sender"]["login"] = sender
-    from_fixture["comment"]["body"] = comment
-    from_fixture
+    json_fixture("issue_comment", number: pr.number, sender: sender, body: comment, name: pr.repository.name, owner: pr.repository.owner)
   end
 
   let(:job) { ReceiveIssueCommentEvent.new }
@@ -19,9 +17,9 @@ RSpec.describe ReceiveIssueCommentEvent do
 
   describe "#perform" do
     before do
-      stub_request(:post, %r(https?://api.github.com/repos/\w+/\w+/statuses/[0-9abcdef]{40}))
-      stub_request(:get, %r(https?://api.github.com/repos/\w+/\w+/pulls/\d+)).to_return(
-        body: pr_response_body,
+      stub_request(:post, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/statuses/[0-9abcdef]{40}))
+      stub_request(:get, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/\d+)).to_return(
+        body: JSON.dump(pr_response_body),
         status: 200,
         headers: { "Content-Type" => "application/json" }
       )
@@ -35,7 +33,7 @@ RSpec.describe ReceiveIssueCommentEvent do
     context "when submitting an approval" do
       let(:comment) { "lgtm" }
 
-      let(:pr_response_body) { File.open(Rails.root.join("spec", "fixtures", "pr.json")) }
+      let(:pr_response_body) { json_fixture("pr") }
 
       context "when the commenter is a reviewer" do
         context "and they approve" do
@@ -47,7 +45,7 @@ RSpec.describe ReceiveIssueCommentEvent do
 
           context "and they are the last approver" do
             it "updates the status on GitHub" do
-              expect(WebMock).to have_requested(:post, %r(https?://api.github.com/repos/\w+/\w+/statuses/[0-9abcdef]{40}))
+              expect(WebMock).to have_requested(:post, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/statuses/[0-9abcdef]{40}))
             end
 
             it "marks the PR as approved" do
@@ -75,7 +73,7 @@ RSpec.describe ReceiveIssueCommentEvent do
     let(:rule) { FactoryBot.create :review_rule, short_code: "foo", reviewer: acceptable_reviewer }
 
     before do
-      stub_request(:get, %r(https?://api.github.com/repos/\w+/\w+/pulls/\d+)).to_return(
+      stub_request(:get, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/\d+)).to_return(
         body: JSON.dump(json_fixture("pr")),
         status: 200,
         headers: { "Content-Type" => "application/json" }
@@ -103,25 +101,25 @@ RSpec.describe ReceiveIssueCommentEvent do
         expect { job.perform(payload) }.to_not change { foo_reviewer.reload.login }
       end
     end
-    
+
     context "when the reviewer is specified with an @ sign" do
       let(:comment) { "cody replace foo=@BrentW" }
       let(:acceptable_reviewer) { "BrentW" }
-      
+
       it "replaces aergonaut with BrentW" do
         foo_reviewer = pr.reviewers.find_by(review_rule_id: rule.id)
         expect { job.perform(payload) }.to change { foo_reviewer.reload.login }.from("aergonaut").to("BrentW")
       end
     end
   end
-  
+
   describe "#comment_replace_me" do
     let(:comment) { "cody replace me!" }
 
     let(:rule) { FactoryBot.create :review_rule, short_code: "foo", reviewer: acceptable_reviewer }
 
     before do
-      stub_request(:get, %r(https?://api.github.com/repos/\w+/\w+/pulls/\d+)).to_return(
+      stub_request(:get, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/\d+)).to_return(
         body: JSON.dump(json_fixture("pr")),
         status: 200,
         headers: { "Content-Type" => "application/json" }

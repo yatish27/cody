@@ -9,14 +9,14 @@ Types::UserType = GraphQL::ObjectType.define do
   field :email, types.String
   field :name, !types.String
   field :sendNewReviewsSummary, !types.Boolean do
-    resolve -> (obj, args, ctx) {
+    resolve ->(obj, args, ctx) {
       !!obj.send_new_reviews_summary?
     }
   end
 
   connection :repositories, Types::RepositoryType.connection_type do
-    resolve -> (user, args, ctx) {
-      Pundit.policy_scope(user, SimpleRepository)
+    resolve ->(user, args, ctx) {
+      Pundit.policy_scope(user, Repository)
     }
   end
 
@@ -25,12 +25,9 @@ Types::UserType = GraphQL::ObjectType.define do
     description "Find a given repository by the owner and name"
     argument :owner, !types.String
     argument :name, !types.String
-    resolve -> (user, args, ctx) {
-      Pundit.policy_scope(user, SimpleRepository)
-        .find do |repo|
-          repo.owner == args[:owner] &&
-            repo.name == args[:name]
-        end
+    resolve ->(user, args, ctx) {
+      Pundit.policy_scope(user, Repository)
+        .find_by(owner: args[:owner], name: args[:name])
     }
   end
 end

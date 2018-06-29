@@ -1,18 +1,15 @@
 class PullRequest < ApplicationRecord
   validates :number, numericality: true, presence: true
   validates :status, presence: true
-  validates :repository, presence: true
 
   serialize :pending_reviews, JSON
   serialize :completed_reviews, JSON
 
-  after_initialize :default_pending_and_completed_reviews
-
-  before_save :remove_duplicate_reviewers
   after_save :update_child_pull_requests, if: -> { saved_change_to_status? }
 
   scope :pending_review, -> { where(status: "pending_review") }
 
+  belongs_to :repository, required: true
   belongs_to :parent_pull_request, required: false, class_name: "PullRequest"
   has_many :reviewers
 
@@ -38,24 +35,35 @@ class PullRequest < ApplicationRecord
 
   include GithubApi
 
+  def owner
+    self.repository.owner
+  end
+
+  def repo
+    self.repository.name
+  end
+
   # List authors of commits in this pull request
   #
   # Returns the Array listing of all commit authors
   def commit_authors
     return [] unless repository
 
-    commits = github_client.pull_request_commits(repository, number)
+    commits = github_client.pull_request_commits(
+      self.repository.full_name,
+      number
+    )
 
-    commits.map do |commit|
+    commits.map { |commit|
       if author = commit[:author]
         author[:login]
       end
-    end.compact
+    }.compact
   end
 
   def assign_reviewers
     github_client.update_issue(
-      self.repository,
+      self.repository.full_name,
       self.number,
       assignees: self.pending_review_logins
     )
@@ -63,7 +71,7 @@ class PullRequest < ApplicationRecord
 
   def update_status(message = nil)
     github_client.create_status(
-      self.repository,
+      self.repository.full_name,
       self.head_sha,
       commit_status,
       commit_status_details(message)
@@ -71,7 +79,10 @@ class PullRequest < ApplicationRecord
   end
 
   def resource
-    @resource ||= github_client.pull_request(self.repository, self.number)
+    @resource ||= github_client.pull_request(
+      self.repository.full_name,
+      self.number
+    )
   end
 
   def head_sha
@@ -98,14 +109,6 @@ class PullRequest < ApplicationRecord
     reviewers.pending_review.map(&:login)
   end
 
-  def owner
-    self.repository.split("/", 2)[0]
-  end
-
-  def repo
-    self.repository.split("/", 2)[1]
-  end
-
   def target_url
     Rails.application.routes.url_helpers.pull_url(
       repo: self.repo,
@@ -117,10 +120,10 @@ class PullRequest < ApplicationRecord
   end
 
   def update_body
-    addendum = <<~EOF
+    addendum = <<~ADDENDUM
       ## Generated Reviewers
 
-    EOF
+    ADDENDUM
 
     generated_reviewers.each do |reviewer|
       addendum << reviewer.addendum
@@ -134,7 +137,7 @@ class PullRequest < ApplicationRecord
     new_body = prelude.rstrip + "\n\n" + addendum
 
     github_client.update_pull_request(
-      self.repository,
+      self.repository.full_name,
       self.number,
       body: new_body
     )
@@ -147,7 +150,7 @@ class PullRequest < ApplicationRecord
     labels = labels.uniq
 
     github_client.add_labels_to_an_issue(
-      self.repository,
+      self.repository.full_name,
       self.number,
       labels
     )
@@ -193,20 +196,5 @@ class PullRequest < ApplicationRecord
         target_url: self.target_url
       }
     end
-  end
-
-  def default_pending_and_completed_reviews
-    if self.pending_reviews.nil?
-      self.pending_reviews = []
-    end
-
-    if self.completed_reviews.nil?
-      self.completed_reviews = []
-    end
-  end
-
-  def remove_duplicate_reviewers
-    reviewers = self.pending_reviews.uniq
-    self.pending_reviews = reviewers
   end
 end

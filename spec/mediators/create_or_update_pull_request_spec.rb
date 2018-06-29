@@ -2,20 +2,10 @@ require 'rails_helper'
 
 RSpec.describe CreateOrUpdatePullRequest, type: :model do
   describe "#perform" do
-    let(:payload) do
-      from_fixture = json_fixture("pull_request")
-      from_fixture["action"] = "opened"
-      from_fixture["pull_request"]["body"] = body
-      from_fixture["pull_request"]["number"] = 9876
-      from_fixture["pull_request"]
-    end
+    let(:payload) { json_fixture("pull_request", body: body, number: 9876)["pull_request"] }
     let(:repo_full_name) { payload["base"]["repo"]["full_name"] }
     let(:head_sha) { payload["head"]["sha"] }
-
-    before do
-      owner, name = repo_full_name.split("/", 2)
-      FactoryBot.create :repository, owner: owner, name: name
-    end
+    let!(:repo) { FactoryBot.create :repository, owner: repo_full_name.split("/", 2)[0], name: repo_full_name.split("/", 2)[1] }
 
     context "linking to a parent PR" do
       let(:body) do
@@ -25,17 +15,14 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
       let!(:parent_pr) { FactoryBot.create :pull_request, status: "pending_review", number: 1234 }
 
       before do
-        pr_9876 = json_fixture("pr")
-        pr_9876["number"] = 9876
-        pr_9876["head"]["sha"] = head_sha
+        pr_9876 = json_fixture("pr", number: 9876, head_sha: head_sha)
         stub_request(:get, %r{https://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/9876}).to_return(
           status: 200,
           headers: { 'Content-Type' => 'application/json' },
           body: pr_9876.to_json
         )
 
-        pr_1234 = json_fixture("pr")
-        pr_1234["number"] = 1234
+        pr_1234 = json_fixture("pr", number: 1234)
         stub_request(:get, %r{https://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/1234}).to_return(
           status: 200,
           headers: { 'Content-Type' => 'application/json' },
@@ -63,28 +50,28 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
     end
 
     context "synchronizing the peer review list" do
-      let!(:pull_request) { FactoryBot.create :pull_request, number: 9876 }
+      let!(:pull_request) { FactoryBot.create :pull_request, number: 9876, repository: repo }
       let!(:gen_reviewers) { FactoryBot.create_list :reviewer, 2, pull_request: pull_request}
-      let!(:reviewers) { FactoryBot.create_list :reviewer, 3, review_rule: nil, pull_request: pull_request }
+
+      let(:r1_name) { SecureRandom.hex }
+      let!(:r1) { FactoryBot.create :reviewer, login: r1_name, review_rule: nil, pull_request: pull_request }
+
+      let(:r2_name) { SecureRandom.hex }
+      let!(:r2) { FactoryBot.create :reviewer, login: r2_name, review_rule: nil, pull_request: pull_request }
+
+      let!(:r3) { FactoryBot.create :reviewer, review_rule: nil, pull_request: pull_request }
 
       let!(:body) do
-        <<~BODY
-          - [ ] @#{reviewers[0].login}
-          - [ ] @#{reviewers[2].login}
-        BODY
+        "- [ ] @#{r1_name}\\n- [ ] @#{r2_name}"
       end
 
       before do
-        pull_request.update!(repository: repo_full_name)
-
         allow(ApplyReviewRules).to receive(:new).and_return(double(perform: true))
 
         stub_request(:get, %r{https://api.github.com/repos/baxterthehacker/public-repo/collaborators/.*})
           .to_return(status: 204, body: "", headers: {})
 
-        pr_9876 = json_fixture("pr")
-        pr_9876["number"] = 9876
-        pr_9876["head"]["sha"] = head_sha
+        pr_9876 = json_fixture("pr", number: 9876, head_sha: head_sha)
         stub_request(:get, "https://api.github.com/repos/baxterthehacker/public-repo/pulls/9876").to_return(
           status: 200,
           body: pr_9876.to_json,
@@ -100,8 +87,8 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
       it "removes peer reviewers who were deleted manually but leaves generated reviewers" do
         CreateOrUpdatePullRequest.new.perform(payload)
         expected_reviewers = [
-          reviewers[0].login,
-          reviewers[2].login,
+          r1_name,
+          r2_name,
           *gen_reviewers.map(&:login)
         ]
         expect(pull_request.reviewers.map(&:login)).to contain_exactly(*expected_reviewers)

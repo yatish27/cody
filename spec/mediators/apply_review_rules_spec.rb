@@ -7,30 +7,33 @@ RSpec.describe ApplyReviewRules do
     fixture
   end
 
-  let(:job) { ApplyReviewRules.new(pr, pull_request_hash) }
+  let!(:job) { ApplyReviewRules.new(pr, pull_request_hash) }
 
-  let(:pr) { FactoryBot.create :pull_request, number: "42" }
+  let!(:pr) { FactoryBot.create :pull_request, number: "42" }
 
-  let(:rules) { FactoryBot.create_list :review_rule, 2 }
+  let!(:repo) { FactoryBot.create :repository }
+
+  let!(:rules) { FactoryBot.create_list :review_rule, 2, repository: repo }
 
   before do
     rules.each do |rule|
       expect(rule).to receive(:apply).and_return(true)
     end
 
-    expect(ReviewRule).to receive(:for_repository).and_return(rules)
+    expect(repo).to receive(:review_rules).and_return(rules)
+    expect(Repository).to receive(:find_by_full_name).and_return(repo)
 
     expect(pr).to receive(:generated_reviewers).and_return(reviewers).at_least(:once)
 
-    stub_request(:get, "https://api.github.com/repos/aergonaut/testrepo/pulls/42").
+    stub_request(:get, "https://api.github.com/repos/#{pr.repository.owner}/#{pr.repository.name}/pulls/42").
       to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: JSON.dump(pull_request_hash))
 
     # stub request to update PR body
-    stub_request(:patch, "https://api.github.com/repos/aergonaut/testrepo/pulls/42").
+    stub_request(:patch, "https://api.github.com/repos/#{pr.repository.owner}/#{pr.repository.name}/pulls/42").
       to_return(status: 200, body: "", headers: {})
 
     # stub request to update PR labels
-    stub_request(:post, "https://api.github.com/repos/aergonaut/testrepo/issues/42/labels").
+    stub_request(:post, "https://api.github.com/repos/#{pr.repository.owner}/#{pr.repository.name}/issues/42/labels").
       to_return(status: 200, body: "", headers: {})
   end
 
@@ -51,7 +54,7 @@ ADDENDUM
 
       expect(WebMock).to have_requested(
         :patch,
-        "https://api.github.com/repos/aergonaut/testrepo/pulls/42"
+        "https://api.github.com/repos/#{pr.repository.owner}/#{pr.repository.name}/pulls/42"
       ).with(
         body: hash_including({
           body: pull_request_hash["body"].rstrip + "\n\n" + expected_addendum
@@ -68,7 +71,7 @@ ADDENDUM
 
       expect(WebMock).to_not have_requested(
         :patch,
-        "https://api.github.com/repos/aergonaut/testrepo/pulls/42"
+        "https://api.github.com/repos/#{pr.repository.owner}/#{pr.repository.name}/pulls/42"
       )
     end
   end

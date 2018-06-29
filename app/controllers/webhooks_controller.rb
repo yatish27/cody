@@ -45,7 +45,8 @@ class WebhooksController < ApplicationController
     when "installation"
       ReceiveInstallationRepositoriesEvent.perform_async(body["repositories"])
     when "installation_repositories"
-      ReceiveInstallationRepositoriesEvent.perform_async(body["repositories_added"])
+      ReceiveInstallationRepositoriesEvent
+        .perform_async(body["repositories_added"])
     end
 
     head :accepted

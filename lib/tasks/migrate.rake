@@ -54,19 +54,19 @@ namespace :data do
         prelude.scan(PullRequest::REVIEWER_CHECKBOX_REGEX)
           .each do |check_mark, reviewer_login|
 
-          status =
-            if check_mark == "x"
-              Reviewer::STATUS_APPROVED
-            else
-              Reviewer::STATUS_PENDING_APPROVAL
-            end
+            status =
+              if check_mark == "x"
+                Reviewer::STATUS_APPROVED
+              else
+                Reviewer::STATUS_PENDING_APPROVAL
+              end
 
-          pull_request.reviewers.find_or_create_by!(
-            login: reviewer_login,
-            review_rule_id: nil,
-            status: status
-          )
-        end
+            pull_request.reviewers.find_or_create_by!(
+              login: reviewer_login,
+              review_rule_id: nil,
+              status: status
+            )
+          end
 
         next unless addendum.present?
 
@@ -88,13 +88,13 @@ namespace :data do
           next unless part =~ PullRequest::REVIEWER_CHECKBOX_REGEX
 
           status =
-            if $1 == "x"
+            if Regexp.last_match(1) == "x"
               Reviewer::STATUS_APPROVED
             else
               Reviewer::STATUS_PENDING_APPROVAL
             end
 
-          reviewer_login = $2
+          reviewer_login = Regexp.last_match(2)
 
           pull_request.reviewers.create!(
             login: reviewer_login,

@@ -7,8 +7,8 @@ namespace :scheduler do
         .where(user_preferences: { send_new_reviews_summary: true })
         .find_each do |user|
 
-        SummaryMailer.new_reviews(user).deliver_now
-      end
+          SummaryMailer.new_reviews(user).deliver_now
+        end
     end
   end
 end

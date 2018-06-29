@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class ReceiveIssueCommentEvent
   include Sidekiq::Worker
   include GithubApi
@@ -40,14 +42,8 @@ class ReceiveIssueCommentEvent
 
   instrument_method
   def approval_comment
-    return unless PullRequest.pending_review.exists?(
-      number: @payload["issue"]["number"],
-      repository: @payload["repository"]["full_name"]
-    )
-    pr = PullRequest.pending_review.find_by(
-      number: @payload["issue"]["number"],
-      repository: @payload["repository"]["full_name"]
-    )
+    pr = find_pull_request(@payload)
+    return unless pr
 
     # Do not process approval comments on child PRs
     return if pr.parent_pull_request.present?
@@ -138,11 +134,8 @@ class ReceiveIssueCommentEvent
 
   instrument_method
   def replace_reviewer(directives)
-    pr = PullRequest.pending_review.find_by(
-      number: @payload["issue"]["number"],
-      repository: @payload["repository"]["full_name"]
-    )
-    return false unless pr.present?
+    pr = find_pull_request(@payload)
+    return false unless pr
 
     directives.scan(/([A-Za-z0-9_-]+)=@?([A-Za-z0-9_-]+)/).each do |code, login|
       reviewer = pr.generated_reviewers
@@ -163,11 +156,8 @@ class ReceiveIssueCommentEvent
 
   instrument_method
   def replace_me
-    pr = PullRequest.pending_review.find_by(
-      number: @payload["issue"]["number"],
-      repository: @payload["repository"]["full_name"]
-    )
-    return false unless pr.present?
+    pr = find_pull_request(@payload)
+    return false unless pr
 
     commenter = @payload["sender"]["login"]
 
@@ -186,5 +176,17 @@ class ReceiveIssueCommentEvent
     pr.reload
     pr.update_body
     pr.assign_reviewers
+  end
+
+  private
+
+  def find_pull_request(payload)
+    PullRequest.joins(:repository).pending_review.find_by(
+      number: payload["issue"]["number"],
+      repositories: {
+        owner: payload["repository"]["owner"]["login"],
+        name: payload["repository"]["name"]
+      }
+    )
   end
 end

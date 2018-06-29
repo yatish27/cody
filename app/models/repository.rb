@@ -13,4 +13,8 @@ class Repository < ApplicationRecord
   def read_setting(key)
     self.settings.find_by(key: key)&.read
   end
+
+  def full_name
+    "#{self.owner}/#{self.name}"
+  end
 end

@@ -1,3 +1,10 @@
+<%
+  name ||= "testrepo"
+  owner ||= "aergonaut"
+  number ||= 7
+  sender ||= "aergonaut"
+  body ||= ""
+%>
 {
   "action": "created",
   "issue": {
@@ -7,7 +14,7 @@
     "events_url": "https://api.github.com/repos/aergonaut/testrepo/issues/7/events",
     "html_url": "https://github.com/aergonaut/testrepo/pull/7",
     "id": 123016859,
-    "number": 7,
+    "number": <%= number %>,
     "title": "Update README.md",
     "user": {
       "login": "aergonaut",
@@ -73,14 +80,14 @@
     },
     "created_at": "2015-12-18T20:02:28Z",
     "updated_at": "2015-12-18T20:02:28Z",
-    "body": "lgtm"
+    "body": "<%= body %>"
   },
   "repository": {
     "id": 44569423,
-    "name": "testrepo",
+    "name": "<%= name %>",
     "full_name": "aergonaut/testrepo",
     "owner": {
-      "login": "aergonaut",
+      "login": "<%= owner %>",
       "id": 284007,
       "avatar_url": "https://avatars.githubusercontent.com/u/284007?v=3",
       "gravatar_id": "",
@@ -163,7 +170,7 @@
     "default_branch": "master"
   },
   "sender": {
-    "login": "aergonaut",
+    "login": "<%= sender %>",
     "id": 284007,
     "avatar_url": "https://avatars.githubusercontent.com/u/284007?v=3",
     "gravatar_id": "",

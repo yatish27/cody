@@ -6,12 +6,16 @@ Types::PullRequestType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :number, !types.String
-  field :repository, !types.String
+  field :repository, !types.String do
+    resolve ->(obj, args, ctx) {
+      obj.repository.full_name
+    }
+  end
   field :status, !types.String
 
   connection :reviewers, Types::ReviewerType.connection_type do
     argument :status, types.String
-    resolve -> (pull_request, args, ctx) {
+    resolve ->(pull_request, args, ctx) {
       case args[:status]
       when Reviewer::STATUS_PENDING_APPROVAL
         pull_request.reviewers.pending_review

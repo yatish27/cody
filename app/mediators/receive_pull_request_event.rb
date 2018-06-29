@@ -42,8 +42,9 @@ class ReceivePullRequestEvent
   instrument_method
   def on_closed
     number = @payload["number"]
-    repository = @payload["repository"]["full_name"]
-    if (pr = PullRequest.find_by(number: number, repository: repository))
+    repository =
+      Repository.find_by_full_name(@payload["repository"]["full_name"])
+    if (pr = repository.pull_requests.find_by(number: number))
       if pr.status == "pending_review"
         pr.status = PullRequest::STATUS_CLOSED
         pr.save!
@@ -60,9 +61,9 @@ class ReceivePullRequestEvent
   instrument_method
   def on_synchronize
     number = @payload["number"]
-    repository = @payload["repository"]["full_name"]
-
-    if pr = PullRequest.find_by(number: number, repository: repository)
+    repository =
+      Repository.find_by_full_name(@payload["repository"]["full_name"])
+    if (pr = repository.pull_requests.find_by(number: number))
       pr.update_status
     else
       CreateOrUpdatePullRequest.new.perform(@payload["pull_request"])

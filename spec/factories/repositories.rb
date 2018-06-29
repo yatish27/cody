@@ -1,3 +1,6 @@
 FactoryBot.define do
-  factory :repository
+  factory :repository do
+    owner "baxterthehacker"
+    sequence(:name) { |x| "public-repo#{x}" }
+  end
 end

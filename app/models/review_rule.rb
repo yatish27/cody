@@ -1,13 +1,10 @@
 class ReviewRule < ApplicationRecord
   GENERATED_REVIEWERS_REGEX = /^\s*#*\s*Generated\s*Reviewers\s*$/
 
+  belongs_to :repository, required: true
+
   validates :name, presence: true
   validates :reviewer, presence: true
-  validates :repository, presence: true
-
-  scope :for_repository, -> (repo) {
-    where(repository: repo)
-  }
 
   include GithubApi
 
@@ -107,7 +104,7 @@ class ReviewRule < ApplicationRecord
         all_possible_reviewers
       end
 
-    reviewer_to_add = filtered_reviewers.shuffle.detect do |r|
+    reviewer_to_add = filtered_reviewers.shuffle.find do |r|
       !pull_request.pending_review_logins.include?(r)
     end
 
@@ -120,7 +117,7 @@ class ReviewRule < ApplicationRecord
       #    2. Any potential reviewer that is not a current reviewer
       #    3. Any potential reviewer
       new_reviewers = all_possible_reviewers - filtered_reviewers
-      reviewer_to_add = new_reviewers.shuffle.detect do |r|
+      reviewer_to_add = new_reviewers.shuffle.find do |r|
         !pull_request.pending_review_logins.include?(r)
       end
 
@@ -131,9 +128,10 @@ class ReviewRule < ApplicationRecord
   end
 
   def self.apply(pr, pull_request_hash)
-    rules = ReviewRule.for_repository(
+    repo = Repository.find_by_full_name(
       pull_request_hash["base"]["repo"]["full_name"]
     )
+    rules = repo.review_rules
     return if rules.empty?
 
     rules.each do |rule|

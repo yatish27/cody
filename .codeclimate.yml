@@ -6,7 +6,8 @@ engines:
       csrf_not_protected_by_raising_exception:
         enabled: false
   rubocop:
-    enabled: false
+    enabled: true
+    channel: rubocop-0-54
   bundler-audit:
     enabled: true
   csslint:

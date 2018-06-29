@@ -1,17 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe ReceivePullRequestEvent do
-  let(:payload) do
-    from_fixture = json_fixture("pull_request")
-    from_fixture["action"] = action
-    from_fixture["pull_request"]["body"] = body
-    from_fixture
-  end
+  let(:payload) { json_fixture("pull_request", action: action, body: body) }
 
   let(:job) { ReceivePullRequestEvent.new }
 
   let(:body) do
-    "- [ ] @aergonaut\n- [ ] @BrentW\n"
+    '- [ ] @aergonaut\n- [ ] @BrentW\n'
   end
 
   let(:min_reviewers) { 0 }
@@ -30,7 +25,7 @@ RSpec.describe ReceivePullRequestEvent do
       stub_request(:get, %r{https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/\d+}).to_return(
         status: 200,
         headers: { 'Content-Type' => 'application/json' },
-        body: File.open(Rails.root.join("spec", "fixtures", "pr.json"))
+        body: JSON.dump(json_fixture("pr"))
       )
       stub_request(:get, %r{https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/collaborators/[A-Za-z0-9_-]+}).to_return(status: 204)
     end
@@ -40,11 +35,6 @@ RSpec.describe ReceivePullRequestEvent do
 
       context "when a minimum number of reviewers is required" do
         let(:min_reviewers) { 2 }
-
-        before do
-          # allow(Setting).to receive(:lookup).and_call_original
-          # expect(Setting).to receive(:lookup).with("minimum_reviewers_required").and_return(min_reviewers).at_least(:once)
-        end
 
         context "and the PR does not have enough" do
           let(:min_reviewers) { 3 }
@@ -62,7 +52,7 @@ RSpec.describe ReceivePullRequestEvent do
 
         context "and there aren't enough unique reviewers" do
           let(:body) do
-            "- [ ] @BrentW\n- [ ] @BrentW\n"
+            '- [ ] @BrentW\n- [ ] @BrentW\n'
           end
 
           it "puts the failure status on the commit" do
@@ -86,7 +76,7 @@ RSpec.describe ReceivePullRequestEvent do
 
         context "when some reviewers have already approved" do
           let(:body) do
-            "- [ ] @aergonaut\n- [x] @BrentW\n"
+            '- [ ] @aergonaut\n- [x] @BrentW\n'
           end
 
           it "creates Reviewers appropriately for each reviewer" do
@@ -98,7 +88,7 @@ RSpec.describe ReceivePullRequestEvent do
 
         context "when all of the reviewers have already approved" do
           let(:body) do
-            "- [x] @aergonaut\n- [x] @BrentW\n"
+            '- [x] @aergonaut\n- [x] @BrentW\n'
           end
 
           it "marks the status as approved" do
@@ -118,7 +108,8 @@ RSpec.describe ReceivePullRequestEvent do
       let(:action) { "synchronize" }
 
       context "and we have recorded the PR" do
-        let!(:pr) { FactoryBot.create :pull_request, number: payload["number"], repository: payload['repository']['full_name'], status: status }
+        let(:repo) { FactoryBot.create :repository, name: payload['repository']['name'], owner: payload['repository']['owner']['login'] }
+        let!(:pr) { FactoryBot.create :pull_request, number: payload["number"], repository: repo, status: status }
 
         before do
           job.perform(payload)

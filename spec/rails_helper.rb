@@ -9,6 +9,8 @@ require 'rspec/rails'
 require 'sidekiq/testing'
 require 'webmock/rspec'
 
+WebMock.disable_net_connect!(allow_localhost: true)
+
 Dotenv.load
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -62,6 +64,10 @@ end
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
+
+  config.before(:each, type: :system) do
+    driven_by :selenium_chrome_headless
+  end
 end
 
 Shoulda::Matchers.configure do |config|

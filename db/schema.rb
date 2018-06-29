@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180529054252) do
+ActiveRecord::Schema.define(version: 20180629180734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 20180529054252) do
     t.datetime "updated_at", null: false
     t.string "pending_reviews"
     t.string "completed_reviews"
-    t.string "repository"
     t.integer "parent_pull_request_id"
     t.bigint "repository_id"
     t.index ["parent_pull_request_id"], name: "index_pull_requests_on_parent_pull_request_id"
@@ -42,7 +41,6 @@ ActiveRecord::Schema.define(version: 20180529054252) do
     t.string "reviewer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "repository"
     t.string "short_code"
     t.bigint "repository_id"
     t.index ["repository_id"], name: "index_review_rules_on_repository_id"

@@ -14,12 +14,12 @@ class Reviewer < ApplicationRecord
   has_paper_trail
 
   def addendum
-    <<~EOF
+    <<~ADDENDUM
       ### #{self.name_with_code}
 
       - [#{self.status_to_check}] @#{self.login}
       #{self.context}
-    EOF
+    ADDENDUM
   end
 
   def status_to_check

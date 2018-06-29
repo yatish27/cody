@@ -103,6 +103,9 @@ group :test do
   gem 'vcr'
 
   gem 'codecov', require: false
+
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 group :production do

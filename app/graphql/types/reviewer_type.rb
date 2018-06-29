@@ -11,7 +11,7 @@ Types::ReviewerType = GraphQL::ObjectType.define do
   field :reviewRule do
     type Types::ReviewRuleType
     description "The Review Rule that added this Reviewer"
-    resolve -> (reviewer, args, ctx) {
+    resolve ->(reviewer, args, ctx) {
       reviewer.review_rule
     }
   end
@@ -32,7 +32,7 @@ Types::ReviewerType = GraphQL::ObjectType.define do
 
   field :versions do
     type types[VersionType]
-    resolve -> (reviewer, args, ctx) {
+    resolve ->(reviewer, args, ctx) {
       reviewer.versions.map(&:changeset)
     }
   end

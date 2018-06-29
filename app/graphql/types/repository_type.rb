@@ -11,7 +11,7 @@ Types::RepositoryType = GraphQL::ObjectType.define do
   connection :pullRequests, Types::PullRequestType.connection_type do
     description "This repository's Pull Requests"
     argument :status, types.String
-    resolve -> (repository, args, ctx) {
+    resolve ->(repository, args, ctx) {
       # status = args[:status] || "pending_review"
       repository.pull_requests.order("created_at DESC")
     }
@@ -21,7 +21,7 @@ Types::RepositoryType = GraphQL::ObjectType.define do
     type Types::PullRequestType
     argument :number, !types.String
     description "Find a PullRequest by number"
-    resolve -> (repository, args, ctx) {
+    resolve ->(repository, args, ctx) {
       repository.pull_requests.find_by(number: args[:number])
     }
   end
@@ -29,7 +29,7 @@ Types::RepositoryType = GraphQL::ObjectType.define do
   connection :reviewRules do
     type Types::ReviewRuleType.connection_type
     description "This repository's review rules"
-    resolve -> (repository, args, ctx) {
+    resolve ->(repository, args, ctx) {
       repository.review_rules
     }
   end
@@ -38,7 +38,7 @@ Types::RepositoryType = GraphQL::ObjectType.define do
     type Types::ReviewRuleType
     argument :shortCode, !types.String
     description "Find a Review Rule by code"
-    resolve -> (repository, args, ctx) {
+    resolve ->(repository, args, ctx) {
       repository.review_rules.find_by(short_code: args[:shortCode])
     }
   end

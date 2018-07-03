@@ -11,7 +11,7 @@
       <li style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px;">
         <strong>
           <%= link_to pull_request_url(review.pull_request) do %>
-            <%= review.pull_request.repository %>#<%= review.pull_request.number %>
+            <%= review.pull_request.repository.full_name %>#<%= review.pull_request.number %>
           <% end %>
         </strong>
       </li>

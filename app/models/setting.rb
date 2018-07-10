@@ -1,9 +1,17 @@
 class Setting < ApplicationRecord
+  belongs_to :repository
+
   validates :key, presence: true, uniqueness: true
   validates :value, presence: true
 
   def read
     Transit::Reader.new(:json, StringIO.new(self.value)).read
+  end
+
+  def set(value)
+    io = StringIO.new("", "w+")
+    Transit::Writer.new(:json, io).write(value)
+    self.value = io.string
   end
 
   class << self

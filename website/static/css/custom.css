@@ -52,3 +52,25 @@ hr {
 .small {
   font-size: 0.8rem;
 }
+
+.mainContainer .wrapper .post .postHeader h1,
+.mainContainer .wrapper .post h2,
+.mainContainer .wrapper .post h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+.mainContainer .wrapper .post .postHeader h1 {
+  font-size: 32px;
+}
+
+.mainContainer .wrapper .post h2 {
+  font-size: 24px;
+}
+
+.mainContainer .wrapper .post h3 {
+  font-size: 20px;
+  margin-top: 1.5em;
+}

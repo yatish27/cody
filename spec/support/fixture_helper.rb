@@ -1,7 +1,7 @@
 require "json"
 require "erb"
 
-module JsonFixture
+module FixtureHelper
   # Parse a JSON fixture, optionally evaluating ERB if the `.erb` extension is
   # used.
   #
@@ -18,8 +18,18 @@ module JsonFixture
       end
     JSON.load(contents)
   end
+
+  # Reads an ERB fixture and returns the result
+  #
+  # @param path [String] the name of the fixture file without .erb extension
+  # @param locals [Hash] a Hash of local variables
+  # @return [String] the result of evaluating the ERB
+  def erb_fixture(path, locals = {})
+    erb = File.open(Rails.root.join("spec", "fixtures", "#{path}.erb")).read
+    ERB.new(erb).result_with_hash(locals)
+  end
 end
 
 RSpec.configure do |config|
-  config.include JsonFixture
+  config.include FixtureHelper
 end

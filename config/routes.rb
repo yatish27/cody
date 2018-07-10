@@ -23,6 +23,9 @@ Rails.application.routes.draw do
 
   resource :session, only: %i(new create destroy)
 
+  get '/config/schema' => 'config#schema'
+  post '/config/validate' => 'config#validate'
+
   get '/auth/:provider/callback' => 'sessions#create'
 
   root 'pulls#index'

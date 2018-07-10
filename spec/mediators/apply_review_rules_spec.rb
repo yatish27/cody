@@ -16,11 +16,6 @@ RSpec.describe ApplyReviewRules do
   let!(:rules) { FactoryBot.create_list :review_rule, 2, repository: repo }
 
   before do
-    rules.each do |rule|
-      expect(rule).to receive(:apply).and_return(true)
-    end
-
-    expect(repo).to receive(:review_rules).and_return(rules)
     expect(Repository).to receive(:find_by_full_name).and_return(repo)
 
     expect(pr).to receive(:generated_reviewers).and_return(reviewers).at_least(:once)

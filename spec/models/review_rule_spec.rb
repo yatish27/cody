@@ -10,18 +10,17 @@ RSpec.describe ReviewRule, type: :model do
   describe "#possible_reviewers" do
     context "when reviewer is a team ID" do
       let(:reviewer) { "1234" }
+      let(:expected_team_members) { %w(aergonaut BrentW farrspace deepthisunder yatish27 h4hardikonly mityaz mpukas nazarik vovka torumori offtop) }
 
       before do
         stub_request(:get, %r{https?://api.github.com/teams/1234/members}).to_return(
           status: 200,
           headers: { 'Content-Type' => 'application/json' },
-          body: File.open(Rails.root.join("spec", "fixtures", "team_members.json"))
+          body: JSON.dump(json_fixture("team_members", members: expected_team_members))
         )
       end
 
       it "returns the list of team member logins" do
-        expected_team_members = %w(aergonaut BrentW farrspace deepthisunder
-          yatish27 h4hardikonly mityaz mpukas nazarik vovka torumori offtop)
         expect(rule.possible_reviewers).to contain_exactly(*expected_team_members)
       end
     end

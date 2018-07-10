@@ -3,3 +3,5 @@ coverage:
     project:
       default:
         target: 85
+    patch:
+      only_pulls: true

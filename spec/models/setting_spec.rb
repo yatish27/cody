@@ -31,4 +31,20 @@ RSpec.describe Setting, type: :model do
       expect(Setting.lookup("not_a_real_key")).to be_nil
     end
   end
+
+  describe "#read" do
+    subject { FactoryBot.build(:setting, value: "foo").read }
+
+    it { is_expected.to eq("foo") }
+  end
+
+  describe "#set" do
+    let(:setting) { FactoryBot.build(:setting, value: "old") }
+
+    subject { setting.set("new") }
+
+    it "changes the value" do
+      expect { subject }.to change { setting.read }.from("old").to("new")
+    end
+  end
 end

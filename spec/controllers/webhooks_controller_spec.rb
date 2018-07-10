@@ -91,5 +91,15 @@ RSpec.describe WebhooksController, type: :controller do
         post :integration, body: JSON.dump(payload)
       end
     end
+
+    context "when the event is push" do
+      before do
+        request.headers["X-GitHub-Event"] = "push"
+      end
+
+      it "creats a ReceivePushEvent job" do
+        expect { post :integration, body: '{"repository": {"full_name": "foobar"}}' }.to change(ReceivePushEvent.jobs, :size).by(1)
+      end
+    end
   end
 end

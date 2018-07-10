@@ -115,3 +115,7 @@ end
 gem 'graphiql-rails', group: :development
 
 gem 'tzinfo-data'
+
+gem 'json-schema'
+
+gem 'sidekiq-unique-jobs'

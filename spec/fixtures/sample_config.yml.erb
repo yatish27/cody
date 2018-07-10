@@ -1,0 +1,33 @@
+minimum_reviewers_required: 2
+
+rules:
+  - name: Second Level Review
+    short_code: second_level
+    reviewer: testorg/second-level
+    match: true
+
+  - name: Migrations Review
+    short_code: migrations
+    reviewer: testorg/migrations-reviewers
+    match:
+      path:
+        - db/migrate
+        - db/schema\.rb
+
+  - name: Individual Review
+    short_code: octocat
+    reviewer: octocat
+    match:
+      diff:
+        - octocat
+
+  - name: <%= existing_rule.name %>Altered
+    short_code: <%= existing_rule.short_code %>
+    reviewer: testorg/existing-rule
+    match: true
+
+  - name: <%= deactivated_rule.name %>
+    short_code: <%= deactivated_rule.short_code %>
+    reviewer: testorg/deactivated-rule
+    match: true
+    active: false

@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :review_rule do
     sequence(:name) { |x| "Review Rule #{x}" }
+    sequence(:short_code) { |x| "review_rule_#{x}" }
     reviewer "octocat"
     repository
 

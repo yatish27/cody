@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180629180734) do
+ActiveRecord::Schema.define(version: 20180709222702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20180629180734) do
   create_table "repositories", force: :cascade do |t|
     t.string "name"
     t.string "owner"
+    t.string "config_hash"
     t.index ["name", "owner"], name: "index_repositories_on_name_and_owner", unique: true
   end
 
@@ -43,7 +44,9 @@ ActiveRecord::Schema.define(version: 20180629180734) do
     t.datetime "updated_at", null: false
     t.string "short_code"
     t.bigint "repository_id"
+    t.boolean "active", default: true
     t.index ["repository_id"], name: "index_review_rules_on_repository_id"
+    t.index ["short_code", "repository_id"], name: "index_review_rules_on_short_code_and_repository_id", unique: true
   end
 
   create_table "reviewers", force: :cascade do |t|

@@ -1,5 +1,6 @@
 {
   "docs": {
-    "Usage": ["commands", "rules", "errors"]
+    "Usage": ["commands", "rules", "errors"],
+    "Config": ["config", "rule_config"]
   }
 }

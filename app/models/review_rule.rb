@@ -5,6 +5,9 @@ class ReviewRule < ApplicationRecord
 
   validates :name, presence: true
   validates :reviewer, presence: true
+  validates :short_code, presence: true, uniqueness: { scope: :repository_id }
+
+  scope :active, -> { where(active: true) }
 
   include GithubApi
 
@@ -131,7 +134,7 @@ class ReviewRule < ApplicationRecord
     repo = Repository.find_by_full_name(
       pull_request_hash["base"]["repo"]["full_name"]
     )
-    rules = repo.review_rules
+    rules = repo.review_rules.active
     return if rules.empty?
 
     rules.each do |rule|

@@ -5,12 +5,15 @@
     "previous": "Previous",
     "tagline": "Your friendly neighborhood code review bot",
     "commands": "Commands",
+    "config": "Config YAML",
     "errors": "Errors",
+    "rule_config": "Rule Config",
     "rules": "Review Rules",
     "Docs": "Docs",
     "Blog": "Blog",
     "GitHub": "GitHub",
-    "Usage": "Usage"
+    "Usage": "Usage",
+    "Config": "Config"
   },
   "pages-strings": {
     "Help Translate|recruit community translators for your project": "Help Translate",

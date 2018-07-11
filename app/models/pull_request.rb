@@ -94,7 +94,11 @@ class PullRequest < ApplicationRecord
   end
 
   def link_by_number(number)
-    parent_pr = PullRequest.find_by(number: number)
+    parent_pr = PullRequest.find_by(
+      number: number,
+      repository_id: self.repository_id
+    )
+    # binding.pry
     return unless parent_pr
     self.parent_pull_request = parent_pr
     self.status = self.parent_pull_request.status

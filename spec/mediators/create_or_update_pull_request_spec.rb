@@ -12,7 +12,7 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
         "Reviewed in #1234"
       end
 
-      let!(:parent_pr) { FactoryBot.create :pull_request, status: "pending_review", number: 1234 }
+      let!(:parent_pr) { FactoryBot.create :pull_request, status: "pending_review", number: 1234, repository: repo }
 
       before do
         pr_9876 = json_fixture("pr", number: 9876, head_sha: head_sha)

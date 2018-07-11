@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Rule Config · Cody</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Rule Config · Cody"/><meta property="og:type" content="website"/><meta property="og:url" content="https://github.com/aergonaut/cody/index.html"/><meta property="og:description" content="Review rule configurations are nested under the `rules` key which is an array of"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/code-black.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://github.com/aergonaut/cody/blog/atom.xml" title="Cody Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://github.com/aergonaut/cody/blog/feed.xml" title="Cody Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/code.png" alt="Cody"/><h2 class="headerTitleWithLogo">Cody</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/commands.html" target="_self">Docs</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/aergonaut/cody" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Config</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Usage</h3><ul><li class="navListItem"><a class="navItem" href="/docs/commands.html">Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/rules.html">Review Rules</a></li><li class="navListItem"><a class="navItem" href="/docs/errors.html">Errors</a></li></ul></div><div class="navGroup navGroupActive"><h3>Config</h3><ul><li class="navListItem"><a class="navItem" href="/docs/config.html">Config YAML</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/rule_config.html">Rule Config</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1>Rule Config</h1></header><article><div><span><p>Review rule configurations are nested under the <code>rules</code> key which is an array of
+rule objects.</p>
+<h2><a class="anchor" aria-hidden="true" id="rule-options"></a><a href="#rule-options" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rule options</h2>
+<h3><a class="anchor" aria-hidden="true" id="name"></a><a href="#name" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>name</code></h3>
+<table>
+<thead>
+<tr><th>Type</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td>String</td><td>Yes</td></tr>
+</tbody>
+</table>
+<p>The review rule's name. This is shown to users in the Pull Request and in the
+Cody UI.</p>
+<h3><a class="anchor" aria-hidden="true" id="short-code"></a><a href="#short-code" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>short_code</code></h3>
+<table>
+<thead>
+<tr><th>Type</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td>String</td><td>Yes</td></tr>
+</tbody>
+</table>
+<p>The review rule's short code. This code is used to identify the rule in commands
+and is shown in the Pull Request. It should contain only alphanumeric
+characters, dashes, and underscores.</p>
+<p>Short codes must be unique within a repository, because they are used to
+identify separate rules in config. If more than one rule object specifies a
+particular short code, the last rule object will overwrite all previous objects
+with this short code.</p>
+<h3><a class="anchor" aria-hidden="true" id="active"></a><a href="#active" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>active</code></h3>
+<table>
+<thead>
+<tr><th>Type</th><th>Default</th></tr>
+</thead>
+<tbody>
+<tr><td>Boolean</td><td>True</td></tr>
+</tbody>
+</table>
+<p>Specify <code>active: false</code> in order to deactivate a rule. Deactivating a rule
+prevents it from triggering on any future Pull Requests. Rules cannot be deleted
+as they may have been used on previous Pull Requests.</p>
+<blockquote>
+<p>Note: Deleting a rule from your config YAML will also lead to the rule being
+deactivated. The difference is that by specifying <code>active: false</code> you can
+preserve the rule's configuration for future reference.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="reviewer"></a><a href="#reviewer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>reviewer</code></h3>
+<table>
+<thead>
+<tr><th>Type</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td>String</td><td>Yes</td></tr>
+</tbody>
+</table>
+<p>Either a GitHub username or the organization and slug of a GitHub Team. Teams
+should be written as <code>organization/slug</code>.</p>
+<p>If a GitHub user, that user will be assigned as a reviewer whenever the review
+rule matches a Pull Request.</p>
+<p>If a Team, a user will be randomly chosen from the Team's members and assigned
+as a reviewer.</p>
+<h3><a class="anchor" aria-hidden="true" id="match"></a><a href="#match" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>match</code></h3>
+<table>
+<thead>
+<tr><th>Type</th><th>Required</th></tr>
+</thead>
+<tbody>
+<tr><td>Array</td><td>Yes</td></tr>
+</tbody>
+</table>
+<p>The <code>match</code> key specifies the match config for the review rule. This currently
+has two possible keys:</p>
+<ul>
+<li><code>path</code>: a list of regular expressions that are tested against the paths of
+files changed in the PR</li>
+<li><code>diff</code>: a list of regular expressions that are tested against the combined
+diff of the PR</li>
+</ul>
+<blockquote>
+<p>Note: <code>path</code> and <code>diff</code> are currently mutually exclusive. It is an error to
+specify both in one match config.</p>
+</blockquote>
+<p>If any of the supplied patterns matches the Pull Request, the rule is triggered.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="config.html">← Config YAML</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#rule-options">Rule options</a><ul class="toc-headings"><li><a href="#name"><code>name</code></a></li><li><a href="#short-code"><code>short_code</code></a></li><li><a href="#active"><code>active</code></a></li><li><a href="#reviewer"><code>reviewer</code></a></li><li><a href="#match"><code>match</code></a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/code.png" alt="Cody" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/commands.html">Commands</a><a href="/docs/rules.html">Review Rules</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="https://twitter.com/aergonaut" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/">GitHub</a><a class="github-button" href="https://github.com/aergonaut/cody" data-icon="octicon-star" data-count-href="/aergonaut/cody/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Chris Fung</section></footer></div></body></html>

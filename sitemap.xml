@@ -4,6 +4,8 @@
 <url> <loc>https://github.com/aergonaut/cody/users.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://github.com/aergonaut/cody/en/users.html" /> </url>
 <url> <loc>https://github.com/aergonaut/cody/blog/2017/12/17/new-documentation-site.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://github.com/aergonaut/cody/docs/commands.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://github.com/aergonaut/cody/docs/commands.html" /> </url>
+<url> <loc>https://github.com/aergonaut/cody/docs/config.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://github.com/aergonaut/cody/docs/config.html" /> </url>
 <url> <loc>https://github.com/aergonaut/cody/docs/errors.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://github.com/aergonaut/cody/docs/errors.html" /> </url>
+<url> <loc>https://github.com/aergonaut/cody/docs/rule_config.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://github.com/aergonaut/cody/docs/rule_config.html" /> </url>
 <url> <loc>https://github.com/aergonaut/cody/docs/rules.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://github.com/aergonaut/cody/docs/rules.html" /> </url>
 </urlset>

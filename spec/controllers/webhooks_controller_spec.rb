@@ -97,8 +97,24 @@ RSpec.describe WebhooksController, type: :controller do
         request.headers["X-GitHub-Event"] = "push"
       end
 
-      it "creats a ReceivePushEvent job" do
-        expect { post :integration, body: '{"repository": {"full_name": "foobar"}}' }.to change(ReceivePushEvent.jobs, :size).by(1)
+      let(:payload) do
+        json_fixture("push", ref: ref)
+      end
+
+      subject { post :integration, body: JSON.dump(payload) }
+
+      context "when the pushed branch is master" do
+        let(:ref) { "refs/heads/master" }
+        it "creates a ReceivePushEvent job" do
+          expect { subject }.to change(ReceivePushEvent.jobs, :size).by(1)
+        end
+      end
+
+      context "when the pushed branch is not master" do
+        let(:ref) { "refs/heads/some-other-branch" }
+        it "does not enqueue a job" do
+          expect { subject }.to_not change(ReceivePushEvent.jobs, :size)
+        end
       end
     end
   end

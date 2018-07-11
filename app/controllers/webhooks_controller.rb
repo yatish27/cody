@@ -37,6 +37,12 @@ class WebhooksController < ApplicationController
     event = request.headers["X-GitHub-Event"]
     case event
     when "push"
+      ref = body["ref"]
+      unless ref == "refs/heads/master"
+        head :ok
+        return
+      end
+
       ReceivePushEvent.perform_async(
         body["repository"]["full_name"],
         body.dig("installation", "id")

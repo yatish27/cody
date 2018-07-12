@@ -54,10 +54,16 @@ class WebhooksController < ApplicationController
       issue_comment
       return
     when "installation"
-      ReceiveInstallationRepositoriesEvent.perform_async(body["repositories"])
+      ReceiveInstallationRepositoriesEvent.perform_async(
+        body["repositories"],
+        body.dig("installation", "id")
+      )
     when "installation_repositories"
       ReceiveInstallationRepositoriesEvent
-        .perform_async(body["repositories_added"])
+        .perform_async(
+          body["repositories_added"],
+          body.dig("installation", "id")
+        )
     end
 
     head :accepted

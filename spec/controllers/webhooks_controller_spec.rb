@@ -87,7 +87,7 @@ RSpec.describe WebhooksController, type: :controller do
       end
 
       it "passes in the array of repositories from the event payload" do
-        expect(ReceiveInstallationRepositoriesEvent).to receive(:perform_async).with(payload["repositories_added"])
+        expect(ReceiveInstallationRepositoriesEvent).to receive(:perform_async).with(payload["repositories_added"], payload["installation"]["id"])
         post :integration, body: JSON.dump(payload)
       end
     end

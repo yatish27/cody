@@ -52,7 +52,7 @@ class ReceiveIssueCommentEvent
     return unless comment_affirmative?(comment)
 
     comment_author = @payload["sender"]["login"]
-    reviewer = pr.reviewers.find_by(login: comment_author)
+    reviewer = pr.reviewers.pending_review.find_by(login: comment_author)
     return unless reviewer.present?
 
     reviewer.approve!

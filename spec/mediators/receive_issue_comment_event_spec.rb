@@ -14,6 +14,7 @@ RSpec.describe ReceiveIssueCommentEvent do
   let(:job) { ReceiveIssueCommentEvent.new }
 
   let(:sender) { reviewer }
+  let!(:review) { FactoryBot.create(:reviewer, login: reviewer, pull_request: pr) }
 
   describe "#perform" do
     before do
@@ -24,11 +25,9 @@ RSpec.describe ReceiveIssueCommentEvent do
         headers: { "Content-Type" => "application/json" }
       )
       stub_request(:patch, %r{https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/issues/\d+})
-
-      FactoryBot.create(:reviewer, login: reviewer, pull_request: pr)
-
-      job.perform(payload)
     end
+
+    subject { job.perform(payload) }
 
     context "when submitting an approval" do
       let(:comment) { "lgtm" }
@@ -38,6 +37,7 @@ RSpec.describe ReceiveIssueCommentEvent do
       context "when the commenter is a reviewer" do
         context "and they approve" do
           it "moves them into the completed_reviews list" do
+            subject
             pr.reload
             expect(pr.reviewers.pending_review.map(&:login)).to_not include(reviewer)
             expect(pr.reviewers.completed_review.map(&:login)).to include(sender)
@@ -45,10 +45,12 @@ RSpec.describe ReceiveIssueCommentEvent do
 
           context "and they are the last approver" do
             it "updates the status on GitHub" do
+              subject
               expect(WebMock).to have_requested(:post, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/statuses/[0-9abcdef]{40}))
             end
 
             it "marks the PR as approved" do
+              subject
               expect(pr.reload.status).to eq("approved")
             end
           end
@@ -57,9 +59,25 @@ RSpec.describe ReceiveIssueCommentEvent do
             let(:comment) { "👍" }
 
             it "moves them into the completed_reviews list" do
+              subject
               pr.reload
               expect(pr.reviewers.pending_review.map(&:login)).to_not include(reviewer)
               expect(pr.reviewers.completed_review.map(&:login)).to include(sender)
+            end
+          end
+
+          context "and they were in the reivew list more than once" do
+            before do
+              review.status = "approved"
+              review.save!
+            end
+
+            let!(:second_review) { FactoryBot.create(:reviewer, login: reviewer, pull_request: pr) }
+
+            it "approves the pending_review review" do
+              subject
+              second_review.reload
+              expect(second_review.status).to eq("approved")
             end
           end
         end

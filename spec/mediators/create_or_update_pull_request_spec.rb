@@ -47,6 +47,24 @@ RSpec.describe CreateOrUpdatePullRequest, type: :model do
             json_body["description"] == "Review is delegated to #1234"
           }
       end
+
+      context "and the link is removed later" do
+        let!(:pr) { FactoryBot.create :pull_request, status: "pending_review", number: 9876, repository: repo, parent_pull_request: parent_pr }
+        let(:body) { "" }
+
+        before do
+          stub_request(:patch, "https://api.github.com/repos/baxterthehacker/public-repo/issues/9876")
+            .to_return(status: 200, body: "", headers: {})
+        end
+
+        it "removes the parent PR association" do
+          expect {
+            CreateOrUpdatePullRequest.new.perform(payload)
+          }.to change {
+            pr.reload.parent_pull_request
+          }.from(parent_pr).to(nil)
+        end
+      end
     end
 
     context "synchronizing the peer review list" do

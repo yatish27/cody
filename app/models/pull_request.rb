@@ -98,8 +98,8 @@ class PullRequest < ApplicationRecord
       number: number,
       repository_id: self.repository_id
     )
-    # binding.pry
     return unless parent_pr
+
     self.parent_pull_request = parent_pr
     self.status = self.parent_pull_request.status
     self.save!

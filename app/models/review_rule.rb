@@ -74,9 +74,13 @@ class ReviewRule < ApplicationRecord
   #
   # @return [Array<String>] the list of possible reviewers for this rule
   def possible_reviewers
-    if self.reviewer.match?(/^\d+$/)
-      team_members = github_client.team_members(self.reviewer)
-      team_members.map(&:login)
+    if self.reviewer.include?("/")
+      org, slug = self.reviewer.split("/", 2)
+      result = graphql_query(
+        Github::Graphql::Queries::Team,
+        variables: { org: org, slug: slug }
+      )
+      result.data.organization.team.members.edges.map { |edge| edge.node.login }
     else
       # it's just a single user
       Array(self.reviewer)

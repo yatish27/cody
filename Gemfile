@@ -119,3 +119,5 @@ gem 'tzinfo-data'
 gem 'json-schema'
 
 gem 'sidekiq-unique-jobs'
+
+gem 'graphql-client'

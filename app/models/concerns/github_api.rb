@@ -6,6 +6,11 @@ module GithubApi
 
   private
 
+  def graphql_query(query, variables: {}, context: {})
+    context[:token] ||= auth_token
+    Github::Graphql::Client.query(query, variables: variables, context: context)
+  end
+
   def github_client
     if Current.installation_id.present?
       integration_client(installation_id: Current.installation_id)
@@ -23,6 +28,14 @@ module GithubApi
       installation_id
     )
     Octokit::Client.new(access_token: access_token.token)
+  end
+
+  def auth_token
+    if Current.installation_id.present?
+      make_jwt_token
+    else
+      Rails.application.secrets.github_access_token
+    end
   end
 
   def make_jwt_token

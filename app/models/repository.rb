@@ -8,6 +8,8 @@ class Repository < ApplicationRecord
   has_many :review_rules
   has_many :settings
 
+  belongs_to :installation
+
   attr_reader :config
 
   def self.find_by_full_name(full_name)

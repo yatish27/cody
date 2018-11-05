@@ -4,6 +4,7 @@ RSpec.describe Repository, type: :model do
   it { is_expected.to have_many :pull_requests }
   it { is_expected.to have_many :review_rules }
   it { is_expected.to have_many :settings }
+  it { is_expected.to belong_to :installation }
 
   describe ".find_by_full_name" do
     let!(:expected) { FactoryBot.create :repository }

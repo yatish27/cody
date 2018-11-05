@@ -11,6 +11,9 @@ RSpec.describe SessionsController, type: :controller do
             nickname: login,
             email: email,
             name: name
+          },
+          credentials: {
+            token: "abc"
           }
         }
       )

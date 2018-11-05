@@ -79,7 +79,7 @@ group :development, :test do
 
   gem 'rspec-rails'
 
-  gem 'dotenv'
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -119,3 +119,5 @@ gem 'tzinfo-data'
 gem 'json-schema'
 
 gem 'sidekiq-unique-jobs'
+
+gem 'attr_encrypted', '~> 3.1.0'

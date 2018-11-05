@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709222702) do
+ActiveRecord::Schema.define(version: 20181103224121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
+
+  create_table "installations", force: :cascade do |t|
+    t.integer "github_id", null: false
+    t.string "account"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "pull_requests", id: :serial, force: :cascade do |t|
     t.string "status"
@@ -32,6 +40,8 @@ ActiveRecord::Schema.define(version: 20180709222702) do
     t.string "name"
     t.string "owner"
     t.string "config_hash"
+    t.bigint "installation_id"
+    t.index ["installation_id"], name: "index_repositories_on_installation_id"
     t.index ["name", "owner"], name: "index_repositories_on_name_and_owner", unique: true
   end
 
@@ -83,6 +93,8 @@ ActiveRecord::Schema.define(version: 20180709222702) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "role"
+    t.string "encrypted_access_key"
+    t.string "encrypted_access_key_iv"
   end
 
   create_table "versions", force: :cascade do |t|

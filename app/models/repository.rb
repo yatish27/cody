@@ -12,6 +12,14 @@ class Repository < ApplicationRecord
 
   attr_reader :config
 
+  def github_client
+    if self.installation.present?
+      integration_client(installation_id: self.installation.github_id)
+    else
+      super
+    end
+  end
+
   def self.find_by_full_name(full_name)
     owner, name = full_name.split("/", 2)
     self.find_by(owner: owner, name: name)

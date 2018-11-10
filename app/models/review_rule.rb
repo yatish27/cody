@@ -11,6 +11,16 @@ class ReviewRule < ApplicationRecord
 
   include GithubApi
 
+  def github_client
+    if self.repository.installation.present?
+      integration_client(
+        installation_id: self.repository.installation.github_id
+      )
+    else
+      super
+    end
+  end
+
   attr_accessor :match_context
 
   def reviewer_human_name

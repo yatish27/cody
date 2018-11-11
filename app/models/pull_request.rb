@@ -36,7 +36,7 @@ class PullRequest < ApplicationRecord
   include GithubApi
 
   def github_client
-    if self.repository.instllation.present?
+    if self.repository.insatllation.present?
       integration_client(
         installation_id: self.repository.installation.github_id
       )

@@ -47,10 +47,11 @@ module GithubApi
   # assumed to contain the path to the .pem file. Relative paths are expanded
   # relative to Rails.root.
   def integration_private_key
-    ENV["CODY_GITHUB_INTEGRATION_PRIVATE_KEY"].presence ||
-      File.read(
-        Rails.root.join(ENV["CODY_GITHUB_INTEGRATION_PRIVATE_KEY_PATH"])
-          .expand_path
-      )
+    @integration_private_key ||=
+      ENV["CODY_GITHUB_INTEGRATION_PRIVATE_KEY"].presence ||
+        File.read(
+          Rails.root.join(ENV["CODY_GITHUB_INTEGRATION_PRIVATE_KEY_PATH"])
+            .expand_path
+        )
   end
 end

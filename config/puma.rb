@@ -1,3 +1,5 @@
+require "barnes"
+
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers a minimum and maximum.
 # Any libraries that use thread pools should be configured to match
@@ -41,6 +43,10 @@ preload_app!
 
 on_worker_boot do
   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+end
+
+before_fork do
+  Barnes.start
 end
 
 # Allow puma to be restarted by `rails restart` command.

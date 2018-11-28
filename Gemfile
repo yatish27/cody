@@ -123,3 +123,5 @@ gem 'sidekiq-unique-jobs'
 gem 'attr_encrypted', '~> 3.1.0'
 
 gem 'scout_apm'
+
+gem 'barnes'

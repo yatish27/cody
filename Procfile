@@ -1,2 +1,2 @@
 web: bundle exec puma -C config/puma.rb
-worker: bundle exec sidekiq -q default -q mailer
+worker: jemalloc.sh bundle exec sidekiq -q default -q mailer

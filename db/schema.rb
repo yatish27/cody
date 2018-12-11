@@ -16,6 +16,12 @@ ActiveRecord::Schema.define(version: 20181107030345) do
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
+  create_table "api_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "password_digest"
+    t.index ["user_id"], name: "index_api_keys_on_user_id"
+  end
+
   create_table "installations", force: :cascade do |t|
     t.integer "github_id", null: false
     t.string "account"
@@ -109,6 +115,7 @@ ActiveRecord::Schema.define(version: 20181107030345) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "api_keys", "users"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "installations"
   add_foreign_key "review_rules", "repositories"

@@ -63,8 +63,25 @@ end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
+  args = ["disable-gpu", "no-sandbox", "disable-dev-shm-usage"]
+  if ENV["CI"] == "true" || ENV["HEADLESS"] == "true"
+    args << "headless"
+  end
+
   config.before(:each, type: :system) do
-    driven_by :selenium_chrome_headless
+    driven_by :selenium, using: :chrome, options: { args: args }
+  end
+
+  config.before(:each, type: :controller) do
+    ActiveSupport::CurrentAttributes.reset_all
+  end
+
+  config.after(:each, type: :controller) do
+    ActiveSupport::CurrentAttributes.reset_all
+  end
+
+  config.define_derived_metadata(file_path: /spec\/system/) do |metadata|
+    metadata[:browser] = true
   end
 end
 

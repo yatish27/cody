@@ -6,6 +6,11 @@ case "$SUITE" in
     bin/rake db:create db:test:prepare
     bin/rspec
     ;;
+  browser)
+    bin/rake assets:precompile
+    bin/rake db:create db:test:prepare
+    bin/rspec -t browser
+    ;;
   yarn)
     bin/yarn
     bin/webpack

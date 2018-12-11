@@ -41,15 +41,35 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     context "when the user has logged in before" do
-      before do
-        FactoryBot.create :user, uid: uid, login: login, email: email, name: name
-      end
+      let!(:user) { FactoryBot.create :user, uid: uid, login: login, email: email, name: name }
 
-      it "does not make a new User" do
+      it "does not make a new User and sets the user ID and access token in the session", aggregate_failures: true do
         expect {
           get :create
         }.to_not change { User.count }
+
+        expect(session[:user_id]).to eq(user.id)
+
+        expect(session[:access_token]).to_not be_nil
+        token = session[:access_token]
+        decoded_payload, _ = JWT.decode(token, Rails.application.secrets.jwt_secret_key, true, algorith: "HS256")
+        expect(decoded_payload["sub"]).to eq(user.login)
       end
+    end
+  end
+
+  describe "DELETE :destroy" do
+    before do
+      session[:user_id] = 1
+      session[:access_token] = "bogus"
+    end
+
+    it "clears all session data" do
+      delete :destroy
+
+      expect(session[:user_id]).to be_nil
+      expect(session[:access_token]).to be_nil
+      expect(response).to redirect_to new_session_path
     end
   end
 end

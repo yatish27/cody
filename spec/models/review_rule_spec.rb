@@ -34,6 +34,20 @@ RSpec.describe ReviewRule, type: :model do
     end
   end
 
+  describe "#filtered_reviewers" do
+    let(:pull_request) { Struct.new(:commit_authors).new(["iceman"]) }
+
+    before do
+      allow(User).to receive(:paused_logins).and_return(["maverick"])
+
+      allow_any_instance_of(ReviewRule).to receive(:possible_reviewers).and_return(["iceman", "maverick", "viper"])
+    end
+
+    it "removes authors and paused reviewers" do
+      expect(ReviewRule.new.filtered_reviewers(pull_request)).to eq ["viper"]
+    end
+  end
+
   describe "#add_reviewer" do
     let(:pr) { create :pull_request, pending_reviews: pending_reviews }
 

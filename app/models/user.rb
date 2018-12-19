@@ -14,11 +14,17 @@ class User < ApplicationRecord
   USER_PREFERENCES = %i[
     send_new_reviews_summary
     send_new_reviews_summary?
+    paused
+    paused?
   ].freeze
 
   # rubocop:disable Lint/AmbiguousOperator
   delegate *USER_PREFERENCES, to: :user_preference, allow_nil: true
   # rubocop:enable Lint/AmbiguousOperator
+
+  def self.paused_logins
+    joins(:user_preference).merge(UserPreference.paused).pluck(:login)
+  end
 
   def role
     ActiveSupport::StringInquirer.new(super)

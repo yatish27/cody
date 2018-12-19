@@ -16,6 +16,11 @@ class Types::UserType < Types::BaseObject
   def send_new_reviews_summary
     !!@object.send_new_reviews_summary?
   end
+  field :paused, !types.Boolean do
+    resolve ->(obj, args, ctx) {
+      !!obj.paused?
+    }
+  end
 
   field :repositories, Types::RepositoryType.connection_type, null: true,
     connection: true

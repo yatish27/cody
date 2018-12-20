@@ -105,7 +105,7 @@ class ReviewRule < ApplicationRecord
   def choose_reviewer(pull_request)
     all_possible_reviewers = possible_reviewers
 
-    reviewer_to_add = filtered_reviewers.shuffle.find do |r|
+    reviewer_to_add = filtered_reviewers(pull_request).shuffle.find do |r|
       !pull_request.pending_review_logins.include?(r)
     end
 

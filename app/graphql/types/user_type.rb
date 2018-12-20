@@ -20,7 +20,7 @@ class Types::UserType < Types::BaseObject
   field :paused, Boolean, null: false,
     description: "Opt-in choice to temporarily pause assignment of new reviews"
 
-  def pause
+  def paused
     !!@object.paused?
   end
 

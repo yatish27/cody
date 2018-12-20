@@ -55,4 +55,18 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '.paused_logins' do
+    let(:paused_user) { FactoryBot.create :user }
+    let(:unpaused_user) { FactoryBot.create :user }
+
+    before do
+      paused_user.build_user_preference
+      paused_user.user_preference.update!(paused: true)
+    end
+
+    it "gets the logins of users with the paused preference" do
+      expect(User.paused_logins).to eq [paused_user.login]
+    end
+  end
 end

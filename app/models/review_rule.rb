@@ -92,20 +92,18 @@ class ReviewRule < ApplicationRecord
     pr.reviewers.find_by(review_rule_id: self.id)
   end
 
+  # Build and filter commit authors and paused reviewers from possible reviewers
+  #
+  # @param pull_request [PullRequest] the PullRequest object
+  # @return [Array<String>] the list of filtered reviewers
+  def filtered_reviewers(pull_request)
+    possible_reviewers - (pull_request.commit_authors | User.paused_logins)
+  end
+
   # @param pull_request [PullRequest] the PullRequest object
   # @return [String] the login of the reviewer that was chosen
   def choose_reviewer(pull_request)
     all_possible_reviewers = possible_reviewers
-
-    # Build and filter commit authors from possible reviewers
-    exclusion_list = pull_request.commit_authors
-
-    filtered_reviewers =
-      if exclusion_list.any?
-        all_possible_reviewers.reject { |usr| exclusion_list.include?(usr) }
-      else
-        all_possible_reviewers
-      end
 
     reviewer_to_add = filtered_reviewers.shuffle.find do |r|
       !pull_request.pending_review_logins.include?(r)

@@ -15,9 +15,10 @@ const Checkbox = ({
 }) => (
   <div className="field">
     <div className="control">
-      <label className="checkbox" htmlFor={name}>
+      <label className="checkbox" htmlFor={`checkbox-${name}`}>
         <input
           type="checkbox"
+          id={`checkbox-${name}`}
           name={name}
           checked={checked}
           onChange={handleChange}

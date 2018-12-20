@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181107030345) do
+ActiveRecord::Schema.define(version: 20181219221341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20181107030345) do
   create_table "user_preferences", force: :cascade do |t|
     t.bigint "user_id"
     t.boolean "send_new_reviews_summary"
+    t.boolean "paused"
     t.index ["user_id"], name: "index_user_preferences_on_user_id"
   end
 

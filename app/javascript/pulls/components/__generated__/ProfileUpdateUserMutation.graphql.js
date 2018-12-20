@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 8152a2ec158e2c67988f2f9d391b15a1
+ * @relayHash 069df092c1421f42255abf733e41f9d3
  */
 
 /* eslint-disable */
@@ -14,6 +14,7 @@ export type ProfileUpdateUserMutationVariables = {|
   input: {
     clientMutationId?: ?string,
     email: string,
+    paused: boolean,
     sendNewReviewsSummary: boolean,
   },
 |};
@@ -44,6 +45,7 @@ fragment Profile_user on User {
   email
   name
   sendNewReviewsSummary
+  paused
 }
 */
 
@@ -69,7 +71,7 @@ return {
   "operationKind": "mutation",
   "name": "ProfileUpdateUserMutation",
   "id": null,
-  "text": "mutation ProfileUpdateUserMutation(\n  $input: UpdateUserInput!\n) {\n  updateUser(input: $input) {\n    user {\n      ...Profile_user\n      id\n    }\n  }\n}\n\nfragment Profile_user on User {\n  login\n  email\n  name\n  sendNewReviewsSummary\n}\n",
+  "text": "mutation ProfileUpdateUserMutation(\n  $input: UpdateUserInput!\n) {\n  updateUser(input: $input) {\n    user {\n      ...Profile_user\n      id\n    }\n  }\n}\n\nfragment Profile_user on User {\n  login\n  email\n  name\n  sendNewReviewsSummary\n  paused\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -155,6 +157,13 @@ return {
                 "kind": "ScalarField",
                 "alias": null,
                 "name": "sendNewReviewsSummary",
+                "args": null,
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "name": "paused",
                 "args": null,
                 "storageKey": null
               },

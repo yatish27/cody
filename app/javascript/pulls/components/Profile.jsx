@@ -24,6 +24,7 @@ type Props = {
 type State = {
   email: string,
   sendNewReviewsSummary: boolean,
+  paused: boolean,
   lastResponseSuccess: boolean
 };
 
@@ -34,6 +35,7 @@ class Profile extends React.Component<Props, State> {
     this.state = {
       email: this.props.user.email != null ? this.props.user.email : "",
       sendNewReviewsSummary: this.props.user.sendNewReviewsSummary,
+      paused: this.props.user.paused,
       lastResponseSuccess: false
     };
   }
@@ -52,7 +54,8 @@ class Profile extends React.Component<Props, State> {
       variables: {
         input: {
           email: this.state.email,
-          sendNewReviewsSummary: this.state.sendNewReviewsSummary
+          sendNewReviewsSummary: this.state.sendNewReviewsSummary,
+          paused: this.state.paused,
         }
       },
       onCompleted: () => {
@@ -91,6 +94,16 @@ class Profile extends React.Component<Props, State> {
                   handleChange={this.handleChange}
                 />
 
+                <h2 className="title is-4 is-spaced form-section-header">
+                  Assignment Preferences
+                </h2>
+                <Checkbox
+                  label="Pause automatic assignment of new reviews"
+                  name="paused"
+                  checked={this.state.paused}
+                  handleChange={this.handleChange}
+                />
+
                 <div className="field">
                   <div className="control">
                     <button
@@ -118,6 +131,7 @@ export default createFragmentContainer(
       email
       name
       sendNewReviewsSummary
+      paused
     }
   `
 );

@@ -16,10 +16,12 @@ class Types::UserType < Types::BaseObject
   def send_new_reviews_summary
     !!@object.send_new_reviews_summary?
   end
-  field :paused, !types.Boolean do
-    resolve ->(obj, args, ctx) {
-      !!obj.paused?
-    }
+
+  field :paused, Boolean, null: false,
+    description: "Opt-in choice to temporarily pause assignment of new reviews"
+
+  def pause
+    !!@object.paused?
   end
 
   field :repositories, Types::RepositoryType.connection_type, null: true,

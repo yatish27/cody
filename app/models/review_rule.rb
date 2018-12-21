@@ -117,7 +117,7 @@ class ReviewRule < ApplicationRecord
       #       reviewer
       #    2. Any potential reviewer that is not a current reviewer
       #    3. Any potential reviewer
-      new_reviewers = all_possible_reviewers - filtered_reviewers
+      new_reviewers = all_possible_reviewers - filtered_reviewers(pull_request)
       reviewer_to_add = new_reviewers.shuffle.find do |r|
         !pull_request.pending_review_logins.include?(r)
       end

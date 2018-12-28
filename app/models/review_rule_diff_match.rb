@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReviewRuleDiffMatch < ReviewRule
   MAX_RETRIES = 3
   validates :file_match, presence: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReviewRuleResult
   attr_reader :reviewer, :context
 

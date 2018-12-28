@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Mutations::UpdateUser = GraphQL::Relay::Mutation.define do
   name "UpdateUser"
   description "Update the currently authenticated user"

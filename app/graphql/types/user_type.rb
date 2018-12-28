@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::UserType < Types::BaseObject
 
   implements GraphQL::Relay::Node.interface

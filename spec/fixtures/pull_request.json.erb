@@ -3,6 +3,7 @@
   number ||= 1
   body ||= ""
   head_sha ||= "0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c"
+  labels ||= []
 %>
 {
   "action": "<%= action %>",
@@ -44,6 +45,18 @@
     "merged_at": null,
     "merge_commit_sha": null,
     "assignee": null,
+    "labels": [
+<% labels.each_with_index do |label, i| %>
+      <% if i != 0 %>,<% end %>{
+        "id": 1,
+        "node_id": "MDU7jQFiZWw5DCU3MDk1ODM=",
+        "url": "https://api.github.com/repos/baxterthehacker/public-repo/labels/<%= URI.encode(label) %>",
+        "name": "<%= label %>",
+        "color": "ededed",
+        "default": false
+      }
+<% end %>
+    ],
     "milestone": null,
     "commits_url": "https://api.github.com/repos/baxterthehacker/public-repo/pulls/1/commits",
     "review_comments_url": "https://api.github.com/repos/baxterthehacker/public-repo/pulls/1/comments",

@@ -4,4 +4,6 @@ FactoryBot.define do
     sequence(:number)
     repository
   end
+
+  sequence(:pull_request_number)
 end

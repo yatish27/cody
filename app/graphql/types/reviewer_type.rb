@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::ReviewerType < Types::BaseObject
 
   implements GraphQL::Relay::Node.interface

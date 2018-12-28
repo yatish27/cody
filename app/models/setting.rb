@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Setting < ApplicationRecord
   belongs_to :repository
 
@@ -9,7 +11,7 @@ class Setting < ApplicationRecord
   end
 
   def set(value)
-    io = StringIO.new("", "w+")
+    io = StringIO.new(String.new, "w+")
     Transit::Writer.new(:json, io).write(value)
     self.value = io.string
   end
@@ -22,7 +24,7 @@ class Setting < ApplicationRecord
     end
 
     def assign(key, value)
-      io = StringIO.new("", "w+")
+      io = StringIO.new(String.new, "w+")
       Transit::Writer.new(:json, io).write(value)
       s = find_or_initialize_by(key: key)
       s.value = io.string

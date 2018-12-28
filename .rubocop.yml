@@ -219,7 +219,7 @@ Layout/TrailingBlankLines:
 Layout/TrailingWhitespace:
   Enabled: true
 
-Lint/BlockAlignment:
+Layout/BlockAlignment:
   Enabled: true
   EnforcedStyleAlignWith: start_of_block
   SupportedStyles:
@@ -231,7 +231,7 @@ Lint/Debugger:
   Enabled: true
   Severity: fatal
 
-Lint/DefEndAlignment:
+Layout/DefEndAlignment:
   Enabled: true
   EnforcedStyleAlignWith: start_of_line
   SupportedStyles:
@@ -262,7 +262,7 @@ Lint/ElseLayout:
 Lint/EmptyEnsure:
   Enabled: true
 
-Lint/EndAlignment:
+Layout/EndAlignment:
   Enabled: true
   EnforcedStyleAlignWith: variable
 
@@ -371,6 +371,13 @@ Style/FormatString:
     - format
     - sprintf
     - percent
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: when_needed
+  Exclude:
+    - "**/*.rake"
+    - Gemfile
 
 Style/GlobalVars:
   Enabled: true

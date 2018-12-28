@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SummaryMailer < ApplicationMailer
   def pending_reviews_summary(user)
     @pending_reviews =

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GraphqlController < ApplicationController
   include ActionController::HttpAuthentication::Token
 

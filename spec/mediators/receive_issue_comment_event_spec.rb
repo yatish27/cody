@@ -3,18 +3,23 @@
 require 'rails_helper'
 
 RSpec.describe ReceiveIssueCommentEvent do
-  let!(:pr) { FactoryBot.create :pull_request, status: "pending_review" }
+  let!(:repo) { FactoryBot.create :repository }
+  let!(:pr) { FactoryBot.create :pull_request, status: "pending_review", repository: repo }
 
   let(:reviewer) { "aergonaut" }
 
   let(:payload) do
-    json_fixture("issue_comment", number: pr.number, sender: sender, body: comment, name: pr.repository.name, owner: pr.repository.owner)
+    json_fixture("issue_comment", number: pr.number, sender: sender, body: comment, name: repo.name, owner: repo.owner)
   end
 
   let(:job) { ReceiveIssueCommentEvent.new }
 
   let(:sender) { reviewer }
   let!(:review) { FactoryBot.create(:reviewer, login: reviewer, pull_request: pr) }
+
+  before do
+    allow(Repository).to receive(:find_by_full_name).and_return(repo)
+  end
 
   describe "#perform" do
     before do
@@ -33,6 +38,33 @@ RSpec.describe ReceiveIssueCommentEvent do
       let(:comment) { "lgtm" }
 
       let(:pr_response_body) { json_fixture("pr") }
+
+      context "and the PR has one of the configured ignore labels on it" do
+        let(:ignore_labels_setting) { ["cody skip"] }
+        let(:payload) do
+          json_fixture(
+            "issue_comment",
+            number: pr.number,
+            sender: sender,
+            body: comment,
+            name: repo.name,
+            owner: repo.owner,
+            labels: ["foobar", "cody skip"]
+          )
+        end
+
+        before do
+          stub_settings(
+            repo,
+            ignore_labels: ignore_labels_setting
+          )
+        end
+
+        it "does not call or perform any actions" do
+          expect(job).to_not receive(:comment_affirmative?)
+          job.perform(payload)
+        end
+      end
 
       context "when the commenter is a reviewer" do
         context "and they approve" do

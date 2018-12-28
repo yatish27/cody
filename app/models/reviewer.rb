@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Reviewer < ApplicationRecord
   belongs_to :review_rule, required: false
   belongs_to :pull_request

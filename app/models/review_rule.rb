@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReviewRule < ApplicationRecord
   GENERATED_REVIEWERS_REGEX = /^\s*#*\s*Generated\s*Reviewers\s*$/
 

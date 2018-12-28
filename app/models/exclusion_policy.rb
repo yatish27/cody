@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExclusionPolicy
   BLACKLIST = :blacklist
   WHITELIST = :whitelist

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::ReviewerStatusType < Types::BaseEnum
   description "The review status of a Reviewer"
   value("pending_approval", "Pending Approval")

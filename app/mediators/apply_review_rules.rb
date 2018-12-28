@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplyReviewRules
   attr_reader :pr, :pull_request_hash
 

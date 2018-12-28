@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PullRequest < ApplicationRecord
   validates :number, numericality: true, presence: true
   validates :status, presence: true
@@ -124,7 +126,7 @@ class PullRequest < ApplicationRecord
   end
 
   def update_body
-    addendum = <<~ADDENDUM
+    addendum = +<<~ADDENDUM
       ## Generated Reviewers
 
     ADDENDUM

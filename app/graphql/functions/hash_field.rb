@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Functions
   class HashField < GraphQL::Function
     attr_reader :type

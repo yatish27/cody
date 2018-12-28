@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "base64"
 require "digest"
 
@@ -29,6 +31,13 @@ class Repository < ApplicationRecord
 
   def full_name
     "#{self.owner}/#{self.name}"
+  end
+
+  # Determines if the repository's settings would ignore the given set of labels
+  def ignore?(labels)
+    ignored_labels = Array(read_setting("ignore_labels"))
+    ignored_labels.present? &&
+      Set.new(ignored_labels).intersect?(Set.new(labels))
   end
 
   # Refresh this repository's config by reading the configuration file from

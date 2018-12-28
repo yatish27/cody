@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Types::PullRequestType < Types::BaseObject
 
   implements GraphQL::Relay::Node.interface

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Config
   PATH = ".cody.yml".freeze
 

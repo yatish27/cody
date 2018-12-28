@@ -16,6 +16,7 @@ module FixtureHelper
       else
         File.open(Rails.root.join("spec", "fixtures", "#{path}.json"))
       end
+
     JSON.load(contents)
   end
 

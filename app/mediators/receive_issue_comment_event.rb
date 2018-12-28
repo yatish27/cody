@@ -1,4 +1,5 @@
 # encoding: utf-8
+# frozen_string_literal: true
 
 class ReceiveIssueCommentEvent
   include Sidekiq::Worker
@@ -22,6 +23,16 @@ class ReceiveIssueCommentEvent
 
     if (installation_id = @payload.dig("installation", "id"))
       Current.installation_id = installation_id
+    end
+
+    # check for ignored labels
+    @repository =
+      Repository.find_by_full_name(@payload["repository"]["full_name"])
+
+    labels = @payload["issue"]["labels"].map { |label| label["name"] }
+    if @repository.ignore?(labels)
+      Current.reset
+      return
     end
 
     comment = @payload["comment"]["body"]

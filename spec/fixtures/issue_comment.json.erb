@@ -4,6 +4,7 @@
   number ||= 7
   sender ||= "aergonaut"
   body ||= ""
+  labels ||= []
 %>
 {
   "action": "created",
@@ -36,7 +37,16 @@
       "site_admin": false
     },
     "labels": [
-
+<% labels.each_with_index do |label, i| %>
+      <% if i != 0 %>,<% end %>{
+        "id": 1,
+        "node_id": "MDU7jQFiZWw5DCU3MDk1ODM=",
+        "url": "https://api.github.com/repos/baxterthehacker/public-repo/labels/<%= URI.encode(label) %>",
+        "name": "<%= label %>",
+        "color": "ededed",
+        "default": false
+      }
+<% end %>
     ],
     "state": "open",
     "locked": false,
@@ -85,7 +95,7 @@
   "repository": {
     "id": 44569423,
     "name": "<%= name %>",
-    "full_name": "aergonaut/testrepo",
+    "full_name": "<%= "#{owner}/#{name}" %>",
     "owner": {
       "login": "<%= owner %>",
       "id": 284007,

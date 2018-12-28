@@ -24,6 +24,34 @@ RSpec.describe Repository, type: :model do
     it { is_expected.to eq(full_name) }
   end
 
+  describe "#ignore?" do
+    let(:repo) { FactoryBot.build :repository }
+
+    before do
+      expect(repo).to receive(:read_setting).with("ignore_labels").and_return(ignore_labels_setting)
+    end
+
+    subject { repo.ignore?(["foobar", "fizbuzz", "cody skip"]) }
+
+    context "when the repo does not have a ignore_labels setting" do
+      let(:ignore_labels_setting) { nil }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context "when the labels do not match any of the ignored labels" do
+      let(:ignore_labels_setting) { ["hello world"] }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context "when the labels match some of the ignored labels" do
+      let(:ignore_labels_setting) { ["cody skip"] }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
   describe "#refresh_config!" do
     let!(:repo) { FactoryBot.create :repository }
     let(:sample_config) do

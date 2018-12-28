@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This class is solely for responding to push events as a cue that the config
 # file may have changed. This worker uses sidekiq-unique-jobs to restrict the
 # number of config refreshes that may be happening at any given time to one per

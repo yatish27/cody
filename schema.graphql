@@ -1,6 +1,6 @@
+# The mutation root
 type Mutation {
-  # An example field added by the generator
-  testField: String
+  # Update the currently authenticated user
   updateUser(input: UpdateUserInput!): UpdateUserPayload
 }
 
@@ -90,7 +90,7 @@ type Repository implements Node {
   # Find a PullRequest by number
   pullRequest(number: String!): PullRequest
 
-  # This repository's Pull Requests
+  # This reapository's Pull Requests
   pullRequests(
     # Returns the elements in the list that come after the specified global ID.
     after: String
@@ -189,7 +189,7 @@ type Reviewer implements Node {
 
   # The Review Rule that added this Reviewer
   reviewRule: ReviewRule
-  status: String!
+  status: ReviewerStatus!
   versions: [ReviewerVersion]
 }
 
@@ -209,6 +209,15 @@ type ReviewerEdge {
 
   # The item at the end of the edge.
   node: Reviewer
+}
+
+# The review status of a Reviewer
+enum ReviewerStatus {
+  # Approved
+  APPROVED
+
+  # Pending Approval
+  PENDING_APPROVAL
 }
 
 type ReviewerVersion {
@@ -233,10 +242,17 @@ type UpdateUserPayload {
 }
 
 type User implements Node {
+  # The user's email
   email: String
   id: ID!
+
+  # The user's login
   login: String!
+
+  # The user's name
   name: String!
+
+  # Opt-in choice to temporarily pause assignment of new reviews
   paused: Boolean!
   repositories(
     # Returns the elements in the list that come after the specified global ID.
@@ -254,5 +270,7 @@ type User implements Node {
 
   # Find a given repository by the owner and name
   repository(name: String!, owner: String!): Repository
+
+  # Opt-in choice for daily code review summary email
   sendNewReviewsSummary: Boolean!
 }

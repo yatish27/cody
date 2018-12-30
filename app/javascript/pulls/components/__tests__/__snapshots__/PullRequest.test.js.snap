@@ -30,6 +30,7 @@ exports[`PullRequest snapshot test 1`] = `
         className="button"
         href="/repos/aergonaut/testrepo/pull/1234"
         onClick={[Function]}
+        title="aergonaut/testrepo#1234"
       >
         • • •
       </a>

@@ -7,7 +7,7 @@ class Types::ReviewerType < Types::BaseObject
   global_id_field :id
 
   field :login, String, null: false
-  field :status, String, null: false
+  field :status, Types::ReviewerStatusType, null: false
 
   field :review_rule, Types::ReviewRuleType,
     description: "The Review Rule that added this Reviewer",

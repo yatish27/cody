@@ -15,7 +15,6 @@ case "$SUITE" in
     bin/yarn
     bin/webpack
     bin/yarn test
-    bin/yarn codecov
     ;;
   *)
     echo "Please set the SUITE env var"

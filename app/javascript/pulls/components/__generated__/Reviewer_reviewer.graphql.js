@@ -8,12 +8,13 @@
 
 /*::
 import type { ConcreteFragment } from 'relay-runtime';
+export type ReviewerStatus = ('APPROVED' | 'PENDING_APPROVAL' | '%future added value');
 import type { FragmentReference } from 'relay-runtime';
 declare export opaque type Reviewer_reviewer$ref: FragmentReference;
 export type Reviewer_reviewer = {|
   +id: string,
   +login: string,
-  +status: string,
+  +status: ReviewerStatus,
   +reviewRule: ?{|
     +name: string,
   |},

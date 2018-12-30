@@ -32,6 +32,14 @@ class User < ApplicationRecord
     ActiveSupport::StringInquirer.new(super)
   end
 
+  def assigned_reviews(status: nil)
+    relation = Reviewer.where(login: self.login)
+    unless status.nil?
+      relation = relation.where(status: status)
+    end
+    relation
+  end
+
   def make_api_key
     api_key = self.api_keys.build
     api_key.password = SecureRandom.base58(24)
@@ -82,7 +90,7 @@ class User < ApplicationRecord
     }
     JWT.encode(payload, Rails.application.secrets.jwt_secret_key, "HS256")
   end
-  
+
   private
 
   def encryption_key

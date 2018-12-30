@@ -1,8 +1,8 @@
 language: ruby
 sudo: false
 cache:
-- bundler
-- yarn
+  - bundler
+  - yarn
 rvm:
   - 2.5.1
 before_install:
@@ -11,21 +11,23 @@ before_install:
 before_script:
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 script:
-- script/ci
+  - script/ci
+after_script:
+  - if [ "$SUITE" = "yarn" ]; then bin/yarn codecov; fi
 env:
   matrix:
-  - SUITE=rspec
-  - SUITE=yarn
-  - SUITE=browser
+    - SUITE=rspec
+    - SUITE=yarn
+    - SUITE=browser
   global:
-  - CODY_GITHUB_ACCESS_TOKEN=abc123
-  - CODY_JWT_SECRET_KEY=fake
-  - CODY_GITHUB_REPO=aergonaut/testrepo
-  - CODY_HOST=cody.example
-  - CODY_ATTR_ENCRYPTED_KEY="eTJIFMy/H5/FL2HXllaCyZ5XcY6FsC0itYVN7ZbNxv0="
+    - CODY_GITHUB_ACCESS_TOKEN=abc123
+    - CODY_JWT_SECRET_KEY=fake
+    - CODY_GITHUB_REPO=aergonaut/testrepo
+    - CODY_HOST=cody.example
+    - CODY_ATTR_ENCRYPTED_KEY="eTJIFMy/H5/FL2HXllaCyZ5XcY6FsC0itYVN7ZbNxv0="
 branches:
   only:
-  - master
+    - master
 addons:
   postgresql: "9.4"
   apt:

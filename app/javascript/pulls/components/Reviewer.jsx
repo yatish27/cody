@@ -2,17 +2,20 @@
 
 import React from "react";
 import { createFragmentContainer, graphql } from "react-relay";
-import type { Reviewer_reviewer } from "./__generated__/Reviewer_reviewer.graphql";
+import type {
+  Reviewer_reviewer,
+  ReviewerStatus
+} from "./__generated__/Reviewer_reviewer.graphql";
 
-function statusToOcticon(status: string) {
+function statusToOcticon(status: ReviewerStatus) {
   switch (status) {
-    case "pending_approval":
+    case "PENDING_APPROVAL":
       return (
         <span className="icon color-warning" title="Pending approval">
           <i className="far fa-circle" />
         </span>
       );
-    case "approved":
+    case "APPROVED":
       return (
         <span className="icon color-success" title="Approved">
           <i className="fas fa-circle" />

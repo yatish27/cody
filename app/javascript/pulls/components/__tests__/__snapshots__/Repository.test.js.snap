@@ -25,6 +25,7 @@ exports[`Repository snapshot test 1`] = `
         className="button"
         href="/repos/aergonaut/testrepo"
         onClick={[Function]}
+        title="aergonaut/testrepo"
       >
         • • •
       </a>

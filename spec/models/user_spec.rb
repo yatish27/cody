@@ -69,4 +69,22 @@ RSpec.describe User, type: :model do
       expect(User.paused_logins).to eq [paused_user.login]
     end
   end
+
+  describe "#assigned_reviews" do
+    let(:user) { FactoryBot.create :user }
+    let!(:approved_reviews) { FactoryBot.create_list :reviewer, 2, login: user.login, status: "approved" }
+    let!(:pending_reviews) { FactoryBot.create_list :reviewer, 2, login: user.login, status: "pending_review" }
+
+    context "when passed a status" do
+      it "only finds records with that status" do
+        expect(user.assigned_reviews(status: "approved")).to contain_exactly(*approved_reviews)
+      end
+    end
+
+    context "when not passed a status" do
+      it "finds all the records" do
+        expect(user.assigned_reviews).to contain_exactly(*(approved_reviews + pending_reviews))
+      end
+    end
+  end
 end

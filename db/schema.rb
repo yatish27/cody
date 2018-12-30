@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181219221341) do
+ActiveRecord::Schema.define(version: 20181230203516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20181219221341) do
     t.string "owner"
     t.string "config_hash"
     t.bigint "installation_id"
+    t.integer "github_id"
     t.index ["installation_id"], name: "index_repositories_on_installation_id"
     t.index ["name", "owner"], name: "index_repositories_on_name_and_owner", unique: true
   end

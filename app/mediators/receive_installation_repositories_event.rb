@@ -13,6 +13,7 @@ class ReceiveInstallationRepositoriesEvent
     repositories.each do |repository|
       owner, name = repository["full_name"].split("/", 2)
       repo = Repository.find_or_initialize_by(owner: owner, name: name)
+      repo.github_id = repository["id"]
       repo.installation = installation
       repo.save!
       if repo.new_record?

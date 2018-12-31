@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     user = User.find_or_initialize_by(uid: auth.uid)
     user.login = auth.info.nickname
-    user.email = auth.info.email
+    user.email ||= auth.info.email
     user.name = auth.info.name
     user.access_key = auth.credentials.token
     user.save

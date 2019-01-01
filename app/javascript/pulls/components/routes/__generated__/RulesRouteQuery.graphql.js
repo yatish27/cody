@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash e53a42b4ba09956be7509df8e1e2b9a5
+ * @relayHash e6d14a3407f2edc95f32ee2726f6fac0
  */
 
 /* eslint-disable */
@@ -10,12 +10,12 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type ReviewRuleList_repository$ref = any;
-export type App_RepoRules_QueryVariables = {|
+export type RulesRouteQueryVariables = {|
   owner: string,
   name: string,
   cursor?: ?string,
 |};
-export type App_RepoRules_QueryResponse = {|
+export type RulesRouteQueryResponse = {|
   +viewer: ?{|
     +repository: ?{|
       +$fragmentRefs: ReviewRuleList_repository$ref,
@@ -26,7 +26,7 @@ export type App_RepoRules_QueryResponse = {|
 
 
 /*
-query App_RepoRules_Query(
+query RulesRouteQuery(
   $owner: String!
   $name: String!
   $cursor: String
@@ -115,13 +115,13 @@ v3 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "App_RepoRules_Query",
+  "name": "RulesRouteQuery",
   "id": null,
-  "text": "query App_RepoRules_Query(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...ReviewRuleList_repository\n      id\n    }\n    id\n  }\n}\n\nfragment ReviewRuleList_repository on Repository {\n  owner\n  name\n  reviewRules(first: 10, after: $cursor) {\n    edges {\n      node {\n        id\n        name\n        shortCode\n        match\n        reviewer\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
+  "text": "query RulesRouteQuery(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...ReviewRuleList_repository\n      id\n    }\n    id\n  }\n}\n\nfragment ReviewRuleList_repository on Repository {\n  owner\n  name\n  reviewRules(first: 10, after: $cursor) {\n    edges {\n      node {\n        id\n        name\n        shortCode\n        match\n        reviewer\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "App_RepoRules_Query",
+    "name": "RulesRouteQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": v0,
@@ -157,7 +157,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "App_RepoRules_Query",
+    "name": "RulesRouteQuery",
     "argumentDefinitions": v0,
     "selections": [
       {
@@ -326,5 +326,5 @@ return {
   }
 };
 })();
-(node/*: any*/).hash = '1db233f6eb30b8a6b59862031f01e059';
+(node/*: any*/).hash = '01b06f9538fea4ae56b893bdf6352af6';
 module.exports = node;

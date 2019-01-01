@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash b4b7a8d276e04b01c07d0d8ffe596b25
+ * @relayHash e262c41587a878d055f1d32646caffb1
  */
 
 /* eslint-disable */
@@ -10,8 +10,8 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type RepositoryList_viewer$ref = any;
-export type App_RepoList_QueryVariables = {| |};
-export type App_RepoList_QueryResponse = {|
+export type ReposRouteQueryVariables = {| |};
+export type ReposRouteQueryResponse = {|
   +viewer: ?{|
     +$fragmentRefs: RepositoryList_viewer$ref,
   |},
@@ -20,7 +20,7 @@ export type App_RepoList_QueryResponse = {|
 
 
 /*
-query App_RepoList_Query {
+query ReposRouteQuery {
   viewer {
     ...RepositoryList_viewer
     id
@@ -56,13 +56,13 @@ var v0 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "App_RepoList_Query",
+  "name": "ReposRouteQuery",
   "id": null,
-  "text": "query App_RepoList_Query {\n  viewer {\n    ...RepositoryList_viewer\n    id\n  }\n}\n\nfragment RepositoryList_viewer on User {\n  repositories(first: 10) {\n    edges {\n      node {\n        id\n        ...Repository_repository\n      }\n    }\n  }\n}\n\nfragment Repository_repository on Repository {\n  id\n  owner\n  name\n}\n",
+  "text": "query ReposRouteQuery {\n  viewer {\n    ...RepositoryList_viewer\n    id\n  }\n}\n\nfragment RepositoryList_viewer on User {\n  repositories(first: 10) {\n    edges {\n      node {\n        id\n        ...Repository_repository\n      }\n    }\n  }\n}\n\nfragment Repository_repository on Repository {\n  id\n  owner\n  name\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "App_RepoList_Query",
+    "name": "ReposRouteQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": [],
@@ -87,7 +87,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "App_RepoList_Query",
+    "name": "ReposRouteQuery",
     "argumentDefinitions": [],
     "selections": [
       {
@@ -161,5 +161,5 @@ return {
   }
 };
 })();
-(node/*: any*/).hash = 'a8ea12f91e6e8d12e6d8b8ccffb79a9e';
+(node/*: any*/).hash = '7f2d6f5e29b8d124c929d91fcb568752';
 module.exports = node;

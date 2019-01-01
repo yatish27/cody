@@ -2,20 +2,10 @@
 
 import React from "react";
 import Nav from "./Nav";
-import PullRequestList from "./PullRequestList";
-import PullRequestDetail from "./PullRequestDetail";
-import RepositoryList from "./RepositoryList";
-import ReviewRuleList from "./ReviewRuleList";
-import ReviewRuleDetail from "./ReviewRuleDetail";
-import Profile from "./Profile";
+import PageHead from "./routes/PageHead";
 import makeEnvironment from "../makeEnvironment";
-import { QueryRenderer, graphql } from "react-relay";
+import Loadable from "react-loadable";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { type App_RepoList_QueryResponse } from "./__generated__/App_RepoList_Query.graphql";
-import { type App_List_QueryResponse } from "./__generated__/App_List_Query.graphql";
-import { type App_Detail_QueryResponse } from "./__generated__/App_Detail_Query.graphql";
-import { type App_RepoSettings_QueryResponse } from "./__generated__/App_RepoSettings_Query.graphql";
-import { type App_Profile_QueryResponse } from "./__generated__/App_Profile_Query.graphql";
 
 const csrfToken = document
   .getElementsByName("csrf-token")[0]
@@ -23,291 +13,99 @@ const csrfToken = document
 
 const environment = makeEnvironment(csrfToken);
 
+const ReposLoadable = Loadable({
+  loader: () => import("./routes/ReposRoute"),
+  loading() {
+    return <div className="loader">Loading</div>;
+  }
+});
+
+const PullRequestsLoadable = Loadable({
+  loader: () => import("./routes/PullRequestsRoute"),
+  loading() {
+    return <div className="loader">Loading</div>;
+  }
+});
+
+const PullRequestShowLoadable = Loadable({
+  loader: () => import("./routes/PullRequestShowRoute"),
+  loading() {
+    return <div className="loader">Loading</div>;
+  }
+});
+
+const ProfileLoadable = Loadable({
+  loader: () => import("./routes/ProfileRoute"),
+  loading() {
+    return <div className="loader">Loading</div>;
+  }
+});
+
+const RulesLoadable = Loadable({
+  loader: () => import("./routes/RulesRoute"),
+  loading() {
+    return <div className="loader">Loading</div>;
+  }
+});
+
 const App = () => (
-  <BrowserRouter>
-    <div>
-      <Nav />
-      <Switch>
-        <Route
-          exact
-          path="/repos"
-          render={() => {
-            return (
-              <QueryRenderer
-                environment={environment}
-                query={graphql`
-                  query App_RepoList_Query {
-                    viewer {
-                      ...RepositoryList_viewer
-                    }
-                  }
-                `}
-                variables={{}}
-                render={({
-                  error,
-                  props: queryResponse
-                }: {
-                  error: any,
-                  props: App_RepoList_QueryResponse
-                }) => {
-                  if (error) {
-                    return <div>{error.message}</div>;
-                  } else if (queryResponse) {
-                    return <RepositoryList viewer={queryResponse.viewer} />;
-                  }
-                  return <div className="loader">Loading</div>;
-                }}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path="/repos/:owner/:name/pulls"
-          render={({ match }) => {
-            return (
-              <QueryRenderer
-                environment={environment}
-                query={graphql`
-                  query App_List_Query(
-                    $owner: String!
-                    $name: String!
-                    $cursor: String
-                  ) {
-                    viewer {
-                      repository(owner: $owner, name: $name) {
-                        ...PullRequestList_repository
-                      }
-                      login
-                      name
-                    }
-                  }
-                `}
-                variables={{
-                  owner: match.params.owner,
-                  name: match.params.name
-                }}
-                render={({
-                  error,
-                  props: queryResponse
-                }: {
-                  error: any,
-                  props: App_List_QueryResponse
-                }) => {
-                  if (error) {
-                    return <div>{error.message}</div>;
-                  } else if (queryResponse && queryResponse.viewer) {
-                    return (
-                      <PullRequestList
-                        repository={queryResponse.viewer.repository}
-                      />
-                    );
-                  }
-                  return <div className="loader">Loading</div>;
-                }}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path="/repos/:owner/:name/pull/:number"
-          render={({ match }) => {
-            return (
-              <QueryRenderer
-                environment={environment}
-                query={graphql`
-                  query App_Detail_Query(
-                    $owner: String!
-                    $name: String!
-                    $number: String!
-                  ) {
-                    viewer {
-                      repository(owner: $owner, name: $name) {
-                        pullRequest(number: $number) {
-                          ...PullRequestDetail_pullRequest
-                        }
-                      }
-                    }
-                  }
-                `}
-                variables={{
-                  owner: match.params.owner,
-                  name: match.params.name,
-                  number: match.params.number
-                }}
-                render={({
-                  error,
-                  props: queryResponse
-                }: {
-                  error: any,
-                  props: App_Detail_QueryResponse
-                }) => {
-                  if (error) {
-                    return <div>{error.message}</div>;
-                  } else if (
-                    queryResponse &&
-                    queryResponse.viewer &&
-                    queryResponse.viewer.repository
-                  ) {
-                    return (
-                      <PullRequestDetail
-                        pullRequest={
-                          queryResponse.viewer.repository.pullRequest
-                        }
-                      />
-                    );
-                  }
-                  return <div className="loader">Loading</div>;
-                }}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path="/repos/:owner/:name"
-          render={({ match }) => {
-            return (
-              <Redirect
-                to={`/repos/${match.params.owner}/${match.params.name}/pulls`}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path="/repos/:owner/:name/rules"
-          render={({ match }) => {
-            return (
-              <QueryRenderer
-                environment={environment}
-                query={graphql`
-                  query App_RepoRules_Query(
-                    $owner: String!
-                    $name: String!
-                    $cursor: String
-                  ) {
-                    viewer {
-                      repository(owner: $owner, name: $name) {
-                        ...ReviewRuleList_repository
-                      }
-                    }
-                  }
-                `}
-                variables={{
-                  ...match.params
-                }}
-                render={({ error, props: queryResponse }) => {
-                  if (error) {
-                    return <div>{error.message}</div>;
-                  } else if (
-                    queryResponse &&
-                    queryResponse.viewer &&
-                    queryResponse.viewer.repository
-                  ) {
-                    return (
-                      <ReviewRuleList
-                        repository={queryResponse.viewer.repository}
-                      />
-                    );
-                  }
-                  return <div className="loader">Loading</div>;
-                }}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path="/repos/:owner/:name/rules/:shortCode"
-          render={({ match }) => {
-            return (
-              <QueryRenderer
-                environment={environment}
-                query={graphql`
-                  query App_RepoSettings_Query(
-                    $owner: String!
-                    $name: String!
-                    $shortCode: String!
-                  ) {
-                    viewer {
-                      repository(owner: $owner, name: $name) {
-                        reviewRule(shortCode: $shortCode) {
-                          ...ReviewRuleDetail_reviewRule
-                        }
-                      }
-                    }
-                  }
-                `}
-                variables={{
-                  owner: match.params.owner,
-                  name: match.params.name,
-                  shortCode: match.params.shortCode
-                }}
-                render={({
-                  error,
-                  props: queryResponse
-                }: {
-                  error: any,
-                  props: App_RepoSettings_QueryResponse
-                }) => {
-                  if (error) {
-                    return <div>{error.message}</div>;
-                  } else if (
-                    queryResponse &&
-                    queryResponse.viewer &&
-                    queryResponse.viewer.repository
-                  ) {
-                    return (
-                      <ReviewRuleDetail
-                        reviewRule={queryResponse.viewer.repository.reviewRule}
-                      />
-                    );
-                  }
-                  return <div className="loader">Loading</div>;
-                }}
-              />
-            );
-          }}
-        />
-        <Route
-          exact
-          path="/profile"
-          render={() => {
-            return (
-              <QueryRenderer
-                environment={environment}
-                query={graphql`
-                  query App_Profile_Query {
-                    viewer {
-                      ...Profile_user
-                    }
-                  }
-                `}
-                variables={{}}
-                render={({
-                  error,
-                  props: queryResponse
-                }: {
-                  error: any,
-                  props: App_Profile_QueryResponse
-                }) => {
-                  if (error) {
-                    return <div>{error.message}</div>;
-                  } else if (queryResponse) {
-                    return <Profile user={queryResponse.viewer} />;
-                  }
-                  return <div className="loader">Loading</div>;
-                }}
-              />
-            );
-          }}
-        />
-        <Redirect from="/" to="/repos" />
-      </Switch>
-    </div>
-  </BrowserRouter>
+  <>
+    <PageHead />
+    <BrowserRouter>
+      <div>
+        <Nav />
+        <Switch>
+          <Route
+            exact
+            path="/repos"
+            render={props => (
+              <ReposLoadable {...props} environment={environment} />
+            )}
+          />
+          <Route
+            exact
+            path="/repos/:owner/:name/pulls"
+            render={props => (
+              <PullRequestsLoadable {...props} environment={environment} />
+            )}
+          />
+          <Route
+            exact
+            path="/repos/:owner/:name/pull/:number"
+            render={props => (
+              <PullRequestShowLoadable {...props} environment={environment} />
+            )}
+          />
+          <Route
+            exact
+            path="/repos/:owner/:name"
+            render={({ match }) => {
+              return (
+                <Redirect
+                  to={`/repos/${match.params.owner}/${match.params.name}/pulls`}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/repos/:owner/:name/rules"
+            render={props => (
+              <RulesLoadable {...props} environment={environment} />
+            )}
+          />
+          <Route
+            exact
+            path="/profile"
+            render={props => (
+              <ProfileLoadable {...props} environment={environment} />
+            )}
+          />
+          <Redirect from="/" to="/repos" />
+        </Switch>
+      </div>
+    </BrowserRouter>
+  </>
 );
 
 export default App;

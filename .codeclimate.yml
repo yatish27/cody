@@ -20,12 +20,13 @@ plugins:
     enabled: true
     config:
       languages:
-      - ruby
-      - javascript
-      - python
-      - php
+        - ruby
+        - javascript
+        - python
+        - php
   eslint:
     enabled: true
+    channel: eslint-5
     config:
       config: .eslintrc.json
       extensions:

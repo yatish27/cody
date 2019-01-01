@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 5d0da1bf2fc40a44dc44db8d48234de2
+ * @relayHash 20168b1d8d0f70cb994f404d2132379b
  */
 
 /* eslint-disable */
@@ -10,8 +10,8 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type Profile_user$ref = any;
-export type App_Profile_QueryVariables = {| |};
-export type App_Profile_QueryResponse = {|
+export type ProfileRouteQueryVariables = {| |};
+export type ProfileRouteQueryResponse = {|
   +viewer: ?{|
     +$fragmentRefs: Profile_user$ref,
   |},
@@ -20,7 +20,7 @@ export type App_Profile_QueryResponse = {|
 
 
 /*
-query App_Profile_Query {
+query ProfileRouteQuery {
   viewer {
     ...Profile_user
     id
@@ -39,13 +39,13 @@ fragment Profile_user on User {
 const node/*: ConcreteRequest*/ = {
   "kind": "Request",
   "operationKind": "query",
-  "name": "App_Profile_Query",
+  "name": "ProfileRouteQuery",
   "id": null,
-  "text": "query App_Profile_Query {\n  viewer {\n    ...Profile_user\n    id\n  }\n}\n\nfragment Profile_user on User {\n  login\n  email\n  name\n  sendNewReviewsSummary\n  paused\n}\n",
+  "text": "query ProfileRouteQuery {\n  viewer {\n    ...Profile_user\n    id\n  }\n}\n\nfragment Profile_user on User {\n  login\n  email\n  name\n  sendNewReviewsSummary\n  paused\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "App_Profile_Query",
+    "name": "ProfileRouteQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": [],
@@ -70,7 +70,7 @@ const node/*: ConcreteRequest*/ = {
   },
   "operation": {
     "kind": "Operation",
-    "name": "App_Profile_Query",
+    "name": "ProfileRouteQuery",
     "argumentDefinitions": [],
     "selections": [
       {
@@ -129,5 +129,5 @@ const node/*: ConcreteRequest*/ = {
     ]
   }
 };
-(node/*: any*/).hash = '6bb0063d677e4a6efde8e1b8e58a9f76';
+(node/*: any*/).hash = '33f7dd37035c44a4d6e457484fd1dc99';
 module.exports = node;

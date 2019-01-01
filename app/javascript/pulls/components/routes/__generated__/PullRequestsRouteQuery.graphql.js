@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 65e6c2b2406899e89838bc0db2515e4d
+ * @relayHash cdc7a0a6099b2801422fb94f4fcb2808
  */
 
 /* eslint-disable */
@@ -10,12 +10,12 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type PullRequestList_repository$ref = any;
-export type App_List_QueryVariables = {|
+export type PullRequestsRouteQueryVariables = {|
   owner: string,
   name: string,
   cursor?: ?string,
 |};
-export type App_List_QueryResponse = {|
+export type PullRequestsRouteQueryResponse = {|
   +viewer: ?{|
     +repository: ?{|
       +$fragmentRefs: PullRequestList_repository$ref,
@@ -28,7 +28,7 @@ export type App_List_QueryResponse = {|
 
 
 /*
-query App_List_Query(
+query PullRequestsRouteQuery(
   $owner: String!
   $name: String!
   $cursor: String
@@ -129,13 +129,13 @@ v4 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "App_List_Query",
+  "name": "PullRequestsRouteQuery",
   "id": null,
-  "text": "query App_List_Query(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...PullRequestList_repository\n      id\n    }\n    login\n    name\n    id\n  }\n}\n\nfragment PullRequestList_repository on Repository {\n  pullRequests(first: 10, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PullRequest_pullRequest\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n\nfragment PullRequest_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n}\n",
+  "text": "query PullRequestsRouteQuery(\n  $owner: String!\n  $name: String!\n  $cursor: String\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      ...PullRequestList_repository\n      id\n    }\n    login\n    name\n    id\n  }\n}\n\nfragment PullRequestList_repository on Repository {\n  pullRequests(first: 10, after: $cursor) {\n    edges {\n      node {\n        id\n        ...PullRequest_pullRequest\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n\nfragment PullRequest_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "App_List_Query",
+    "name": "PullRequestsRouteQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": v0,
@@ -173,7 +173,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "App_List_Query",
+    "name": "PullRequestsRouteQuery",
     "argumentDefinitions": v0,
     "selections": [
       {
@@ -335,5 +335,5 @@ return {
   }
 };
 })();
-(node/*: any*/).hash = '1daf4287f47476718262ddbc47d59ba2';
+(node/*: any*/).hash = 'eef4e640bacd140b1e0ef3f072f6120a';
 module.exports = node;

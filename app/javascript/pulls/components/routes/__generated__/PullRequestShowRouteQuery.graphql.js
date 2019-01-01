@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 0514b0a837dd3908187a9a650e98298f
+ * @relayHash 5504446364cc3f830d0ed87d3e6ec51e
  */
 
 /* eslint-disable */
@@ -10,12 +10,12 @@
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
 type PullRequestDetail_pullRequest$ref = any;
-export type App_Detail_QueryVariables = {|
+export type PullRequestShowRouteQueryVariables = {|
   owner: string,
   name: string,
   number: string,
 |};
-export type App_Detail_QueryResponse = {|
+export type PullRequestShowRouteQueryResponse = {|
   +viewer: ?{|
     +repository: ?{|
       +pullRequest: ?{|
@@ -28,7 +28,7 @@ export type App_Detail_QueryResponse = {|
 
 
 /*
-query App_Detail_Query(
+query PullRequestShowRouteQuery(
   $owner: String!
   $name: String!
   $number: String!
@@ -131,13 +131,13 @@ v4 = {
 return {
   "kind": "Request",
   "operationKind": "query",
-  "name": "App_Detail_Query",
+  "name": "PullRequestShowRouteQuery",
   "id": null,
-  "text": "query App_Detail_Query(\n  $owner: String!\n  $name: String!\n  $number: String!\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      pullRequest(number: $number) {\n        ...PullRequestDetail_pullRequest\n        id\n      }\n      id\n    }\n    id\n  }\n}\n\nfragment PullRequestDetail_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n  reviewers {\n    edges {\n      node {\n        id\n        ...Reviewer_reviewer\n      }\n    }\n  }\n}\n\nfragment Reviewer_reviewer on Reviewer {\n  id\n  login\n  status\n  reviewRule {\n    name\n    id\n  }\n}\n",
+  "text": "query PullRequestShowRouteQuery(\n  $owner: String!\n  $name: String!\n  $number: String!\n) {\n  viewer {\n    repository(owner: $owner, name: $name) {\n      pullRequest(number: $number) {\n        ...PullRequestDetail_pullRequest\n        id\n      }\n      id\n    }\n    id\n  }\n}\n\nfragment PullRequestDetail_pullRequest on PullRequest {\n  id\n  repository\n  number\n  status\n  reviewers {\n    edges {\n      node {\n        id\n        ...Reviewer_reviewer\n      }\n    }\n  }\n}\n\nfragment Reviewer_reviewer on Reviewer {\n  id\n  login\n  status\n  reviewRule {\n    name\n    id\n  }\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
-    "name": "App_Detail_Query",
+    "name": "PullRequestShowRouteQuery",
     "type": "Query",
     "metadata": null,
     "argumentDefinitions": v0,
@@ -184,7 +184,7 @@ return {
   },
   "operation": {
     "kind": "Operation",
-    "name": "App_Detail_Query",
+    "name": "PullRequestShowRouteQuery",
     "argumentDefinitions": v0,
     "selections": [
       {
@@ -303,5 +303,5 @@ return {
   }
 };
 })();
-(node/*: any*/).hash = 'baa36d33092db0cfee47908739981e0b';
+(node/*: any*/).hash = '1900aaec102c954e4acc2c84dab6a9ec';
 module.exports = node;

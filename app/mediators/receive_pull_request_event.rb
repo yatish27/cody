@@ -3,6 +3,7 @@
 class ReceivePullRequestEvent
   include Sidekiq::Worker
   include Skylight::Helpers
+  include GithubApi
 
   instrument_method
   def perform(payload)
@@ -28,6 +29,16 @@ class ReceivePullRequestEvent
 
     labels = @payload["pull_request"]["labels"].map { |label| label["name"] }
     if @repository.ignore?(labels)
+      github_client.create_status(
+        @payload["repository"]["full_name"],
+        @payload["pull_request"]["head"]["sha"],
+        "pending",
+        {
+          context: "code-review/cody",
+          description: PullRequest::STATUS_SKIPPED
+        }
+      )
+
       Current.reset
       return
     end

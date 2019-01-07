@@ -9,6 +9,8 @@ RSpec.describe ReceivePullRequestEvent do
       it "does not call CreateOrUpdatePullRequest or perform any actions" do
         expect(CreateOrUpdatePullRequest).to_not receive(:new)
         job.perform(payload)
+        expect(WebMock).to have_requested(:post, %r(https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/statuses/[0-9abcdef]{40})).
+          with { |req| JSON.load(req.body)["state"] == "pending" }
       end
     end
   end

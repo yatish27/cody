@@ -26,6 +26,7 @@ class PullRequest < ApplicationRecord
   STATUS_AVOCADO = "AVOCADO: PR does not meet super-review threshold".freeze
   STATUS_PLUM = "PLUM: %{reviewers} %{verb_phrase} on this repository".freeze
   STATUS_DELEGATED = "Review is delegated to #%{parent_number}".freeze
+  STATUS_SKIPPED = "Code reviewers were not assigned".freeze
 
   STATUS_PENDING_REVIEW = "pending_review".freeze
   STATUS_APPROVED = "approved".freeze

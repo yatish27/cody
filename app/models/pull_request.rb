@@ -17,6 +17,8 @@ class PullRequest < ApplicationRecord
 
   has_paper_trail
 
+  delegate :installation, to: :repository
+
   REVIEW_LINK_REGEX = /(?:R|r)eview(?:ed)?\s+in\s+#(\d+)/
   REVIEWER_CHECKBOX_REGEX = /[*-] +\[([ x])\] +@([A-Za-z0-9_-]+)/
 

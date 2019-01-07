@@ -27,6 +27,15 @@ module GithubApi
     Octokit::Client.new(access_token: access_token.token)
   end
 
+  def integration_access_token(installation_id:)
+    jwt_token = make_jwt_token
+    bearer_client = Octokit::Client.new(bearer_token: jwt_token)
+    access_token = bearer_client.create_app_installation_access_token(
+      installation_id
+    )
+    access_token.token
+  end
+
   def make_jwt_token
     private_pem = integration_private_key
     private_key = OpenSSL::PKey::RSA.new(private_pem)
@@ -51,9 +60,9 @@ module GithubApi
   def integration_private_key
     @integration_private_key ||=
       ENV["CODY_GITHUB_INTEGRATION_PRIVATE_KEY"].presence ||
-        File.read(
-          Rails.root.join(ENV["CODY_GITHUB_INTEGRATION_PRIVATE_KEY_PATH"])
-            .expand_path
-        )
+      File.read(
+        Rails.root.join(ENV["CODY_GITHUB_INTEGRATION_PRIVATE_KEY_PATH"])
+          .expand_path
+      )
   end
 end

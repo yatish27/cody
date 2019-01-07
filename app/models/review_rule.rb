@@ -76,7 +76,19 @@ class ReviewRule < ApplicationRecord
   #
   # @return [Array<String>] the list of possible reviewers for this rule
   def possible_reviewers
-    if self.reviewer.match?(/^\d+$/)
+    if self.reviewer.include?("/")
+      org, team = self.reviewer.split("/", 2)
+      access_token = integration_access_token(
+        installation_id: self.repository.installation.github_id
+      )
+      context = { access_token: access_token }
+      result = Graphql::Github.team_members(
+        org: org,
+        team: team,
+        context: context
+      )
+      result.data.organization.team.members.nodes.map(&:login)
+    elsif self.reviewer.match?(/^\d+$/)
       team_members = github_client.team_members(self.reviewer)
       team_members.map(&:login)
     else

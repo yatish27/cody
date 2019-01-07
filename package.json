@@ -6,7 +6,7 @@
   "author": "Chris Fung <aergonaut@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": "9.11.2"
+    "node": "<= 9"
   },
   "scripts": {
     "relay": "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql",

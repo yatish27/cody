@@ -5,6 +5,9 @@
   "repository": "https://github.com/aergonaut/cody.git",
   "author": "Chris Fung <aergonaut@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "9.11.2"
+  },
   "scripts": {
     "relay": "relay-compiler --src ./app/javascript --extensions js jsx --schema ./schema.graphql",
     "test": "jest"

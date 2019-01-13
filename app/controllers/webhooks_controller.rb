@@ -3,6 +3,8 @@
 class WebhooksController < ApplicationController
   protect_from_forgery with: :null_session
 
+  before_action :verify_webhook_signature, only: [:integration]
+
   def pull_request
     body = JSON.parse(request.body.read)
 
@@ -69,5 +71,24 @@ class WebhooksController < ApplicationController
     end
 
     head :accepted
+  end
+
+  private
+
+  def verify_webhook_signature
+    request.body.rewind
+    body = request.body.read
+    unless valid_signature?(body)
+      head :bad_request
+      return
+    end
+    request.body.rewind
+  end
+
+  def valid_signature?(payload_body)
+    secret = ENV.fetch("CODY_GITHUB_WEBHOOK_SECRET")
+    signature = "sha1=#{OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha1"), secret, payload_body)}" # rubocop:disable Metrics/LineLength
+    expected_signature = request.headers["X-Hub-Signature"]
+    ActiveSupport::SecurityUtils.secure_compare(signature, expected_signature)
   end
 end

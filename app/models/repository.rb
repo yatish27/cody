@@ -114,15 +114,7 @@ class Repository < ApplicationRecord
 
     return unless rule
 
-    if rule_config[:reviewer] =~ %r{([^/]+)/([^/]+)}
-      team = teams.find do |team|
-        team.slug == Regexp.last_match(2)
-      end
-      return unless team
-      rule.reviewer = team.id
-    else
-      rule.reviewer = rule_config[:reviewer]
-    end
+    rule.reviewer = rule_config[:reviewer]
 
     rule.name = rule_config[:name]
     rule.active = rule_config[:active]

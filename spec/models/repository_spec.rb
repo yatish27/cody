@@ -123,12 +123,12 @@ RSpec.describe Repository, type: :model do
       second_level = repo.review_rules.find_by(short_code: "second_level")
       expect(second_level).to be_present
       expect(second_level).to be_a(ReviewRuleAlways)
-      expect(second_level.reviewer).to eq("1")
+      expect(second_level.reviewer).to eq("testorg/second-level")
 
       migrations = repo.review_rules.find_by(short_code: "migrations")
       expect(migrations).to be_present
       expect(migrations).to be_a(ReviewRuleFileMatch)
-      expect(migrations.reviewer).to eq("2")
+      expect(migrations.reviewer).to eq("testorg/migrations-reviewers")
 
       octocat = repo.review_rules.find_by(short_code: "octocat")
       expect(octocat).to be_present

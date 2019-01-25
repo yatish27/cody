@@ -74,7 +74,7 @@ class Repository < ApplicationRecord
     if (min_reviewers_config = self.config[:minimum_reviewers_required])
       if (min_reviewers_setting = self.setting("minimum_reviewers_required"))
         min_reviewers_setting.set(min_reviewers_config)
-        min_reviewers_config.save!
+        min_reviewers_setting.save!
       else
         self.settings.create!(
           key: "minimum_reviewers_required",

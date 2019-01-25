@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181230203516) do
+ActiveRecord::Schema.define(version: 20190125010445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20181230203516) do
     t.string "key"
     t.string "value"
     t.bigint "repository_id"
-    t.index ["key", "value"], name: "index_settings_on_key_and_value", unique: true
+    t.index ["key", "repository_id"], name: "index_settings_on_key_and_repository_id", unique: true
     t.index ["repository_id"], name: "index_settings_on_repository_id"
   end
 

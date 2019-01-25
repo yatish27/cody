@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Setting, type: :model do
   it { is_expected.to validate_presence_of :key }
-  it { is_expected.to validate_uniqueness_of :key }
+  it { is_expected.to validate_uniqueness_of(:key).scoped_to(:repository_id) }
   it { is_expected.to validate_presence_of :value }
 
   describe ".assign" do

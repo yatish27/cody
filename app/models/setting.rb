@@ -3,7 +3,7 @@
 class Setting < ApplicationRecord
   belongs_to :repository
 
-  validates :key, presence: true, uniqueness: true
+  validates :key, presence: true, uniqueness: { scope: :repository_id }
   validates :value, presence: true
 
   def read

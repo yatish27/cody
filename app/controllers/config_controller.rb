@@ -8,7 +8,7 @@ class ConfigController < ApplicationController
   end
 
   def validate
-    input = JSON.parse(request.body.read)
+    input = YAML.load(request.body.read)
     config = Config.new(input)
     if config.valid?
       head :ok

@@ -40,6 +40,14 @@ class Repository < ApplicationRecord
       Set.new(ignored_labels).intersect?(Set.new(labels))
   end
 
+  def report_problem(title:, body:)
+    github_client.create_issue(
+      self.full_name,
+      "[Cody] #{title}",
+      body
+    )
+  end
+
   # Refresh this repository's config by reading the configuration file from
   # GitHub. If the configuration file could not be read, this method exits early
   # and does not update any configuration.
@@ -59,7 +67,18 @@ class Repository < ApplicationRecord
     return unless self.config_hash != hexdigest
 
     @config = Config.new(YAML.safe_load(contents))
-    return unless self.config.valid?
+    unless @config.valid?
+      template = ERB.new(
+        File.read(
+          Rails.root.join("lib", "error_templates", "configuration_error.erb")
+        )
+      )
+      body = template.result_with_hash(errors: @config.errors)
+      report_problem(
+        title: ".cody.yml configuration error",
+        body: body
+      )
+    end
 
     refresh_settings
     refresh_rules

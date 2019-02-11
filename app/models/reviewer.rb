@@ -85,7 +85,7 @@ class Reviewer < ApplicationRecord
       }
     ]
 
-    SendSlackMessage.perform_async(recipient, text, attachments)
+    SendSlackMessage.perform_async(recipient.id, text, attachments)
   end
 
   private

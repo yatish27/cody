@@ -3,7 +3,8 @@
 class SendSlackMessage
   include Sidekiq::Worker
 
-  def perform(recipient, message, attachments = [])
+  def perform(recipient_id, message, attachments = [])
+    return unless (recipient = User.find(recipient_id))
     return unless recipient.slack_identity
 
     token = recipient.slack_identity.slack_team.bot_access_token

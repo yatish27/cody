@@ -15,6 +15,8 @@ class Reviewer < ApplicationRecord
 
   has_paper_trail
 
+  after_save :send_outbound_notifications, if: -> { saved_change_to_login? }
+
   def addendum
     <<~ADDENDUM
       ### #{self.name_with_code}
@@ -44,6 +46,46 @@ class Reviewer < ApplicationRecord
   def approve!
     self.status = STATUS_APPROVED
     save!
+  end
+
+  def send_outbound_notifications
+    if (user = User.find_by(login: self.login))
+      send_slack_message(recipient: user)
+    end
+  end
+
+  def send_slack_message(recipient:)
+    return unless recipient.slack_identity
+
+    text =
+      <<~MESSAGE
+        You were assigned a new code review. View the Pull Request below.
+      MESSAGE
+
+    pr_html_url = self.pull_request.html_url
+    attachments = [
+      {
+        fallback: "View the Pull Request at #{pr_html_url}",
+        title: self.pull_request.full_title,
+        title_link: pr_html_url,
+        fields: [
+          {
+            title: "Review Context",
+            value: self.review_rule.name || "Peer Review",
+            short: true
+          }
+        ],
+        actions: [
+          {
+            type: "button",
+            text: "View Pull Request",
+            url: pr_html_url
+          }
+        ]
+      }
+    ]
+
+    SendSlackMessage.perform_async(recipient, text, attachments)
   end
 
   private

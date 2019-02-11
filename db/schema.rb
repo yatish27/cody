@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190125010445) do
+ActiveRecord::Schema.define(version: 20190128062440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,27 @@ ActiveRecord::Schema.define(version: 20190125010445) do
     t.bigint "repository_id"
     t.index ["key", "repository_id"], name: "index_settings_on_key_and_repository_id", unique: true
     t.index ["repository_id"], name: "index_settings_on_repository_id"
+  end
+
+  create_table "slack_identities", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "slack_team_id"
+    t.string "uid", null: false
+    t.string "channel"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slack_team_id"], name: "index_slack_identities_on_slack_team_id"
+    t.index ["user_id"], name: "index_slack_identities_on_user_id"
+  end
+
+  create_table "slack_teams", force: :cascade do |t|
+    t.string "team_id", null: false
+    t.string "name", null: false
+    t.string "encrypted_bot_access_token"
+    t.string "encrypted_bot_access_token_iv"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_slack_teams_on_team_id", unique: true
   end
 
   create_table "user_preferences", force: :cascade do |t|

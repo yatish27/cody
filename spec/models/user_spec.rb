@@ -71,6 +71,14 @@ RSpec.describe User, type: :model do
   end
 
   describe "#assigned_reviews" do
+    before do
+      stub_request(:get, %r{https?://api.github.com/repos/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+/pulls/\d+}).to_return(
+        status: 200,
+        headers: { 'Content-Type' => 'application/json' },
+        body: JSON.dump(json_fixture("pr"))
+      )
+    end
+
     let(:user) { FactoryBot.create :user }
     let!(:approved_reviews) { FactoryBot.create_list :reviewer, 2, login: user.login, status: "approved" }
     let!(:pending_reviews) { FactoryBot.create_list :reviewer, 2, login: user.login, status: "pending_review" }

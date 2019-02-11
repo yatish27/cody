@@ -98,6 +98,10 @@ class PullRequest < ApplicationRecord
     self.resource.html_url
   end
 
+  def full_title
+    "#{self.repository.full_name}##{self.number}: #{self.resource.title}"
+  end
+
   def link_by_number(number)
     parent_pr = PullRequest.find_by(
       number: number,

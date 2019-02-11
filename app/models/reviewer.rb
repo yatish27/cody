@@ -71,7 +71,7 @@ class Reviewer < ApplicationRecord
         fields: [
           {
             title: "Review Context",
-            value: self.review_rule.name || "Peer Review",
+            value: self.review_rule&.name || "Peer Review",
             short: true
           }
         ],

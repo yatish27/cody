@@ -12,8 +12,8 @@ class SendSlackMessage
 
     if recipient.slack_identity.channel.blank?
       response = client.im_open(user: recipient.slack_identity.uid)
-      recipient.channel = response.channel.id
-      recipient.save!
+      recipient.slack_identity.channel = response.channel.id
+      recipient.slack_identity.save!
     end
 
     channel = recipient.slack_identity.channel

@@ -26,6 +26,13 @@ class Types::UserType < Types::BaseObject
     !!@object.paused?
   end
 
+  field :timezone, String, null: false,
+    description: "The user's configured timezone"
+
+  def timezone
+    @object.timezone.tzinfo.name
+  end
+
   field :repositories, Types::RepositoryType.connection_type, null: true,
     connection: true
 

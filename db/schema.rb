@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190128062440) do
+ActiveRecord::Schema.define(version: 20190211053015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20190128062440) do
     t.bigint "user_id"
     t.boolean "send_new_reviews_summary"
     t.boolean "paused"
+    t.string "timezone"
     t.index ["user_id"], name: "index_user_preferences_on_user_id"
   end
 
@@ -138,7 +139,6 @@ ActiveRecord::Schema.define(version: 20190128062440) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
-  add_foreign_key "api_keys", "users"
   add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "installations"
   add_foreign_key "review_rules", "repositories"

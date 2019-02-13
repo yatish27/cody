@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 20168b1d8d0f70cb994f404d2132379b
+ * @relayHash 452e4544c8aa4ab7eb995594a95a3abc
  */
 
 /* eslint-disable */
@@ -32,6 +32,7 @@ fragment Profile_user on User {
   email
   name
   sendNewReviewsSummary
+  timezone
   paused
 }
 */
@@ -41,7 +42,7 @@ const node/*: ConcreteRequest*/ = {
   "operationKind": "query",
   "name": "ProfileRouteQuery",
   "id": null,
-  "text": "query ProfileRouteQuery {\n  viewer {\n    ...Profile_user\n    id\n  }\n}\n\nfragment Profile_user on User {\n  login\n  email\n  name\n  sendNewReviewsSummary\n  paused\n}\n",
+  "text": "query ProfileRouteQuery {\n  viewer {\n    ...Profile_user\n    id\n  }\n}\n\nfragment Profile_user on User {\n  login\n  email\n  name\n  sendNewReviewsSummary\n  timezone\n  paused\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",
@@ -107,6 +108,13 @@ const node/*: ConcreteRequest*/ = {
             "kind": "ScalarField",
             "alias": null,
             "name": "sendNewReviewsSummary",
+            "args": null,
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "name": "timezone",
             "args": null,
             "storageKey": null
           },

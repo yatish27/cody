@@ -28,6 +28,7 @@
       {
         "required": { "every": ["id"] }
       }
-    ]
+    ],
+    "jsx-a11y/no-onchange": "off"
   }
 }

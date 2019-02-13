@@ -15,6 +15,7 @@ export type Profile_user = {|
   +email: ?string,
   +name: string,
   +sendNewReviewsSummary: boolean,
+  +timezone: string,
   +paused: boolean,
   +$refType: Profile_user$ref,
 |};
@@ -59,11 +60,18 @@ const node/*: ConcreteFragment*/ = {
     {
       "kind": "ScalarField",
       "alias": null,
+      "name": "timezone",
+      "args": null,
+      "storageKey": null
+    },
+    {
+      "kind": "ScalarField",
+      "alias": null,
       "name": "paused",
       "args": null,
       "storageKey": null
     }
   ]
 };
-(node/*: any*/).hash = 'e0705f30d683be3062a6e033a95c348b';
+(node/*: any*/).hash = '40c82a4f16635ffc2e9d2c6784ee2aac';
 module.exports = node;

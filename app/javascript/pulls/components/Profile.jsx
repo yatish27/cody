@@ -2,6 +2,7 @@
 
 import React from "react";
 import { commitMutation, createFragmentContainer, graphql } from "react-relay";
+import { listTimeZones } from "timezone-support";
 import TextField from "./inputs/TextField";
 import Checkbox from "./inputs/Checkbox";
 import type { Profile_user } from "./__generated__/Profile_user.graphql";
@@ -16,6 +17,8 @@ const UPDATE_USER_MUTATION = graphql`
   }
 `;
 
+const timezones = listTimeZones();
+
 type Props = {
   user: Profile_user,
   relay: any
@@ -24,6 +27,7 @@ type Props = {
 type State = {
   email: string,
   sendNewReviewsSummary: boolean,
+  timezone: string,
   paused: boolean,
   lastResponseSuccess: boolean
 };
@@ -35,6 +39,7 @@ class Profile extends React.Component<Props, State> {
     this.state = {
       email: this.props.user.email != null ? this.props.user.email : "",
       sendNewReviewsSummary: this.props.user.sendNewReviewsSummary,
+      timezone: this.props.user.timezone,
       paused: this.props.user.paused,
       lastResponseSuccess: false
     };
@@ -56,6 +61,7 @@ class Profile extends React.Component<Props, State> {
           email: this.state.email,
           sendNewReviewsSummary: this.state.sendNewReviewsSummary,
           paused: this.state.paused,
+          timezone: this.state.timezone
         }
       },
       onCompleted: () => {
@@ -83,6 +89,27 @@ class Profile extends React.Component<Props, State> {
                   value={this.state.email}
                   handleChange={this.handleChange}
                 />
+
+                <div className="field">
+                  <label className="label" htmlFor="timezone">
+                    Time Zone
+                  </label>
+                  <div className="select">
+                    <select
+                      name="timezone"
+                      value={this.state.timezone}
+                      onChange={this.handleChange}
+                    >
+                      {timezones.map(zone => {
+                        return (
+                          <option key={zone} value={zone}>
+                            {zone}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
 
                 <h2 className="title is-4 is-spaced form-section-header">
                   Subscription Preferences
@@ -131,6 +158,7 @@ export default createFragmentContainer(
       email
       name
       sendNewReviewsSummary
+      timezone
       paused
     }
   `

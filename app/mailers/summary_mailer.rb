@@ -32,4 +32,17 @@ class SummaryMailer < ApplicationMailer
       subject: "New Code Reviews Summary"
     )
   end
+
+  def self.send_new_reviews_summary
+    User.joins(:user_preference)
+      .where(user_preferences: { send_new_reviews_summary: true })
+      .find_each do |user|
+
+        Time.use_zone(user.timezone) do
+          if !Time.zone.now.on_weekend? && Time.zone.now.hour == 9
+            SummaryMailer.new_reviews(user).deliver_now
+          end
+        end
+      end
+  end
 end

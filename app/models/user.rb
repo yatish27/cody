@@ -26,6 +26,11 @@ class User < ApplicationRecord
   delegate *USER_PREFERENCES, to: :user_preference, allow_nil: true
   # rubocop:enable Lint/AmbiguousOperator
 
+  def timezone
+    raw = user_preference&.timezone || Rails.application.config.time_zone
+    ActiveSupport::TimeZone[raw]
+  end
+
   def self.paused_logins
     joins(:user_preference).merge(UserPreference.paused).pluck(:login)
   end

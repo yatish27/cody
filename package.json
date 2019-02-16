@@ -49,7 +49,7 @@
     "react-relay": "1.5.0",
     "react-router-dom": "4.2.2",
     "redux": "3.7.2",
-    "resolve-url-loader": "2.2.1",
+    "resolve-url-loader": "2.3.2",
     "sass-loader": "6.0.7",
     "style-loader": "0.20.3",
     "timezone-support": "^1.8.1",

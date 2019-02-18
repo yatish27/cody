@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190211053015) do
+ActiveRecord::Schema.define(version: 20190218024353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20190211053015) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slack_team_id"], name: "index_slack_identities_on_slack_team_id"
+    t.index ["uid", "slack_team_id"], name: "index_slack_identities_on_uid_and_slack_team_id", unique: true
     t.index ["user_id"], name: "index_slack_identities_on_user_id"
   end
 
@@ -143,5 +144,7 @@ ActiveRecord::Schema.define(version: 20190211053015) do
   add_foreign_key "repositories", "installations"
   add_foreign_key "review_rules", "repositories"
   add_foreign_key "settings", "repositories"
+  add_foreign_key "slack_identities", "slack_teams"
+  add_foreign_key "slack_identities", "users"
   add_foreign_key "user_preferences", "users"
 end

@@ -3,12 +3,9 @@
 module RequiresAuthentication
   extend ActiveSupport::Concern
 
-  included do
-    before_action :require_authentication!
-  end
-
   def require_authentication!
     unless current_user.present?
+      session[:return_to] = request.url
       redirect_to new_session_path
     end
   end

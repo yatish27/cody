@@ -408,6 +408,7 @@ DEPENDENCIES
   dalli
   dotenv-rails
   factory_bot_rails
+  faraday
   faraday-http-cache
   font-awesome-sass
   graphiql-rails

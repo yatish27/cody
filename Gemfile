@@ -49,6 +49,8 @@ gem 'transit-ruby', require: 'transit'
 
 gem 'dalli'
 
+gem 'faraday'
+
 gem 'faraday-http-cache'
 
 gem 'omniauth-github'

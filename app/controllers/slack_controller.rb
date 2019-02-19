@@ -11,7 +11,7 @@ class SlackController < ApplicationController
     unless SlackTeam.exists?(team_id: params[:team_id])
       message = {
         response_type: "ephemeral",
-        text: "Sorry, it looks like Cody has not been installed in your workspace yet. Please install the app first and then try logging in again."
+        text: t(".errors.not_installed")
       }
 
       Faraday.post(
@@ -33,18 +33,24 @@ class SlackController < ApplicationController
 
   def connect
     unless params[:uid].present? && params[:team_id].present?
-      @message = "Sorry, something has gone wrong with this link."
-      @sub_message = "Please try logging in through Slack again."
+      @message = t(".something_has_gone_wrong")
+      @sub_message = t(".try_again")
+      render :connect
+      return
     end
 
     unless (team = SlackTeam.find_by(team_id: params[:team_id]))
-      @message = "Cody is not installed in your workspace."
-      @sub_message = "Please add Cody to your workspace before trying to login."
+      @message = t(".not_installed")
+      @sub_message = t(".please_install")
+      render :connect
+      return
     end
 
     if current_user.slack_identity.present?
-      @message = "You are already connected."
-      @sub_message = "You can only login once."
+      @message = t(".already_connected")
+      @sub_message = t(".only_once")
+      render :connect
+      return
     end
 
     identity = current_user.build_slack_identity(
@@ -53,11 +59,11 @@ class SlackController < ApplicationController
     )
     if identity.valid?
       identity.save
-      @message = "You're all set!"
-      @sub_message = "Your Slack identity has been connected to Cody."
+      @message = t(".all_set")
+      @sub_message = t(".identity_connected")
     else
-      @message = "Sorry, something has gone wrong with this link."
-      @sub_message = "Please try logging in through Slack again."
+      @message = t(".something_has_gone_wrong")
+      @sub_message = t(".try_again")
     end
   end
 
@@ -72,7 +78,7 @@ class SlackController < ApplicationController
     )
     message = {
       reponse_type: "ephemeral",
-      text: "Hi! Please click the button below to connect your Slack identity with Cody.",
+      text: t(".login.prompt"),
       attachments: [
         {
           fallback: "Please login to Cody: #{button_url}",
@@ -97,7 +103,7 @@ class SlackController < ApplicationController
   def unrecognized
     message = {
       reponse_type: "ephemeral",
-      text: "Sorry, I don't understand that command."
+      text: t(".errors.unrecognized")
     }
 
     Faraday.post(

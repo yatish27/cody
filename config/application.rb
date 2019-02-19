@@ -21,6 +21,8 @@ module Cody
 
     config.action_mailer.default_url_options = { host: ENV["CODY_HOST"] }
 
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
     # from https://github.com/rails/rails/pull/29180/files#diff-6d52a5cae0f7b90f01bf084772bb0421R10
     initializer "active_support.reset_all_current_attributes_instances" do |app|
       app.executor.to_run { ActiveSupport::CurrentAttributes.reset_all }
